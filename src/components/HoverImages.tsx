@@ -1,40 +1,101 @@
-"use client"; // Client component
+"use client"; // Indica que é um componente client-side
 
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Image from 'next/image';
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 
+// Registra o plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
 export const HoverImages = () => {
-  const imagesRef = useRef(null);
+  const containerRef = useRef(null); // Referência ao contêiner principal
+  const [imagesLoaded, setImagesLoaded] = useState(false); // Estado para verificar se as imagens foram carregadas
+
+  // Função para verificar se todas as imagens foram carregadas
+  const handleImageLoad = () => {
+    // Aqui podemos verificar se todas as imagens estão carregadas
+    setImagesLoaded(true); // Atualiza o estado para indicar que as imagens foram carregadas
+  };
 
   useEffect(() => {
+    if (imagesLoaded) {
+      // Animação com GSAP para as imagens, só após o carregamento
+      const sections = gsap.utils.toArray(".image-section");
 
-    // Crie a animação para a rolagem
-    gsap.to(imagesRef.current, {
+      gsap.to(sections, {
+        yPercent: -100 * (sections.length - 1), // Move as imagens verticalmente
+        ease: "none", // Sem easing para transição suave
+        scrollTrigger: {
+          trigger: containerRef.current, // O contêiner será o gatilho da rolagem
+          pin: true, // Fixa o contêiner na tela
+          scrub: 3, // Sincroniza a rolagem com a animação
+          end: "+=900", // Define o ponto final da animação
+          invalidateOnRefresh: true, // Recalcula os valores na atualização
+        },
+      });
 
-      ease: 'none',
-      scrollTrigger: {
-        trigger: imagesRef.current,
-        start: "top center", // A animação começa quando o topo do contêiner atinge o centro da janela
-        scrub: true, // Sincroniza com a rolagem
-      },
-    });
-  }, []);
+      // Recalcular animações em resize da tela
+      ScrollTrigger.refresh();
+    }
+  }, [imagesLoaded]); // Executa o efeito apenas quando as imagens forem carregadas
 
   return (
-    <div className='w-full relative overflow-hidden rounded-3xl flex justify-center flex-col items-center py-4'>
-      <div className='rounded-3xl w-[80%]'>
-        <Image className='rounded-t-3xl' src="https://www.datocms-assets.com/106048/1708558230-woman-with-luggage-hailing-a-zoox-vehicle.jpg?crop=focalpoint&fit=crop&fp-x=0.79&fp-y=0.46&h=1128&w=1920" alt='Aqui' width={1350} height={1350} />
-        <Image src="https://www.datocms-assets.com/106048/1706642604-a-zoox-vehicle-on-a-gradient-background.png?crop=focalpoint&fit=crop&fp-x=0.6&fp-y=0.59&h=1128&w=1920" alt='Aqui' width={1350} height={1350} />
-        <Image src="https://www.datocms-assets.com/106048/1706642640-a-woman-riding-in-a-zoox-robotaxi.jpg?crop=focalpoint&fit=crop&fp-x=0.34&fp-y=0.5&h=1128&w=1920" alt='Aqui' width={1350} height={1350} />
-        <Image src="https://www.datocms-assets.com/106048/1708558310-a-woman-walking-in-front-of-a-zoox-vehicle.jpg?crop=focalpoint&fit=crop&fp-x=0.7&fp-y=0.53&h=1128&w=1920" alt='Aqui' width={1350} height={1350} />
+    <div className="flex justify-center items-center w-full h-screen">
+      {/* Contêiner fixo com bordas arredondadas */}
+      <div
+        ref={containerRef}
+        className="relative w-[calc(100%-80px)] max-w-[1600px] h-[calc(100vh-80px)] rounded-[40px] mt-[80px] overflow-hidden shadow-lg"
+      >
+        <div className="absolute inset-0 w-full h-[calc(100vh-80px)]">
+          {/* Seções de imagens que rolam */}
+          <section className="image-section w-full h-[calc(100vh-80px)]">
+            <Image
+              className="w-full h-[calc(100vh-80px)] object-cover"
+              src="https://img.freepik.com/fotos-gratis/vista-da-cidade-de-paris-sob-o-sol-e-um-ceu-azul-em-fra_181624-50289.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
+              alt="Imagem 1"
+              layout="fill"
+              objectFit="cover"
+              onLoadingComplete={handleImageLoad} // Verifica se a imagem foi carregada
+            />
+          </section>
+
+          <section className="image-section w-full h-[calc(100vh-80px)]">
+            <Image
+              className="w-full h-[calc(100vh-80px)] object-cover"
+              src="https://img.freepik.com/fotos-gratis/torre-eiffel-de-paris-com-ponte_1101-916.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
+              alt="Imagem 2"
+              layout="fill"
+              objectFit="cover"
+              onLoadingComplete={handleImageLoad}
+            />
+          </section>
+
+          <section className="image-section w-full h-[calc(100vh-80px)]">
+            <Image
+              className="w-full h-[calc(100vh-80px)] object-cover"
+              src="https://img.freepik.com/fotos-gratis/mulher-muculmana-viajando-em-paris_23-2149364085.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
+              alt="Imagem 3"
+              layout="fill"
+              objectFit="cover"
+              onLoadingComplete={handleImageLoad}
+            />
+          </section>
+
+          <section className="image-section w-full h-[calc(100vh-80px)]">
+            <Image
+              className="w-full h-[calc(100vh-80px)] object-cover"
+              src="https://img.freepik.com/fotos-gratis/vista-horizontal-do-famoso-arco-do-triunfo-paris-franca_268835-819.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
+              alt="Imagem 4"
+              layout="fill"
+              objectFit="cover"
+              onLoadingComplete={handleImageLoad}
+            />
+          </section>
+        </div>
       </div>
     </div>
   );
-
 };
 
 export default HoverImages;
