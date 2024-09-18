@@ -34,7 +34,7 @@ const PostCardBlog = ({ post }: { post: Post }) => (
 
 // Componente principal que renderiza a lista de posts
 export default function BlogPage() {
-  // Dados de exemplo para os posts
+  // mock de exemplo para os posts
   const posts: Post[] = [
     {
       id: 1,
@@ -60,8 +60,8 @@ export default function BlogPage() {
   ]
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">Blog Posts</h1>
+    <div className="w-full min-h-screen container mx-auto py-8 flex flex-col gap-8 text-black">
+      <h1 className="text-3xl font-bold mb-8">Blog</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <PostCardBlog key={post.id} post={post} />
