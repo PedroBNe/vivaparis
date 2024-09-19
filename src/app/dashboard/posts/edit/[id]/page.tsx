@@ -68,7 +68,7 @@ export default function EditPost() {
   };
 
   return (
-    <div>
+    <div className='text-black'>
       <h1>Editar Postagem</h1>
       <form onSubmit={handleSubmit}>
         <input
