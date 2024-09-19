@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Baguette from "./assets/Baguette";
+import TorreVermelha from '@/components/assets/Torre Vermelho.png';
 
 // Registra o plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -41,17 +43,21 @@ export const HoverImages = () => {
   }, [imagesLoaded]); // Executa o efeito apenas quando as imagens forem carregadas
 
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <div className="relative flex justify-center items-center w-full h-screen">
+      <div className="absolute left-1 top-16 overflow-hidden">
+        <Baguette height={400} width={400} color={""} />  
+      </div>
+      <Image src={TorreVermelha} alt="torre-vermelha" width={360} height={360} className="absolute right-1 bottom-0 overflow-hidden rotate-[30deg]" />
       {/* Contêiner fixo com bordas arredondadas */}
       <div
         ref={containerRef}
-        className="relative w-[calc(100%-80px)] max-w-[1600px] h-[calc(100vh-80px)] rounded-[40px] mt-[80px] overflow-hidden shadow-lg"
+        className="relative w-[calc(100%-160px)] max-w-[1400px] h-[calc(100vh-80px)] rounded-[40px] mt-[80px] overflow-hidden shadow-lg"
       >
         <div className="absolute inset-0 w-full h-[calc(100vh-80px)]">
           {/* Seções de imagens que rolam */}
           <section className="image-section w-full h-[calc(100vh-80px)]">
             <Image
-              className="w-full h-[calc(100vh-80px)] object-cover"
+              className="w-full h-[calc(100vh-160px)] object-cover"
               src="https://img.freepik.com/fotos-gratis/vista-da-cidade-de-paris-sob-o-sol-e-um-ceu-azul-em-fra_181624-50289.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
               alt="Imagem 1"
               layout="fill"
@@ -62,7 +68,7 @@ export const HoverImages = () => {
 
           <section className="image-section w-full h-[calc(100vh-80px)]">
             <Image
-              className="w-full h-[calc(100vh-80px)] object-cover"
+              className="w-full h-[calc(100vh-160px)] object-cover"
               src="https://img.freepik.com/fotos-gratis/torre-eiffel-de-paris-com-ponte_1101-916.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
               alt="Imagem 2"
               layout="fill"
@@ -73,7 +79,7 @@ export const HoverImages = () => {
 
           <section className="image-section w-full h-[calc(100vh-80px)]">
             <Image
-              className="w-full h-[calc(100vh-80px)] object-cover"
+              className="w-full h-[calc(100vh-160px)] object-cover"
               src="https://img.freepik.com/fotos-gratis/mulher-muculmana-viajando-em-paris_23-2149364085.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
               alt="Imagem 3"
               layout="fill"
@@ -84,7 +90,7 @@ export const HoverImages = () => {
 
           <section className="image-section w-full h-[calc(100vh-80px)]">
             <Image
-              className="w-full h-[calc(100vh-80px)] object-cover"
+              className="w-full h-[calc(100vh-160px)] object-cover"
               src="https://img.freepik.com/fotos-gratis/vista-horizontal-do-famoso-arco-do-triunfo-paris-franca_268835-819.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
               alt="Imagem 4"
               layout="fill"

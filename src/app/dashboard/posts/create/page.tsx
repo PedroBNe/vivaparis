@@ -42,7 +42,7 @@ export default function CreatePost() {
   };
 
   return (
-    <div>
+    <div className='text-black'>
       <h1>Criar Nova Postagem</h1>
       <form onSubmit={handleSubmit}>
         <input
