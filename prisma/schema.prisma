@@ -15,3 +15,20 @@ model Post {
   date      DateTime
   filePath  String?
 }
+
+model Blog {
+  id        String   @id @default(uuid())
+  title     String
+  subtitle  String
+  content   String
+  date      String
+  imageUrl  String
+  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
+
+model Category {
+  id    String   @id @default(uuid())
+  name  String
+  blogs Blog[]
+}
