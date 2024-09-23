@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// Singleton do PrismaClient
+const prisma = global.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") global.prisma = prisma;
 
 // GET: Buscar uma postagem por ID
 export async function GET(
@@ -12,7 +14,7 @@ export async function GET(
 
   try {
     const post = await prisma.post.findUnique({
-      where: { id }, // Verifique se o campo id está correto
+      where: { id }, // Verifica se o ID está correto e existe no banco
     });
 
     if (!post) {
@@ -22,6 +24,9 @@ export async function GET(
     return NextResponse.json(post);
   } catch (error) {
     console.error("Error fetching post:", error);
-    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
+    return NextResponse.json(
+      { error: "An error occurred while fetching the post" },
+      { status: 500 }
+    );
   }
 }

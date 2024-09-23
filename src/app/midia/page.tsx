@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 import truncate from 'html-truncate';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,10 +12,8 @@ interface Post {
   title: string;
   subtitle: string;
   content: string;
-  author: string;
   date: string;
-  status: string;
-  imageUrl: string
+  filePath: string
 }
 
 function fixLinks(content: string): string {
@@ -45,12 +42,12 @@ export default function PostsPage() {
 
   if (posts.length === 0) {
     return <p className='h-screen text-black flex justify-center items-top mt-4 text-lg'>Nenhuma postagem encontrada.</p>;
-  }  
+  }
 
   const PostCardMidia = ({ post }: { post: Post }) => {
     const [isHovered, setIsHovered] = useState(false)
 
-    return(
+    return (
       <motion.div
         className="w-full h-[17em] relative overflow-hidden rounded-lg shadow-lg z-10 bg-slate-100"
         initial={{ opacity: 0, y: 20 }}
@@ -62,9 +59,6 @@ export default function PostsPage() {
         <div className="w-full absolute bottom-0 left-0 right-0 p-6 flex justify-between">
           <div className='w-[40%] h-[17em] flex flex-col relative'>
             <div className='absolute top-32 z-20'>
-              <span className="inline-block px-3 py-1 mb-2 text-xs font-semibold bg-primary rounded-full">
-                {post.author}
-              </span>
               <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
               <p className="text-sm mb-2 opacity-90">{post.subtitle}</p>
               <div className='flex flex-col gap-2'>
@@ -78,16 +72,16 @@ export default function PostsPage() {
             </div>
           </div>
           <div className='flex absolute right-0 top-12'>
-          {/* <Image
+            {/* <Image
             src={post.imageUrl}
             alt={post.title}
             layout="fill"
             objectFit="cover"
             className="transition-transform duration-300 ease-in-out"
             style={{ transform: isHovered ? "scale(1.05)" : "scale(1)" }}
-          /> */} 
+          /> */}
             <div className="aspect-[2/1] relative">
-              <Image src={'https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7'} alt='asdhjijlsd' width={500} height={500} />
+              <Image src={post.filePath} alt='asdhjijlsd' width={500} height={500} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             </div>
           </div>

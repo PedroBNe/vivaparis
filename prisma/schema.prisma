@@ -13,4 +13,5 @@ model Post {
   subtitle  String
   content   String
   date      DateTime
+  filePath  String?
 }
