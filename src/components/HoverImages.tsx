@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import Baguette from "./assets/Baguette";
-import TorreVermelha from '@/components/assets/Torre Vermelho.png';
+import Baguette from "../assets/Baguette";
+import TorreVermelha from '@/assets/TorreVermelho.png';
 
 // Registra o plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);

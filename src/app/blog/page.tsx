@@ -1,9 +1,10 @@
 'use client'
 
-import formatDate from "@/components/utils/FormatData"
+import formatDate from "@/utils/FormatData"
 import { motion } from "framer-motion"
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 type Post = {
   id: number
@@ -52,9 +53,11 @@ const PostCardBlog = ({ post }: { post: Post }) => {
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <button className="bg-white text-primary font-semibold py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">
-          Ler mais
-        </button>
+        <Link href={'/blog/teste'}>
+          <button className="bg-white text-primary font-semibold py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">
+            Ler mais
+          </button>
+        </Link>
       </motion.div>
     </motion.div>
   )

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Up({ width=40, height=40}: { width: number, height: number }) {
     return(
-        <button className="fixed flex right-6 bottom-6 z-20">
+        <button>
             <Link href={'#header'} >
                 <svg
                     fill="#000000"

@@ -8,14 +8,14 @@ import React from "react";
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 import Image from "next/image";
-import TorreVermelha from '@/components/assets/Torre Vermelho.png';
-import TorreRosa from '@/components/assets/Torre Rosa.png';
-import TorreAmarela from '@/components/assets/Torre Amarelo.png';
-import TorreRoxa from '@/components/assets/Torre Roxo.png';
-import TorreBege from '@/components/assets/Torre Bege.png';
-import TorreVerde from '@/components/assets/Torre Verde.png';
-import Croissaint from "../assets/Croissaint";
-import French from "../assets/French";
+import TorreVermelha from '@/assets/TorreVermelho.png';
+import TorreRosa from '@/assets/TorreRosa.png';
+import TorreAmarela from '@/assets/TorreAmarelo.png'
+import TorreRoxa from '@/assets/TorreRoxo.png';
+import TorreBege from '@/assets/TorreBege.png';
+import TorreVerde from '@/assets/TorreVerde.png';
+import Croissaint from "@/assets/Croissaint";
+import French from "@/assets/French";
 
 const gradientVariants = {
   gradient1: { background: 'linear-gradient(to right, #055647, #db6e4e)' },
@@ -32,7 +32,7 @@ export default function Home() {
 
   useEffect(() => {
     AOS.init({
-      mirror: true, 
+      mirror: true,
     });
 
     const interval = setInterval(() => {
@@ -48,9 +48,11 @@ export default function Home() {
 
   return (
     <div className="w-[100% - 80px] mx-auto h-auto flex justify-center flex-col items-center overflow-hidden">
-      <HoverImages />
-      <div className="h-[1250px] w-full flex justify-end flex-col items-center">
-        <div className="flex gap-10 justify-between items-center my-20">
+      <div className="w-full">
+        <HoverImages />
+      </div>
+      <div id="sobre" className="w-full h-[500px] flex justify-end flex-col items-center mt-[1000px]">
+        <div className="h-full flex gap-10 justify-between items-center my-20">
           <div>
             <Avatar className="w-60 h-60">
               <AvatarImage src="https://img.freepik.com/fotos-gratis/torre-eiffel-paris-melhores-destinos-na-europa_268835-969.jpg?w=740&t=st=1726510205~exp=1726510805~hmac=0d3a5a3c6b805316b26a892a153370494b3ebf23e5e0a62b36832cae8fcdb190" alt="@shadcn" />
@@ -65,19 +67,19 @@ export default function Home() {
       </div>
       <div className="rounded-b-[80px] w-full h-[195em] flex flex-col gap-[80px] items-center justify-between p-[80px] z-10">
         <h2 className="flex text-4xl text-green-700 font-semibold">
-          <p 
+          <p
           data-aos="fade-right"
           data-aos-duration="900"
           >
             Mu
           </p>
-          <p 
+          <p
           data-aos="fade-up"
           data-aos-duration="900"
           >
             se
           </p>
-          <p 
+          <p
           data-aos="fade-left"
           data-aos-duration="900"
           >
@@ -147,25 +149,25 @@ export default function Home() {
       </div>
       <div className="rounded-b-[80px] w-full h-[230em] flex flex-col gap-[80px] items-center justify-between p-[80px] z-10">
         <h2 className="flex text-4xl text-green-700 font-semibold">
-          <p 
+          <p
           data-aos="fade-right"
           data-aos-duration="900"
           >
             R
           </p>
-          <p 
+          <p
           data-aos="fade-up-right"
           data-aos-duration="900"
           >
             u
           </p>
-          <p 
+          <p
           data-aos="fade-up-left"
           data-aos-duration="900"
           >
             a
           </p>
-          <p 
+          <p
           data-aos="fade-left"
           data-aos-duration="900"
           >
@@ -217,7 +219,7 @@ export default function Home() {
             <h1 className="font-bold text-4xl text-[#f3b6b6]" data-aos="fade-left" data-aos-duration="900">Le Marais</h1>
             <div data-aos="fade-up" data-aos-duration="900">
               <button className="w-fit p-3 rounded-md bg-[#f3b6b6] hover:bg-[#ea8888] ease-in transition text-white font-semibold">Saiba mais</button>
-            </div>          
+            </div>
           </div>
         </div>
         <div className="relative w-[70%] flex gap-[150px] justify-between items-center pb-16">
@@ -248,19 +250,19 @@ export default function Home() {
       <div className="bg-[#E6E4D5] rounded-b-[80px] w-full h-[50em] flex flex-col gap-[80px] items-center justify-around p-[80px] z-10">
         <h2 className="flex gap-3 text-4xl text-green-700 font-semibold">
           <div className="flex">
-            <p 
+            <p
             data-aos="fade-right"
             data-aos-duration="400"
             >
               Pa
             </p>
-            <p 
+            <p
             data-aos="fade-right"
             data-aos-duration="500"
             >
               la
             </p>
-            <p 
+            <p
             data-aos="fade-right"
             data-aos-duration="600"
             >
@@ -268,7 +270,7 @@ export default function Home() {
             </p>
           </div>
           <div className="flex">
-            <p 
+            <p
             data-aos="fade-up"
             data-aos-duration="900"
             >
@@ -276,19 +278,19 @@ export default function Home() {
             </p>
           </div>
           <div className="flex">
-            <p 
+            <p
             data-aos="fade-up-right"
             data-aos-duration="900"
             >
               Ver
             </p>
-            <p 
+            <p
             data-aos="fade-up-left"
             data-aos-duration="900"
             >
               sa
             </p>
-            <p 
+            <p
             data-aos="fade-left"
             data-aos-duration="900"
             >
