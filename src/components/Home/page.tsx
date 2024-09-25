@@ -86,8 +86,8 @@ export default function Home() {
             us
           </p>
         </h2>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreRosa} alt="torre-rosa" width={180} height={180} className="absolute left-[-130px] bottom-8 rotate-[-15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center">
+          <Image src={TorreRosa} alt="torre-rosa" width={180} height={180} className="absolute left-[-50px] bottom-8 rotate-[-15deg]" />
           <div data-aos="fade-right" data-aos-duration="900">
             <Image className="rounded-xl" src="https://ifpnews.com/wp-content/uploads/2018/02/Louvre-Museum-2-696x464.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
@@ -98,8 +98,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreRoxa} alt="torre-roxa" width={180} height={180} className="absolute right-[-130px] bottom-8 rotate-[15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center">
+          <Image src={TorreRoxa} alt="torre-roxa" width={180} height={180} className="absolute right-[-50px] bottom-8 rotate-[15deg]" />
           <div className="max-w-[500px] flex flex-col justify-center  items-center gap-3">
             <h1 className="font-bold text-4xl text-[#c59bc7]" data-aos="fade-right" data-aos-duration="900">Museu do Louvre – Egito</h1>
             <div data-aos="fade-up" data-aos-duration="900">
@@ -110,8 +110,8 @@ export default function Home() {
             <Image className="rounded-xl" src="https://ifpnews.com/wp-content/uploads/2018/02/Louvre-Museum-2-696x464.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreAmarela} alt="torre-vermelha" width={180} height={180} className="absolute left-[-130px] bottom-8 rotate-[-15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center">
+          <Image src={TorreAmarela} alt="torre-vermelha" width={180} height={180} className="absolute left-[-50px] bottom-8 rotate-[-15deg]" />
           <div data-aos="fade-right" data-aos-duration="900">
             <Image className="rounded-xl" src="https://ifpnews.com/wp-content/uploads/2018/02/Louvre-Museum-2-696x464.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
@@ -122,8 +122,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreBege} alt="torre-vermelha" width={180} height={180} className="absolute right-[-130px] bottom-8 rotate-[15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center">
+          <Image src={TorreBege} alt="torre-vermelha" width={180} height={180} className="absolute right-[-10px] bottom-8 rotate-[15deg]" />
           <div className="max-w-[500px] flex flex-col justify-center items-center gap-3">
             <h1 className="font-bold text-4xl text-[#ddc1b6]" data-aos="fade-right" data-aos-duration="900">Museu d’Orsay</h1>
             <div data-aos="fade-up" data-aos-duration="900">
@@ -134,8 +134,8 @@ export default function Home() {
             <Image className="rounded-xl" src="https://www.bing.com/th?id=OADD2.8452591962238_1W7IQLFEC9B74EQ7HS&pid=21.2&c=16&roil=0&roit=0&roir=1&roib=1&w=472&h=247&rs=2&qlt=100" alt="museu-louvre" width={600} height={600} />
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreVerde} alt="torre-vermelha" width={180} height={180} className="absolute left-[-130px] bottom-8 rotate-[-15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center">
+          <Image src={TorreVerde} alt="torre-vermelha" width={180} height={180} className="absolute left-[70px] bottom-8 rotate-[-15deg]" />
           <div data-aos="fade-right" data-aos-duration="900">
             <Image className="rounded-xl" src="https://cdn.sortiraparis.com/images/80/107318/1087967-le-decor-du-defile-dior-haute-couture-automne-hiver-2024-2025-au-musee-rodin-image00001.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
@@ -174,8 +174,8 @@ export default function Home() {
             s
           </p>
         </h2>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreVermelha} alt="torre-vermelha" width={180} height={180} className="absolute right-[-130px] bottom-8 rotate-[15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center">
+          <Image src={TorreVermelha} alt="torre-vermelha" width={180} height={180} className="absolute right-[70px] bottom-8 rotate-[15deg]" />
           <div className="max-w-[500px] flex flex-col justify-center items-center gap-3">
             <h1 className="font-bold text-4xl text-[#db6e4e]" data-aos="fade-right" data-aos-duration="900">Montmartre</h1>
             <div data-aos="fade-up" data-aos-duration="900">
@@ -186,8 +186,8 @@ export default function Home() {
             <Image className="rounded-xl" src="https://www.tripsavvy.com/thmb/g8mHCcJkvnaulQhxJcnmpL4xkug=/3000x2000/filters:fill(auto,1)/GettyImages-532063893-57bed7bf3df78cc16eefdf98.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreAmarela} alt="torre-vermelha" width={180} height={180} className="absolute left-[-130px] bottom-8 rotate-[-15deg]" />
+        <div className="relative w-[70%] flex gap-[50px] justify-center items-center">
+          <Image src={TorreAmarela} alt="torre-vermelha" width={180} height={180} className="absolute left-[80px] bottom-8 rotate-[-15deg]" />
           <div data-aos="fade-right" data-aos-duration="900">
             <Image className="rounded-xl" src="https://www.paristouristinformation.fr/fr/wp-content/uploads/2021/01/Ile-de-la-Cite-of-Pariss-top-attractions.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
@@ -198,8 +198,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center">
-          <Image src={TorreBege} alt="torre-vermelha" width={180} height={180} className="absolute right-[-130px] bottom-8 rotate-[15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center">
+          <Image src={TorreBege} alt="torre-vermelha" width={180} height={180} className="absolute right-[60px] bottom-8 rotate-[15deg]" />
           <div className="max-w-[500px] flex flex-col justify-center items-center gap-3">
             <h1 className="font-bold text-4xl text-[#ddc1b6]" data-aos="fade-right" data-aos-duration="900">Quartier Latin</h1>
             <div data-aos="fade-up" data-aos-duration="900">
@@ -210,8 +210,8 @@ export default function Home() {
             <Image className="rounded-xl" src="https://www.tout-paris.org/wp-content/uploads/2021/12/15-choses-a-voir-au-quartier-latin-de-Paris-1000x675.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center pb-16">
-          <Image src={TorreRosa} alt="torre-vermelha" width={180} height={180} className="absolute left-[-130px] top-5 rotate-[-15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center pb-16">
+          <Image src={TorreRosa} alt="torre-vermelha" width={180} height={180} className="absolute left-[80px] top-5 rotate-[-15deg]" />
           <div data-aos="fade-right" data-aos-duration="900">
             <Image className="rounded-xl" src="https://th.bing.com/th/id/R.c4fb700d7ff904819bbd971ecd99ff5a?rik=vcg8Xn%2br9pz1MQ&pid=ImgRaw&r=0" alt="museu-louvre" width={500} height={500} />
           </div>
@@ -222,8 +222,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center pb-16">
-          <Image src={TorreRoxa} alt="torre-vermelha" width={180} height={180} className="absolute right-[-130px] top-[-30px] rotate-[15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center pb-16">
+          <Image src={TorreRoxa} alt="torre-vermelha" width={180} height={180} className="absolute right-[-50px] top-[-30px] rotate-[15deg]" />
           <div className="max-w-[500px] flex flex-col justify-center items-center gap-3">
             <h1 className="font-bold text-4xl text-[#c59bc7]" data-aos="fade-right" data-aos-duration="900">Eixos Historicos da Franca</h1>
             <div data-aos="fade-up" data-aos-duration="900">
@@ -234,8 +234,8 @@ export default function Home() {
             <Image className="rounded-xl" src="https://www.rodei.com.br/wp-content/uploads/2013/01/La-Defense-05-1160x769.jpg" alt="museu-louvre" width={500} height={500} />
           </div>
         </div>
-        <div className="relative w-[70%] flex gap-[150px] justify-between items-center pb-16">
-          <Image src={TorreVerde} alt="torre-vermelha" width={180} height={180} className="absolute left-[-130px] top-[-30px] rotate-[-15deg]" />
+        <div className="relative w-[70%] flex gap-[80px] justify-center items-center pb-16">
+          <Image src={TorreVerde} alt="torre-vermelha" width={180} height={180} className="absolute left-[-70px] top-[-30px] rotate-[-15deg]" />
           <div data-aos="fade-right" data-aos-duration="900">
             <Image className="rounded-xl" src="https://www.worldbyisa.com/wp-content/uploads/2017/08/22583324985_8f9cb20809_k.jpg" alt="museu-louvre" width={500} height={500} />
           </div>

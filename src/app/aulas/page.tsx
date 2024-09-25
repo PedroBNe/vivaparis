@@ -61,15 +61,15 @@ const LessonCard = ({ lesson, isFirst }: { lesson: Lesson; isFirst: boolean }) =
 
   return (
     <motion.div
-      className={`overflow-hidden relative shadow-2xl rounded-xl ${isFirst ? 'col-span-2 md:col-span-3' : ''}`}
+      className={`h-full overflow-hidden relative shadow-2xl rounded-xl ${isFirst ? 'col-span-2 md:col-span-3' : 'md:w-[500px] lg:w-auto'}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Card className="h-full">
-        <div className={`relative ${isFirst ? 'aspect-video' : 'aspect-video md:aspect-square'}`}>
+      <Card className={`h-full`}>
+        <div className={`relative ${isFirst ? 'aspect-video' : 'aspect-video lg:aspect-square'}`}>
           <Image
             src={lesson.image}
             alt={lesson.title}
@@ -80,7 +80,7 @@ const LessonCard = ({ lesson, isFirst }: { lesson: Lesson; isFirst: boolean }) =
         </div>
         <CardHeader>
           <div className="flex justify-between items-start z-20">
-            <CardTitle className={`${isFirst ? 'text-2xl md:text-3xl' : 'text-xl'}`}>{lesson.title}</CardTitle>
+            <CardTitle className={`${isFirst ? 'text-2xl md:text-3xl' : 'text-lg'}`}>{lesson.title}</CardTitle>
             <Badge variant="secondary">{lesson.level}</Badge>
           </div>
           <div className="z-20">
@@ -120,7 +120,7 @@ export default function Aulas() {
   return (
     <div className="container mx-auto py-12 px-4 text-black">
       <h1 className="text-4xl font-bold mb-8 text-center">Nossas Aulas Online</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="w-full flex flex-col md:justify-center md:items-center lg:grid lg:grid-flow gap-12">
         {lessons.map((lesson, index) => (
           <LessonCard key={lesson.id} lesson={lesson} isFirst={index === 0} />
         ))}
