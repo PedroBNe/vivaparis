@@ -1,9 +1,10 @@
 'use client'
 
-import formatDate from "@/components/utils/FormatData"
+import formatDate from "@/utils/FormatData"
 import { motion } from "framer-motion"
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 type Post = {
   id: number
@@ -52,9 +53,11 @@ const PostCardBlog = ({ post }: { post: Post }) => {
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <button className="bg-white text-primary font-semibold py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">
-          Ler mais
-        </button>
+        <Link href={'/blog/teste'}>
+          <button className="bg-white text-primary font-semibold py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">
+            Ler mais
+          </button>
+        </Link>
       </motion.div>
     </motion.div>
   )
@@ -87,12 +90,100 @@ const PostCardBlog = ({ post }: { post: Post }) => {
       imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
       category: "Tecnology"
     },
+    {
+      id: 4,
+      title: "Dominando o Next.js",
+      subtitle: "Construa aplicações web modernas com Next.js",
+      date: "2023-07-15",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 5,
+      title: "Estilização com Tailwind CSS",
+      subtitle: "Crie interfaces bonitas e responsivas rapidamente",
+      date: "2023-08-01",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 6,
+      title: "Dominando o Next.js",
+      subtitle: "Construa aplicações web modernas com Next.js",
+      date: "2023-07-15",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 7,
+      title: "Estilização com Tailwind CSS",
+      subtitle: "Crie interfaces bonitas e responsivas rapidamente",
+      date: "2023-08-01",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 8,
+      title: "Dominando o Next.js",
+      subtitle: "Construa aplicações web modernas com Next.js",
+      date: "2023-07-15",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 9,
+      title: "Estilização com Tailwind CSS",
+      subtitle: "Crie interfaces bonitas e responsivas rapidamente",
+      date: "2023-08-01",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 10,
+      title: "Dominando o Next.js",
+      subtitle: "Construa aplicações web modernas com Next.js",
+      date: "2023-07-15",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 11,
+      title: "Estilização com Tailwind CSS",
+      subtitle: "Crie interfaces bonitas e responsivas rapidamente",
+      date: "2023-08-01",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 12,
+      title: "Dominando o Next.js",
+      subtitle: "Construa aplicações web modernas com Next.js",
+      date: "2023-07-15",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 13,
+      title: "Estilização com Tailwind CSS",
+      subtitle: "Crie interfaces bonitas e responsivas rapidamente",
+      date: "2023-08-01",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
+    {
+      id: 14,
+      title: "Dominando o Next.js",
+      subtitle: "Construa aplicações web modernas com Next.js",
+      date: "2023-07-15",
+      imageUrl: "https://th.bing.com/th/id/OIP.OF5buqsdIK6lTf-yGZi4KwHaEo?w=311&h=180&c=7&r=0&o=5&pid=1.7",
+      category: "Tecnology"
+    },
   ]
 
   return (
     <div className="w-full min-h-screen container mx-auto py-8 flex flex-col gap-8 text-black">
       <h1 className="text-3xl font-bold mb-8">Blog</h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mx-2">
         {posts.map((post) => (
           <PostCardBlog key={post.id} post={post} />
         ))}
