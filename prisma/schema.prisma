@@ -30,5 +30,5 @@ model Blog {
 model Category {
   id    String   @id @default(uuid())
   name  String
-  blogs Blog[]
+  blogs Blog[]
 }

@@ -8,9 +8,7 @@ interface Post {
   title: string;
   subtitle: string;
   content: string;
-  author: string;
   date: string;
-  status: string;
 }
 
 export default function PostPage() {
@@ -54,7 +52,6 @@ export default function PostPage() {
     <div>
       <h1>{post.title}</h1>
       <h2>{post.subtitle}</h2>
-      <p>Autor: {post.author}</p>
       <p>Data: {new Date(post.date).toLocaleDateString()}</p>
       <div dangerouslySetInnerHTML={{ __html: post.content }} />
     </div>
