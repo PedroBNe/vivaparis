@@ -3,16 +3,16 @@
 import {Input} from "@nextui-org/input";
 import {RadioGroup, Radio} from "@nextui-org/radio";
 import {Button} from "@nextui-org/button";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectGroup,
-  SelectLabel,
   SelectValue,
 } from "@/components/ui/select"
+import {Checkbox} from "@nextui-org/checkbox";
 
 const services = [
   {key: "visitas", label: "Visitas guiadas"},
@@ -25,7 +25,17 @@ export default function FaleConosco() {
   const [email, setEmail] = React.useState("");
   const [value, setValue] = React.useState("");
   const [tel, setTel] = React.useState("");
-  const [spin, setSpin] = useState(false);
+  const [accept, setAccept] = React.useState(false);
+  const [spin, setSpin] = React.useState(false);
+  const [all, setAll] = React.useState(false);
+
+  useEffect(() => {
+    if (email && value && tel !== "") {
+      return () => setAll(true);
+    }
+
+    return () => setAll(false);
+  });
 
   const isInvalid = React.useMemo(() => {
     const validate = (value: string) => {
@@ -36,7 +46,8 @@ export default function FaleConosco() {
     };
 
     if (value === "") return false;
-    return !validate(value);
+
+    return validate(value) ? false : true;
   }, [value, selected]); // CPF e CNPJ
 
   const isInvalidEmail = React.useMemo(() => {
@@ -56,7 +67,7 @@ export default function FaleConosco() {
   return(
     <div className="w-full h-[63em] text-black flex flex-col gap-8 items-center overflow-hidden">
       <h1 className="text-3xl font-bold mt-5">Entre em contato!</h1>
-      <div className="w-[25em] h-[46em] bg-white rounded-lg flex flex-col items-center py-6">
+      <div className="w-[25em] h-[48em] bg-white rounded-lg flex flex-col items-center py-6">
         <form className="w-[80%] h-full flex flex-col items-center gap-6 relative" action="">
           <Input
             type="text"
@@ -106,15 +117,21 @@ export default function FaleConosco() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Servicos</SelectLabel>
                 {services.map((service) => (
                   <SelectItem value={service.key}>{service.label}</SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
-          <input type="textarea" placeholder="Digite sua solicitacao..." className="w-full px-2 h-[6em] border-[1px] border-black rounded-md overflow-hiddeninput" />
-          <Button isLoading={spin} isDisabled={isInvalid || isInvalidEmail || isInvalidTel} variant="ghost" color="warning" size="lg" className="relative w-[80%] py-6" onClick={() => { setSpin(!spin) }}>
+          <input type="textarea" placeholder="Digite sua observacao(opcional)" className="w-full px-2 h-[6em] border-[1px] border-black rounded-md overflow-hiddeninput" />
+          {all && (
+            <Checkbox isSelected={accept} onValueChange={setAccept} color="warning">
+              <span className="text-sm">
+                Concordo com o uso e o compartilhamento de meus dados enviados.
+              </span>
+            </Checkbox>
+          )}
+          <Button isLoading={spin} isDisabled={ !accept } variant="ghost" color="warning" size="lg" className="absolute bottom-0 w-[80%] py-6" onClick={() => { setSpin(!spin) }}>
             <input type="submit" placeholder="Enviar" className={`${spin ? "hidden" : "flex"} w-full py-6 cursor-pointer`} />
           </Button>
         </form>

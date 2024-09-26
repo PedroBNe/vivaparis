@@ -34,9 +34,11 @@ export default function Header() {
             </ul>
           </nav>
           <div className="h-full w-[10%] flex justify-center items-center">
-            <button className="border-2 border-green-700 hover:bg-green-700 ease-in transition p-3 rounded-xl text-black hover:text-white font-semibold">
-              <Link href={'/contato'}>Fale conosco</Link>
-            </button>
+            <Link href={'/contato'}>
+              <button className="border-2 border-green-700 hover:bg-green-700 ease-in transition p-3 rounded-xl text-black hover:text-white font-semibold">
+                Fale Conosco
+              </button>
+            </Link>
           </div>
         </>
       )}
