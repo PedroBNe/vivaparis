@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/button": "^2.0.38",
+    "@nextui-org/checkbox": "^2.1.5",
     "@nextui-org/input": "^2.2.5",
     "@nextui-org/radio": "^2.1.5",
     "@nextui-org/system": "^2.2.6",

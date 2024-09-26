@@ -17,33 +17,11 @@ import TorreVerde from '@/assets/TorreVerde.png';
 import Croissaint from "@/assets/Croissaint";
 import French from "@/assets/French";
 
-const gradientVariants = {
-  gradient1: { background: 'linear-gradient(to right, #055647, #db6e4e)' },
-  gradient2: { background: 'linear-gradient(to right, #db6e4e, #f3b6b6)' },
-  gradient3: { background: 'linear-gradient(to right, #f3b6b6, #c59bc7)' },
-  gradient4: { background: 'linear-gradient(to right, #c59bc7, #f2c261)' },
-  gradient5: { background: 'linear-gradient(to right, #f2c261, #ddc1b6)' },
-  gradient6: { background: 'linear-gradient(to right, #ddc1b6, #055647)' },
-};
-
 export default function Home() {
-
-  const [currentGradient, setCurrentGradient] = useState('gradient1');
-
   useEffect(() => {
     AOS.init({
       mirror: true,
     });
-
-    const interval = setInterval(() => {
-      setCurrentGradient((prev) => {
-        const gradientKeys = Object.keys(gradientVariants);
-        const currentIndex = gradientKeys.indexOf(prev);
-        return gradientKeys[(currentIndex + 1) % gradientKeys.length];
-      });
-    }, 3000); // Altere o gradiente a cada 3 segundos
-
-    return () => clearInterval(interval); // Limpa o intervalo ao desmontar o componente
   }, []);
 
   return (
@@ -313,14 +291,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <motion.div
-        className="mt-[-80px] h-[600px] w-full flex items-center justify-center text-white"
-        variants={gradientVariants}
-        animate={currentGradient}
-        transition={{ duration: 2 }}
-      >
-        <h1 className="text-4xl">Gradiente Dinâmico com Tailwind e Framer Motion</h1>
-      </motion.div>
     </div >
   );
 }
