@@ -31,16 +31,16 @@ export default function Footer() {
   return(
     <footer>
       <motion.div
-        className="mt-[-80px] h-[900px] md:h-[600px] w-full flex items-center justify-center text-white relative"
+        className="mt-[-80px] h-[950px] md:h-[700px] w-full flex items-center justify-center text-white relative"
         variants={gradientVariants}
         animate={currentGradient}
         transition={{ duration: 2 }}
       >
-        <div className='absolute top-4'>
+        <div className='absolute top-[100px]'>
           <Logo width={60} height={60} color={'#ffffff'} />
         </div>
-        <div className='w-full h-[50%] md:w-[70%] flex flex-col md:flex-row gap-8 justify-between items-center relative'>
-          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-2 text-sm lg:text-lg font-semibold">
+        <div className='w-full h-[35%] md:h-[20%] md:w-[70%] flex flex-col md:flex-row gap-8 justify-between items-center relative'>
+          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-3 text-sm lg:text-lg font-semibold">
             <h2 className='mb-5 text-lg lg:text-xl'>Site:</h2>
             <li className="hover:opacity-80 hover:underline transition ease-in">
               <Link href="/inicio#header">Inicio</Link>
@@ -61,7 +61,7 @@ export default function Footer() {
               <Link href="/contato">Contato</Link>
             </li>
           </ul>
-          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-2 text-sm lg:text-lg font-semibold">
+          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-3 text-sm lg:text-lg font-semibold">
             <h2 className='mb-5 text-lg lg:text-xl'>Contato:</h2>
             <li className="hover:opacity-80 hover:underline transition ease-in">
               <Link href="">Email</Link>
@@ -73,7 +73,7 @@ export default function Footer() {
               <Link href="">Endereco</Link>
             </li>
           </ul>
-          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-2 text-sm lg:text-lg font-semibold">
+          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-3 text-sm lg:text-lg font-semibold">
             <h2 className='mb-5 text-lg lg:text-xl'>Redes:</h2>
             <li className="hover:opacity-80 hover:underline transition ease-in">
               <Link href="">WhatsApp</Link>
@@ -86,7 +86,7 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <span className="absolute bottom-0">&copy;VivaParis 2024 Todos os direitos reservados</span>
+        <span className="absolute bottom-0 text-sm">&copy;VivaParis 2024 Todos os direitos reservados</span>
       </motion.div>
     </footer>
   )
