@@ -44,10 +44,10 @@ export const HoverImages = () => {
 
   return (
     <div className="relative flex justify-center items-center w-full h-screen">
-      <div className="absolute left-1 top-16 overflow-hidden">
+      {/* <div className="absolute left-1 top-16 overflow-hidden">
         <Baguette height={400} width={400} color={""} />
       </div>
-      <Image src={TorreVermelha} alt="torre-vermelha" width={360} height={360} className="absolute right-1 bottom-0 overflow-hidden rotate-[30deg]" />
+      <Image src={TorreVermelha} alt="torre-vermelha" width={360} height={360} className="absolute right-1 bottom-0 overflow-hidden rotate-[30deg]" /> */}
       {/* Contêiner fixo com bordas arredondadas */}
       <div
         ref={containerRef}
