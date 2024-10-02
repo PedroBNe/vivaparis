@@ -1,6 +1,8 @@
 'use client'
 
-import Logo from '@/assets/Logo';
+import Facebook from '@/assets/Face';
+import Instagram from '@/assets/Insta';
+import WhatsApp from '@/assets/Whats';
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";50
@@ -29,24 +31,26 @@ export default function Footer() {
   }, []);
 
   return(
-    <footer>
+    <footer className='mt-[-80px] h-[1000px] lg:h-[600px] w-full flex items-center justify-center text-white'>
       <motion.div
-        className="mt-[-80px] h-[950px] md:h-[700px] w-full flex items-center justify-center text-white relative"
+        className='w-full h-full flex flex-col justify-center items-center relative z-10'
         variants={gradientVariants}
         animate={currentGradient}
         transition={{ duration: 2 }}
       >
-        <div className='absolute top-[100px]'>
-          <Logo width={60} height={60} color={'#ffffff'} />
-        </div>
-        <div className='w-full h-[35%] md:h-[20%] md:w-[70%] flex flex-col md:flex-row gap-8 justify-between items-center relative'>
-          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-3 text-sm lg:text-lg font-semibold">
-            <h2 className='mb-5 text-lg lg:text-xl'>Site:</h2>
+        <div className='w-full h-[50%] lg:h-[50%] md:w-[80%] flex flex-col lg:flex-row gap-10 justify-between items-center relative'>
+          <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg font-semibold">
             <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="/inicio#header">Inicio</Link>
+              <Link href="/inicio">Inicio</Link>
             </li>
             <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="/inicio#sobre">Sobre</Link>
+              <Link href="/sobre">Sobre</Link>
+            </li>
+            <li className="hover:opacity-80 hover:underline transition ease-in">
+              <Link href="/visitas">Visitas</Link>
+            </li>
+            <li className="hover:opacity-80 hover:underline transition ease-in">
+              <Link href="">Roteiros</Link>
             </li>
             <li className="hover:opacity-80 hover:underline transition ease-in">
               <Link href="/aulas">Aulas</Link>
@@ -61,28 +65,37 @@ export default function Footer() {
               <Link href="/contato">Contato</Link>
             </li>
           </ul>
-          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-3 text-sm lg:text-lg font-semibold">
-            <h2 className='mb-5 text-lg lg:text-xl'>Contato:</h2>
-            <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="">Email</Link>
+          <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg">
+            <li>
+              Email
             </li>
-            <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="">Telefone</Link>
+            <li>
+              Telefone
             </li>
-            <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="">Endereco</Link>
+            <li>
+              Endereco
             </li>
           </ul>
-          <ul className="w-fit h-full flex flex-col justify-center md:justify-start items-center md:items-start gap-3 text-sm lg:text-lg font-semibold">
-            <h2 className='mb-5 text-lg lg:text-xl'>Redes:</h2>
+          <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg font-semibold">
             <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="">WhatsApp</Link>
+              <Link href="/lgpd">Política de Privacidade e Cookies</Link>
             </li>
-            <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="">Instagram</Link>
+          </ul>
+          <ul className="w-fit h-full flex lg:flex-col justify-center lg:justify-start items-center lg:items-start gap-5">
+            <li className="border-[2px] border-white hover:bg-green-500 p-1 rounded-lg transition ease-in delay-50">
+              <Link href="">
+                <WhatsApp width={28} height={28} color={"#ffffff"} />
+              </Link>
             </li>
-            <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="">Facebook</Link>
+            <li className="border-[2px] border-white hover:bg-[#F20267] p-1 rounded-lg transition ease-in delay-50">
+              <Link href="">
+                <Instagram width={28} height={28} color={"#ffffff"} />
+              </Link>
+            </li>
+            <li className="border-[2px] border-white hover:bg-blue-500 p-1 rounded-lg transition ease-in delay-50">
+              <Link href="">
+                <Facebook width={28} height={28} color={"#ffffff"} />
+              </Link>
             </li>
           </ul>
         </div>
