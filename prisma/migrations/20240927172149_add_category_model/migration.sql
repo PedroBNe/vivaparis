@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "CategoryClass" AS ENUM ('INICIANTE', 'INTERMEDIARIO', 'AVANCADO');
+
 -- CreateTable
 CREATE TABLE "Post" (
     "id" TEXT NOT NULL,
@@ -29,6 +32,20 @@ CREATE TABLE "Category" (
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Class" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "subtitle" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "time" INTEGER NOT NULL,
+    "students" INTEGER NOT NULL,
+    "category" "CategoryClass" NOT NULL,
+
+    CONSTRAINT "Class_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey

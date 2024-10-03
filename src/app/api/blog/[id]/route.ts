@@ -14,7 +14,8 @@ export async function GET(
 
   try {
     const blog = await prisma.blog.findUnique({
-      where: { id }, // Verifica se o ID está correto e existe no banco
+      where: { id },
+      include: { category: true }, // Inclui os dados da categoria
     });
 
     if (!blog) {

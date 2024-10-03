@@ -5,7 +5,7 @@ import Instagram from '@/assets/Insta';
 import WhatsApp from '@/assets/Whats';
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";50
+import { useEffect, useState } from "react"; 50
 const gradientVariants = {
   gradient1: { background: 'linear-gradient(to right, #055647, #db6e4e)' },
   gradient2: { background: 'linear-gradient(to right, #db6e4e, #f3b6b6)' },
@@ -30,7 +30,7 @@ export default function Footer() {
     return () => clearInterval(interval); // Limpa o intervalo ao desmontar o componente
   }, []);
 
-  return(
+  return (
     <footer className='mt-[-80px] h-[1000px] lg:h-[600px] w-full flex items-center justify-center text-white'>
       <motion.div
         className='w-full h-full flex flex-col justify-center items-center relative z-10'

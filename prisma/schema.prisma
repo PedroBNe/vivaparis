@@ -32,3 +32,20 @@ model Category {
   name  String
   blogs Blog[]
 }
+
+enum CategoryClass {
+  INICIANTE
+  INTERMEDIARIO
+  AVANCADO
+}
+
+model Class {
+  id        String   @id @default(uuid())
+  title     String
+  subtitle  String
+  imageUrl  String
+  date      DateTime
+  time      Int
+  students  Int
+  category  CategoryClass
+}

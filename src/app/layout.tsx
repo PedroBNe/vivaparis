@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
         <Header />
-        { children }
+        {children}
         <div className="fixed flex right-6 bottom-6 z-20">
           <Up width={60} height={60} />
         </div>
