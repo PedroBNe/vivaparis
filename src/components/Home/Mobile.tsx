@@ -1,5 +1,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { HoverImages } from "@/components/HoverImages";
+import CarouselHome from "./Carousel";
 
 export default function Mobile() {
   return(
@@ -19,6 +20,12 @@ export default function Mobile() {
             <p className="text-black text-sm text-center">Viva Paris de uma maneira leve e divertida.</p>
             <button className="p-2 rounded-md bg-green-500 hover:bg-green-800 ease-in transition text-white font-semibold">Conheça sobre!</button>
           </div>
+        </div>
+      </div>
+      <div className="w-full flex flex-col gap-5 justify-center items-center bg-[var(--background)] rounded-b-[70px] py-6 relative z-20">
+        <h1 className="font-bold text-2xl text-green-700">Quem sou eu ?</h1>
+        <div>
+          <CarouselHome width={80} height={100} />
         </div>
       </div>
     </div>
