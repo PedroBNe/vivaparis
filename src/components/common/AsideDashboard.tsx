@@ -16,6 +16,7 @@ export default function AsideDashboard({ expanded, setExpanded }: AsideDashboard
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: Home },
+    { name: "Home", href: "/dashboard/home", icon: Home },
     { name: "Blog", href: "/dashboard/blogs", icon: BarChart2 },
     { name: "Categoria", href: "/dashboard/blogs/categorias", icon: Settings },
     { name: "Midia", href: "/dashboard/posts", icon: Users },

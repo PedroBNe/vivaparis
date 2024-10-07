@@ -49,3 +49,33 @@ model Class {
   students  Int
   category  CategoryClass
 }
+
+model Home {
+  id          String       @id @default(uuid())
+  logo        String
+  email       String
+  phone       String
+  endereco    String
+  privacidade String
+  cookies     String
+  instagram   String
+  facebook    String
+  whatsap    String
+  images      Image[]
+  navbar      NavbarItem[]
+}
+
+model Image {
+  id     String @id @default(uuid())
+  url    String
+  homeId String
+  home   Home   @relation(fields: [homeId], references: [id], onDelete: Cascade)
+}
+
+model NavbarItem {
+  id     String @id @default(uuid())
+  name   String
+  link   String
+  homeId String
+  home   Home   @relation(fields: [homeId], references: [id], onDelete: Cascade)
+}

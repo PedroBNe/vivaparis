@@ -15,7 +15,7 @@ const gradientVariants = {
   gradient6: { background: 'linear-gradient(to right, #ddc1b6, #055647)' },
 };
 
-export default function Footer() {
+export default function Footer({ homeData }: any) {
   const [currentGradient, setCurrentGradient] = useState('gradient1');
 
   useEffect(() => {
@@ -67,13 +67,13 @@ export default function Footer() {
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg">
             <li>
-              Email
+              {homeData?.email}
             </li>
             <li>
-              Telefone
+              {homeData?.phone}
             </li>
             <li>
-              Endereco
+              {homeData?.endereco}
             </li>
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg font-semibold">
@@ -83,19 +83,19 @@ export default function Footer() {
           </ul>
           <ul className="w-fit h-full flex lg:flex-col justify-center lg:justify-start items-center lg:items-start gap-5">
             <li className="border-[2px] border-white hover:bg-green-500 p-1 rounded-lg transition ease-in delay-50">
-              <Link href="">
+              <a href={`https://` + homeData.whatsap} target='__blanc'>
                 <WhatsApp width={28} height={28} color={"#ffffff"} />
-              </Link>
+              </a>
             </li>
             <li className="border-[2px] border-white hover:bg-[#F20267] p-1 rounded-lg transition ease-in delay-50">
-              <Link href="">
+              <a href={`https://` + homeData.instagram} target='__blanc'>
                 <Instagram width={28} height={28} color={"#ffffff"} />
-              </Link>
+              </a>
             </li>
             <li className="border-[2px] border-white hover:bg-blue-500 p-1 rounded-lg transition ease-in delay-50">
-              <Link href="">
+              <a href={`https://` + homeData.facebook} target='__blanc'>
                 <Facebook width={28} height={28} color={"#ffffff"} />
-              </Link>
+              </a>
             </li>
           </ul>
         </div>

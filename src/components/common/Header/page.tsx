@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import React from "react";
@@ -5,20 +6,20 @@ import useWindowSize from "@/utils/SizeWindow";
 import Link from "next/link";
 import Menu from "@/assets/Menu";
 import Image from "next/image";
-import LOGO from '@/assets/Logo.png';
 
-export default function Header() {
-  const [ isHidden, setIsHidden ] = React.useState(true);
+export default function Header({ homeData }: any) {
+
+  const [isHidden, setIsHidden] = React.useState(true);
   const window = useWindowSize();
 
   const handleScroll = () => document.body.style.position = "sticky"; // Can scroll down
 
   const handleNoScroll = () => document.body.style.position = "fixed"; // Can not scroll down
 
-  return(
+  return (
     <header id="header" className="w-full h-[7em] flex justify-center items-center px-4 bg-transparent border-b-[1px] border-gray-600 z-20 shadow-2xl mb-3 relative">
       <div className="h-full w-fit flex justify-center items-center absolute left-[15px]">
-        <Image src={LOGO} alt="logo" width={140} height={140} />
+        <Image src={homeData.logo} alt="logo" width={140} height={140} />
       </div>
       {window.width > 1024 && (
         <nav className="w-[75%] h-full flex justify-center items-center text-black absolute right-[35px]">
