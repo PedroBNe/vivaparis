@@ -1,7 +1,7 @@
 "use client"; // Use "use client" em vez de "use server" para componentes que utilizam hooks
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 type Post = {
   id: string;
@@ -22,18 +22,18 @@ export default function BlogPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log('ID from URL:', id); // Verifique se o ID está correto
+    console.log("ID from URL:", id); // Verifique se o ID está correto
 
     async function fetchPost() {
       try {
         const res = await fetch(`/api/blog/${id}`);
         if (!res.ok) {
-          throw new Error('Post not found');
+          throw new Error("Post not found");
         }
         const data = await res.json();
         setPost(data);
       } catch (error) {
-        console.error('Error fetching post:', error);
+        console.error("Error fetching post:", error);
         setPost(null); // Define como null caso não encontre o post
       } finally {
         setLoading(false);

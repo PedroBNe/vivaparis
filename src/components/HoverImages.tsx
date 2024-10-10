@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Baguette from "../assets/Baguette";
-import TorreVermelha from '@/assets/TorreVermelho.png';
+import TorreVermelha from "@/assets/TorreVermelho.png";
 
 // Registra o plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);

@@ -1,7 +1,3 @@
 export default function Sobre() {
-  return(
-    <div>
-      aolaksidjiou
-    </div>
-  )
+  return <div>aolaksidjiou</div>;
 }

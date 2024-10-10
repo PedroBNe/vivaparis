@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #E6E4D5;
+  --background: #e6e4d5;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #E6E4D5;
+    --background: #e6e4d5;
     --foreground: #ededed;
   }
 }
@@ -27,7 +27,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #E6E4D5;
+  background: #e6e4d5;
   border-radius: 10px;
 }
 
