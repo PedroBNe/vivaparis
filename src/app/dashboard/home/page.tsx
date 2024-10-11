@@ -11,51 +11,37 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+interface FormData {
+  logo: string;
+  email: string;
+  number: string;
+  address: string;
+}
+
 const EditForm = () => {
-  const [formData, setFormData] = useState({
-    id: 1,
-    logo: "aqui",
-    navbar: [
-      { id: 1, name: "Home", url: "/home" },
-      { id: 2, name: "Sobre", url: "/sobre" },
-    ],
-    carouselImages: [
-      "https://exemplo.com/imagem1.png",
-      "https://exemplo.com/imagem2.png",
-    ],
-    about: {
-      id: 1,
-      title: "Teste",
-      image: "Imagem",
-    },
-    email: "pedro@gmail.com",
-    number: "(48) 999999999",
-    address: "Endereco",
-    politicas: "Politicas de privacidade",
-    cookies: "cookies",
-    whatsapp: "Link whatsapp",
-    facebook: "Link facebook",
-    instagram: "Link instagram",
-    imagesWho: ["Varias image", "aqui vai outra", "outra"],
+  // Estado do formulário
+  const [formData, setFormData] = useState<FormData>({
+    logo: "",
+    email: "",
+    number: "",
+    address: "",
   });
 
-  // Função para atualizar o estado conforme o usuário digita
+  // Função para atualizar o estado quando o input mudar
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
     }));
   };
 
-  // Função para lidar com o envio do formulário
+  // Função para enviar os dados ao backend via PUT
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Dados enviados:", formData); // Verifique os dados aqui
-
     try {
-      const response = await fetch("http://127.0.0.1:8080/home/1", {
+      const response = await fetch("http://localhost:8080/home/1", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -64,11 +50,11 @@ const EditForm = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log("Sucesso:", data);
+        // Sucesso
+        console.log("Alterações salvas com sucesso!");
       } else {
-        const errorDetails = await response.text();
-        console.error("Erro ao enviar dados:", response.status, errorDetails);
+        // Caso haja um erro
+        console.error("Erro ao salvar as alterações");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
@@ -85,7 +71,7 @@ const EditForm = () => {
           <CardContent className="space-y-4">
             <div className="w-full">
               <label
-                htmlFor="title"
+                htmlFor="logo"
                 className="w-full block text-sm font-medium text-gray-700"
               >
                 Logo
@@ -100,7 +86,7 @@ const EditForm = () => {
             </div>
             <div className="w-full">
               <label
-                htmlFor="title"
+                htmlFor="email"
                 className="w-full block text-sm font-medium text-gray-700"
               >
                 Categoria
@@ -115,7 +101,7 @@ const EditForm = () => {
             </div>
             <div className="w-full">
               <label
-                htmlFor="title"
+                htmlFor="number"
                 className="w-full block text-sm font-medium text-gray-700"
               >
                 Telefone
@@ -130,10 +116,10 @@ const EditForm = () => {
             </div>
             <div className="w-full">
               <label
-                htmlFor="title"
+                htmlFor="address"
                 className="w-full block text-sm font-medium text-gray-700"
               >
-                Endereco
+                Endereço
               </label>
               <Input
                 type="text"
@@ -145,7 +131,7 @@ const EditForm = () => {
             </div>
           </CardContent>
           <CardFooter className="w-full flex justify-center">
-            <Button type="submit">Salvar alteracoes</Button>
+            <Button type="submit">Salvar alterações</Button>
           </CardFooter>
         </form>
       </Card>
