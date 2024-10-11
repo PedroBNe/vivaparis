@@ -1,92 +1,156 @@
-import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/input";
-import { promises as fs } from "fs";
-import { PrismaClient } from "@prisma/client";
+"use client";
 
-const prisma = new PrismaClient();
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-export default function HomeForm() {
-  async function handleSubmit(formData: FormData) {
-    "use server";
+const EditForm = () => {
+  const [formData, setFormData] = useState({
+    id: 1,
+    logo: "aqui",
+    navbar: [
+      { id: 1, name: "Home", url: "/home" },
+      { id: 2, name: "Sobre", url: "/sobre" },
+    ],
+    carouselImages: [
+      "https://exemplo.com/imagem1.png",
+      "https://exemplo.com/imagem2.png",
+    ],
+    about: {
+      id: 1,
+      title: "Teste",
+      image: "Imagem",
+    },
+    email: "pedro@gmail.com",
+    number: "(48) 999999999",
+    address: "Endereco",
+    politicas: "Politicas de privacidade",
+    cookies: "cookies",
+    whatsapp: "Link whatsapp",
+    facebook: "Link facebook",
+    instagram: "Link instagram",
+    imagesWho: ["Varias image", "aqui vai outra", "outra"],
+  });
 
-    const email = formData.get("email") as string;
-    const phone = formData.get("phone") as string;
-    const endereco = formData.get("endereco") as string;
-    const privacidade = formData.get("privacidade") as string;
-    const cookies = formData.get("cookies") as string;
-    const instagram = formData.get("instagram") as string;
-    const facebook = formData.get("facebook") as string;
-    const whatsap = formData.get("whatsap") as string;
+  // Função para atualizar o estado conforme o usuário digita
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-    const logoFile = formData.get("logo") as File;
-    let logoPath = "";
+  // Função para lidar com o envio do formulário
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    if (logoFile && logoFile.size > 0) {
-      const data = await logoFile.arrayBuffer();
-      logoPath = `/${logoFile.name}`;
-      await fs.writeFile(`${process.cwd()}/public/${logoFile.name}`, Buffer.from(data));
-    }
+    console.log("Dados enviados:", formData); // Verifique os dados aqui
 
     try {
-      await prisma.home.upsert({
-        where: { id: "unique_home_id" }, // Use um ID fixo ou único
-        update: {
-          email,
-          phone,
-          endereco,
-          privacidade,
-          cookies,
-          instagram,
-          facebook,
-          logo: logoPath,
-          whatsap,
+      const response = await fetch("http://127.0.0.1:8080/home/1", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-        create: {
-          id: "unique_home_id", // Use um ID fixo ou gerado manualmente
-          email,
-          phone,
-          endereco,
-          privacidade,
-          cookies,
-          instagram,
-          facebook,
-          logo: logoPath,
-          whatsap,
-        },
+        body: JSON.stringify(formData),
       });
-    } catch (error) {
-      console.error("Erro ao salvar no banco de dados:", error);
-      return { error: "Erro ao salvar no banco de dados" };
-    }
 
-    return { success: true };
-  }
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Sucesso:", data);
+      } else {
+        const errorDetails = await response.text();
+        console.error("Erro ao enviar dados:", response.status, errorDetails);
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
+  };
 
   return (
-    <div className="flex justify-center items-center w-full h-full">
-      <div className="flex w-full flex-wrap md:flex-nowrap gap-4 md:w-[50%]">
-        <form action={handleSubmit}>
-          {/* Input para a logo */}
-          <Input type="file" label="Logo" name="logo" accept=".png,.jpg,.jpeg" />
-
-          {/* Inputs para os outros campos */}
-          <Input type="email" label="Email" name="email" placeholder="Insira o email" required />
-          <Input type="text" label="Telefone" name="phone" placeholder="Insira o telefone" required />
-          <Input type="text" label="Endereço" name="endereco" placeholder="Insira o endereço" required />
-
-          <label htmlFor="privacidade">Política de Privacidade</label>
-          <textarea id="privacidade" name="privacidade" placeholder="Política de privacidade" required className="w-full p-2 border rounded-md" />
-
-          <label htmlFor="cookies">Política de Cookies</label>
-          <textarea id="cookies" name="cookies" placeholder="Política de cookies" required className="w-full p-2 border rounded-md" />
-
-          <Input type="text" label="Instagram" name="instagram" placeholder="Link do Instagram" />
-          <Input type="text" label="Facebook" name="facebook" placeholder="Link do Facebook" />
-          <Input type="text" label="Whatsap" name="whatsap" placeholder="Link do WhatsAp" />
-
-          <Button type="submit">Enviar</Button>
+    <div className="w-full h-screen flex justify-center text-black">
+      <Card className="w-[400px] h-fit">
+        <CardHeader>
+          <CardTitle>Home</CardTitle>
+        </CardHeader>
+        <form onSubmit={handleSubmit} className="flex flex-col">
+          <CardContent className="space-y-4">
+            <div className="w-full">
+              <label
+                htmlFor="title"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Logo
+              </label>
+              <Input
+                type="text"
+                id="logo"
+                name="logo"
+                value={formData.logo}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="title"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Categoria
+              </label>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="title"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Telefone
+              </label>
+              <Input
+                type="text"
+                id="number"
+                name="number"
+                value={formData.number}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="title"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Endereco
+              </label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="w-full flex justify-center">
+            <Button type="submit">Salvar alteracoes</Button>
+          </CardFooter>
         </form>
-      </div>
+      </Card>
     </div>
   );
-}
+};
+
+export default EditForm;

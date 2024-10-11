@@ -1,22 +1,23 @@
-'use client'
+"use client";
 
-import Facebook from '@/assets/Face';
-import Instagram from '@/assets/Insta';
-import WhatsApp from '@/assets/Whats';
+import Facebook from "@/assets/Face";
+import Instagram from "@/assets/Insta";
+import WhatsApp from "@/assets/Whats";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react"; 50
+import { useEffect, useState } from "react";
+50;
 const gradientVariants = {
-  gradient1: { background: 'linear-gradient(to right, #055647, #db6e4e)' },
-  gradient2: { background: 'linear-gradient(to right, #db6e4e, #f3b6b6)' },
-  gradient3: { background: 'linear-gradient(to right, #f3b6b6, #c59bc7)' },
-  gradient4: { background: 'linear-gradient(to right, #c59bc7, #f2c261)' },
-  gradient5: { background: 'linear-gradient(to right, #f2c261, #ddc1b6)' },
-  gradient6: { background: 'linear-gradient(to right, #ddc1b6, #055647)' },
+  gradient1: { background: "linear-gradient(to right, #055647, #db6e4e)" },
+  gradient2: { background: "linear-gradient(to right, #db6e4e, #f3b6b6)" },
+  gradient3: { background: "linear-gradient(to right, #f3b6b6, #c59bc7)" },
+  gradient4: { background: "linear-gradient(to right, #c59bc7, #f2c261)" },
+  gradient5: { background: "linear-gradient(to right, #f2c261, #ddc1b6)" },
+  gradient6: { background: "linear-gradient(to right, #ddc1b6, #055647)" },
 };
 
-export default function Footer({ homeData }: any) {
-  const [currentGradient, setCurrentGradient] = useState('gradient1');
+export default function Footer() {
+  const [currentGradient, setCurrentGradient] = useState("gradient1");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,14 +32,14 @@ export default function Footer({ homeData }: any) {
   }, []);
 
   return (
-    <footer className='mt-[-80px] h-[1000px] lg:h-[600px] w-full flex items-center justify-center text-white'>
+    <footer className="mt-[-80px] h-[1000px] lg:h-[600px] w-full flex items-center justify-center text-white">
       <motion.div
-        className='w-full h-full flex flex-col justify-center items-center relative z-10'
+        className="w-full h-full flex flex-col justify-center items-center relative z-10"
         variants={gradientVariants}
         animate={currentGradient}
         transition={{ duration: 2 }}
       >
-        <div className='w-full h-[50%] lg:h-[50%] md:w-[80%] flex flex-col lg:flex-row gap-10 justify-between items-center relative'>
+        <div className="w-full h-[50%] lg:h-[50%] md:w-[80%] flex flex-col lg:flex-row gap-10 justify-between items-center relative">
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg font-semibold">
             <li className="hover:opacity-80 hover:underline transition ease-in">
               <Link href="/inicio">Inicio</Link>
@@ -66,15 +67,9 @@ export default function Footer({ homeData }: any) {
             </li>
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg">
-            <li>
-              {homeData?.email}
-            </li>
-            <li>
-              {homeData?.phone}
-            </li>
-            <li>
-              {homeData?.endereco}
-            </li>
+            <li>adasd</li>
+            <li>adasd</li>
+            <li>adasd</li>
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg font-semibold">
             <li className="hover:opacity-80 hover:underline transition ease-in">
@@ -83,24 +78,26 @@ export default function Footer({ homeData }: any) {
           </ul>
           <ul className="w-fit h-full flex lg:flex-col justify-center lg:justify-start items-center lg:items-start gap-5">
             <li className="border-[2px] border-white hover:bg-green-500 p-1 rounded-lg transition ease-in delay-50">
-              <a href={`https://` + homeData.whatsap} target='__blanc'>
+              <a href={`https://`} target="__blanc">
                 <WhatsApp width={28} height={28} color={"#ffffff"} />
               </a>
             </li>
             <li className="border-[2px] border-white hover:bg-[#F20267] p-1 rounded-lg transition ease-in delay-50">
-              <a href={`https://` + homeData.instagram} target='__blanc'>
+              <a href={`https://`} target="__blanc">
                 <Instagram width={28} height={28} color={"#ffffff"} />
               </a>
             </li>
             <li className="border-[2px] border-white hover:bg-blue-500 p-1 rounded-lg transition ease-in delay-50">
-              <a href={`https://` + homeData.facebook} target='__blanc'>
+              <a href={`https://`} target="__blanc">
                 <Facebook width={28} height={28} color={"#ffffff"} />
               </a>
             </li>
           </ul>
         </div>
-        <span className="absolute bottom-0 text-sm">&copy;VivaParis 2024 Todos os direitos reservados</span>
+        <span className="absolute bottom-0 text-sm">
+          &copy;VivaParis 2024 Todos os direitos reservados
+        </span>
       </motion.div>
     </footer>
-  )
+  );
 }

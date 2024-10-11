@@ -1,5 +1,5 @@
-import Home from "@/components/Home/page";
+import Home from "@/app/Home/page";
 
 export default function First() {
-  return(<Home />)
+  return <Home />;
 }

@@ -1,42 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
+"use client";
 
-import formatDate from "@/utils/FormatData"
-import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
+import formatDate from "@/utils/FormatData";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 type Post = {
-  id: number
-  title: string
-  subtitle: string
-  date: string
-  imageUrl: string
-  category: string
-}
+  id: number;
+  title: string;
+  subtitle: string;
+  date: string;
+  imageUrl: string;
+  category: string;
+};
 
 const BlogPage = () => {
   // Estado para armazenar os posts
-  const [posts, setPosts] = useState<Post[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/blog', {
-          method: 'GET',
+        const response = await fetch("/api/blog", {
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-        })
+        });
 
         if (!response.ok) {
-          throw new Error(`Erro: ${response.status}`)
+          throw new Error(`Erro: ${response.status}`);
         }
 
-        const data = await response.json()
+        const data = await response.json();
 
         // Mapear os dados para corresponder ao tipo Post
         const formattedPosts = data.map((item: any) => ({
@@ -46,24 +46,24 @@ const BlogPage = () => {
           date: item.date,
           imageUrl: item.imageUrl,
           category: item.category.name, // Supondo que a categoria tenha uma propriedade 'name'
-        }))
+        }));
 
-        setPosts(formattedPosts)
-        setLoading(false)
+        setPosts(formattedPosts);
+        setLoading(false);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        console.error('Falha ao buscar os posts:', err)
-        setError(err.message)
-        setLoading(false)
+        console.error("Falha ao buscar os posts:", err);
+        setError(err.message);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, []);
 
   // Componente para um único post
   const PostCardBlog = ({ post }: { post: Post }) => {
-    const [isHovered, setIsHovered] = useState(false)
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
       <motion.div
@@ -105,15 +105,15 @@ const BlogPage = () => {
           </Link>
         </motion.div>
       </motion.div>
-    )
-  }
+    );
+  };
 
   if (loading) {
-    return <div className="text-center">Carregando posts...</div>
+    return <div className="text-center">Carregando posts...</div>;
   }
 
   if (error) {
-    return <div className="text-center text-red-500">Erro: {error}</div>
+    return <div className="text-center text-red-500">Erro: {error}</div>;
   }
 
   return (
@@ -125,7 +125,7 @@ const BlogPage = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BlogPage
+export default BlogPage;
