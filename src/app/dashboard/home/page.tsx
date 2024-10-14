@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,32 +13,128 @@ import {
 
 interface FormData {
   logo: string;
+  logoFile: File | null; 
+  navbar: { name: string; url: string }[];
   email: string;
   number: string;
   address: string;
+  politicas: string;
+  cookies: string;
+  whatsapp: string;
+  facebook: string;
+  instagram: string;
 }
+
 
 const EditForm = () => {
   // Estado do formulário
   const [formData, setFormData] = useState<FormData>({
-    logo: "",
+    logo: '',
+    logoFile: null,
+    navbar: [{ name: '', url: '' }],
     email: "",
     number: "",
     address: "",
+    politicas: "",
+    cookies: "",
+    whatsapp: "",
+    facebook: "",
+    instagram: "",
   });
 
-  // Função para atualizar o estado quando o input mudar
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleNavbarChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+    field: "name" | "url"
+  ) => {
+    const { value } = e.target;
+    const updatedNavbar = formData.navbar.map((item, i) =>
+      i === index ? { ...item, [field]: value } : item
+    );
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      navbar: updatedNavbar,
     }));
   };
 
+    // Função para adicionar um item na navbar
+    const handleAddNavbarItem = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        navbar: [...prevFormData.navbar, { name: "", url: "" }],
+      }));
+    };
+  
+    // Função para remover um item da navbar
+    const handleRemoveNavbarItem = (index: number) => {
+      const updatedNavbar = formData.navbar.filter((_, i) => i !== index);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        navbar: updatedNavbar,
+      }));
+    };
+
+  // Função para atualizar o estado quando o input mudar
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, files } = e.target;
+  
+    if (name === 'logo' && files && files.length > 0) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        logoFile: files[0],  // Captura o arquivo de imagem para fazer o upload
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
+  };
+  
+  // const handleImageUpload = async (file: File): Promise<string | null> => {
+  //   const formData = new FormData();
+  //   formData.append("file", file); // Adiciona o arquivo para ser enviado
+  
+  //   try {
+  //     const response = await fetch("http://localhost:8080/upload", {
+  //       method: "POST",
+  //       body: formData, // Envia o arquivo como FormData
+  //     });
+  
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       return data.fileName; // Recebe o nome da imagem salva no servidor
+  //     } else {
+  //       console.error("Erro ao enviar a imagem");
+  //       return null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Erro na requisição:", error);
+  //     return null;
+  //   }
+  // };
+    
   // Função para enviar os dados ao backend via PUT
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
+    // Primeiro, fazer o upload da imagem se existir um arquivo selecionado
+    // let logoFileName = null;
+    // if (formData.logoFile) {
+    //   logoFileName = await handleImageUpload(formData.logoFile);
+    // }
+  
+    // if (logoFileName) {
+    //   // Atualizar o estado com o nome da imagem e enviar os dados
+    //   const formDataToSend = {
+    //     ...formData,
+    //     logo: logoFileName,  // Substituir o campo logo com o nome do arquivo retornado
+    //   };
+  
+
+    // } else {
+    //   console.error("Erro ao fazer o upload da imagem");
+    // }
 
     try {
       const response = await fetch("http://localhost:8080/home/1", {
@@ -46,24 +142,41 @@ const EditForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), // Enviar os dados com o nome da imagem
       });
 
       if (response.ok) {
-        // Sucesso
         console.log("Alterações salvas com sucesso!");
       } else {
-        // Caso haja um erro
         console.error("Erro ao salvar as alterações");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
     }
   };
+      
+    // Função para buscar os dados do backend ao carregar o componente
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch("http://localhost:8080/home/1"); // Mudar o endpoint conforme necessário
+          if (response.ok) {
+            const data = await response.json();
+            setFormData(data); // Atualizar o estado com os dados retornados
+          } else {
+            console.error("Erro ao buscar dados do servidor");
+          }
+        } catch (error) {
+          console.error("Erro na requisição:", error);
+        }
+      };
+  
+      fetchData();
+    }, []);
 
   return (
-    <div className="w-full h-screen flex justify-center text-black">
-      <Card className="w-[400px] h-fit">
+    <div className="w-full h-screen flex justify-center text-black bg-[var(--background)] rounded-b-[70px] z-20 relative">
+      <Card className="w-[55vw] h-fit">
         <CardHeader>
           <CardTitle>Home</CardTitle>
         </CardHeader>
@@ -76,20 +189,64 @@ const EditForm = () => {
               >
                 Logo
               </label>
-              <Input
-                type="text"
-                id="logo"
-                name="logo"
-                value={formData.logo}
-                onChange={handleChange}
-              />
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  id="logo"
+                  name="logo"
+                  value={formData.logo}
+                  onChange={handleChange}
+                />
+                <Input
+                  type="file"
+                  id="imageInput"
+                  name="logo"
+                  accept="image/*"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="w-full">
+              <label htmlFor="navbar" className="block text-sm font-medium text-gray-700">
+                Barra de Navegação
+              </label>
+              {formData.navbar.map((field, index) => (
+                <div key={index} className="flex space-x-2 mb-2 items-center">
+                  <Input
+                    type="text"
+                    placeholder="Item"
+                    value={field.name}
+                    onChange={(event) =>
+                      handleNavbarChange(event, index, "name")
+                    }
+                  />
+                  <Input
+                    type="text"
+                    placeholder="URL"
+                    value={field.url}
+                    onChange={(event) =>
+                      handleNavbarChange(event, index, "url")
+                    }
+                  />
+                  <Button
+                    variant="destructive"
+                    type="button"
+                    onClick={() => handleRemoveNavbarItem(index)}
+                  >
+                    X
+                  </Button>
+                </div>
+              ))}
+              <Button type="button" onClick={handleAddNavbarItem}>
+                Adicionar item
+              </Button>
             </div>
             <div className="w-full">
               <label
                 htmlFor="email"
                 className="w-full block text-sm font-medium text-gray-700"
               >
-                Categoria
+                Email
               </label>
               <Input
                 type="email"
@@ -126,6 +283,81 @@ const EditForm = () => {
                 id="address"
                 name="address"
                 value={formData.address}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="address"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Politicas
+              </label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.politicas}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="address"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Cookies
+              </label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.cookies}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="address"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Facebook
+              </label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.facebook}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="address"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                WhatsApp
+              </label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.whatsapp}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="address"
+                className="w-full block text-sm font-medium text-gray-700"
+              >
+                Instagram
+              </label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.instagram}
                 onChange={handleChange}
               />
             </div>
