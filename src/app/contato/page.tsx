@@ -119,7 +119,7 @@ export default function FaleConosco() {
             <SelectContent>
               <SelectGroup>
                 {services.map((service) => (
-                  <SelectItem value={service.key}>{service.label}</SelectItem>
+                  <SelectItem key={service.key} value={service.key}>{service.label}</SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
