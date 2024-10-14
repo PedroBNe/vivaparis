@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,12 +9,11 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 
 interface FormData {
   logo: string;
-  logoFile: File | null; 
+  logoFile: File | null | string;
   navbar: { name: string; url: string }[];
   email: string;
   number: string;
@@ -57,27 +57,27 @@ const EditForm = () => {
     }));
   };
 
-    // Função para adicionar um item na navbar
-    const handleAddNavbarItem = () => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        navbar: [...prevFormData.navbar, { name: "", url: "" }],
-      }));
-    };
-  
-    // Função para remover um item da navbar
-    const handleRemoveNavbarItem = (index: number) => {
-      const updatedNavbar = formData.navbar.filter((_, i) => i !== index);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        navbar: updatedNavbar,
-      }));
-    };
+  // Função para adicionar um item na navbar
+  const handleAddNavbarItem = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      navbar: [...prevFormData.navbar, { name: "", url: "" }],
+    }));
+  };
+
+  // Função para remover um item da navbar
+  const handleRemoveNavbarItem = (index: number) => {
+    const updatedNavbar = formData.navbar.filter((_, i) => i !== index);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      navbar: updatedNavbar,
+    }));
+  };
 
   // Função para atualizar o estado quando o input mudar
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
-  
+
     if (name === 'logo' && files && files.length > 0) {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -90,17 +90,17 @@ const EditForm = () => {
       }));
     }
   };
-  
+
   // const handleImageUpload = async (file: File): Promise<string | null> => {
   //   const formData = new FormData();
   //   formData.append("file", file); // Adiciona o arquivo para ser enviado
-  
+
   //   try {
   //     const response = await fetch("http://localhost:8080/upload", {
   //       method: "POST",
   //       body: formData, // Envia o arquivo como FormData
   //     });
-  
+
   //     if (response.ok) {
   //       const data = await response.json();
   //       return data.fileName; // Recebe o nome da imagem salva no servidor
@@ -113,72 +113,65 @@ const EditForm = () => {
   //     return null;
   //   }
   // };
-    
-  // Função para enviar os dados ao backend via PUT
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  
-    // Primeiro, fazer o upload da imagem se existir um arquivo selecionado
-    // let logoFileName = null;
-    // if (formData.logoFile) {
-    //   logoFileName = await handleImageUpload(formData.logoFile);
-    // }
-  
-    // if (logoFileName) {
-    //   // Atualizar o estado com o nome da imagem e enviar os dados
-    //   const formDataToSend = {
-    //     ...formData,
-    //     logo: logoFileName,  // Substituir o campo logo com o nome do arquivo retornado
-    //   };
-  
 
-    // } else {
-    //   console.error("Erro ao fazer o upload da imagem");
-    // }
+  // Função para enviar os dados ao backend via PUT
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/home/1", {
-        method: "PUT",
+      const logoFile = formData.logoFile instanceof File
+        ? await formData.logoFile.arrayBuffer()
+        : null;
+
+      const base64LogoFile = logoFile
+        ? Buffer.from(logoFile).toString('base64')
+        : null;
+
+      const payload = { ...formData, logoFile: base64LogoFile };
+
+      const response = await fetch('/api/upload-logo', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData), // Enviar os dados com o nome da imagem
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
-        console.log("Alterações salvas com sucesso!");
+        console.log('Alterações salvas com sucesso!');
       } else {
-        console.error("Erro ao salvar as alterações");
+        console.error('Erro ao salvar as alterações');
       }
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error('Erro na requisição:', error);
     }
   };
-      
-    // Função para buscar os dados do backend ao carregar o componente
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch("http://localhost:8080/home/1"); // Mudar o endpoint conforme necessário
-          if (response.ok) {
-            const data = await response.json();
-            setFormData(data); // Atualizar o estado com os dados retornados
-          } else {
-            console.error("Erro ao buscar dados do servidor");
-          }
-        } catch (error) {
-          console.error("Erro na requisição:", error);
-        }
-      };
-  
-      fetchData();
-    }, []);
+
+
+  // Função para buscar os dados do backend ao carregar o componente
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/external-api/home/1"); // API externa
+        const data = await response.json();
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          ...data,
+        }));
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   return (
     <div className="w-full h-screen flex justify-center text-black bg-[var(--background)] rounded-b-[70px] z-20 relative">
       <Card className="w-[55vw] h-fit">
         <CardHeader>
-          <CardTitle>Home</CardTitle>
+          <h2 className="text-xl font-semibold">Edit Form</h2>
         </CardHeader>
         <form onSubmit={handleSubmit} className="flex flex-col">
           <CardContent className="space-y-4">

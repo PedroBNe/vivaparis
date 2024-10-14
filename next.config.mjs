@@ -18,7 +18,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/:path*",
+        source: "/external-api/:path*", // Rota para a API externa
         destination: "http://localhost:8080/:path*",
       },
     ];
