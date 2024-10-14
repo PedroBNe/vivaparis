@@ -14,7 +14,9 @@ import {
 interface FormData {
   logo: string;
   logoFile: File | null | string;
-  navbar: { name: string; url: string }[];
+  navbar: { name: string; url: string }[];  
+  carouselImagesFile: (File | null | string)[];    
+  imagesWhoFile: (File | null | string)[];  
   email: string;
   number: string;
   address: string;
@@ -25,27 +27,81 @@ interface FormData {
   instagram: string;
 }
 
-
 const EditForm = () => {
   // Estado do formulário
   const [formData, setFormData] = useState<FormData>({
     logo: '',
     logoFile: null,
     navbar: [{ name: '', url: '' }],
-    email: "",
-    number: "",
-    address: "",
-    politicas: "",
-    cookies: "",
-    whatsapp: "",
-    facebook: "",
-    instagram: "",
+    carouselImagesFile: [],  
+    imagesWhoFile: [],  
+    email: '',
+    number: '',
+    address: '',
+    politicas: '',
+    cookies: '',
+    whatsapp: '',
+    facebook: '',
+    instagram: '',
   });
 
+  const [loading, setLoading] = useState(false); // Estado de loading
+  const [message, setMessage] = useState<string | null>(null); // Feedback ao usuário
+
+  // Adicionar nova entrada para Imagens do Carousel
+  const handleAddCarouselImage = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      carouselImagesFile: [...prevFormData.carouselImagesFile, null],
+    }));
+  };
+
+  // Remover imagem do Carousel pelo índice
+  const handleRemoveCarouselImage = (index: number) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      carouselImagesFile: prevFormData.carouselImagesFile.filter((_, i) => i !== index),
+    }));
+  };
+
+  // Adicionar nova entrada para Imagens de "Quem Sou Eu"
+  const handleAddImagesWho = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      imagesWhoFile: [...prevFormData.imagesWhoFile, null],
+    }));
+  };
+
+  // Remover imagem de "Quem Sou Eu" pelo índice
+  const handleRemoveImagesWho = (index: number) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      imagesWhoFile: prevFormData.imagesWhoFile.filter((_, i) => i !== index),
+    }));
+  };
+
+  // Função para lidar com o upload de arquivos de imagem
+  const handleImageFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+    field: 'carouselImagesFile' | 'imagesWhoFile'
+  ) => {
+    const { files } = e.target;
+    if (files && files[0]) {
+      const updatedFiles = [...formData[field]];
+      updatedFiles[index] = files[0]; // Atualiza a entrada correspondente com o arquivo selecionado
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [field]: updatedFiles,
+      }));
+    }
+  };
+
+  // Função para lidar com as mudanças na Navbar
   const handleNavbarChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
-    field: "name" | "url"
+    field: 'name' | 'url'
   ) => {
     const { value } = e.target;
     const updatedNavbar = formData.navbar.map((item, i) =>
@@ -57,31 +113,29 @@ const EditForm = () => {
     }));
   };
 
-  // Função para adicionar um item na navbar
+  // Adicionar um item à Navbar
   const handleAddNavbarItem = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      navbar: [...prevFormData.navbar, { name: "", url: "" }],
+      navbar: [...prevFormData.navbar, { name: '', url: '' }],
     }));
   };
 
-  // Função para remover um item da navbar
+  // Remover um item da Navbar pelo índice
   const handleRemoveNavbarItem = (index: number) => {
-    const updatedNavbar = formData.navbar.filter((_, i) => i !== index);
     setFormData((prevFormData) => ({
       ...prevFormData,
-      navbar: updatedNavbar,
+      navbar: prevFormData.navbar.filter((_, i) => i !== index),
     }));
   };
 
-  // Função para atualizar o estado quando o input mudar
+  // Função para atualizar campos simples do formulário
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
-
     if (name === 'logo' && files && files.length > 0) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        logoFile: files[0],  // Captura o arquivo de imagem para fazer o upload
+        logoFile: files[0],
       }));
     } else {
       setFormData((prevFormData) => ({
@@ -91,63 +145,90 @@ const EditForm = () => {
     }
   };
 
-  // const handleImageUpload = async (file: File): Promise<string | null> => {
-  //   const formData = new FormData();
-  //   formData.append("file", file); // Adiciona o arquivo para ser enviado
-
-  //   try {
-  //     const response = await fetch("http://localhost:8080/upload", {
-  //       method: "POST",
-  //       body: formData, // Envia o arquivo como FormData
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       return data.fileName; // Recebe o nome da imagem salva no servidor
-  //     } else {
-  //       console.error("Erro ao enviar a imagem");
-  //       return null;
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro na requisição:", error);
-  //     return null;
-  //   }
-  // };
-
   // Função para enviar os dados ao backend via PUT
+  const convertFileToBase64 = async (file: File): Promise<string> => {
+    const arrayBuffer = await file.arrayBuffer();
+    return Buffer.from(arrayBuffer).toString('base64');
+  };
+  
+  const convertFilesToBase64Array = async (files: File[]): Promise<string[]> => {
+    return Promise.all(files.map((file) => convertFileToBase64(file)));
+  };
+  
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setLoading(true);
+  
     try {
-      const logoFile = formData.logoFile instanceof File
-        ? await formData.logoFile.arrayBuffer()
+      // Convertendo logo para base64 se existir
+      const base64LogoFile = formData.logoFile instanceof File
+        ? await convertFileToBase64(formData.logoFile)
         : null;
-
-      const base64LogoFile = logoFile
-        ? Buffer.from(logoFile).toString('base64')
-        : null;
-
+  
       const payload = { ...formData, logoFile: base64LogoFile };
-
-      const response = await fetch('/api/upload-logo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
+  
+      // Convertendo imagens do carousel para base64
+      const carouselFiles = formData.carouselImagesFile.filter(
+        (file): file is File => file instanceof File
+      );
+      const base64CarouselImages = await convertFilesToBase64Array(carouselFiles);
+  
+      const imagesCarouselPayload = {
+        ...formData,
+        carouselImagesFile: base64CarouselImages,
+      };
+  
+      // Convertendo imagens "Who" para base64
+      const whoFiles = formData.imagesWhoFile.filter(
+        (file): file is File => file instanceof File
+      );
+      const base64WhoImages = await convertFilesToBase64Array(whoFiles);
+  
+      const imagesWhoPayload = {
+        ...formData,
+        whoImagesFile: base64WhoImages,
+      };
+  
+      // Enviando requisições em paralelo
+      const [imgResponse, imgWhoResponse, logoResponse] = await Promise.all([
+        fetch('/api/carousel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(imagesCarouselPayload),
+        }),
+        fetch('/api/who', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(imagesWhoPayload),
+        }),
+        fetch('/api/upload-logo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }),
+      ]);
+  
+      // Checando as respostas das requisições
+      if (imgResponse.ok && imgWhoResponse.ok && logoResponse.ok) {
         console.log('Alterações salvas com sucesso!');
+        setMessage("Alterações salvas com sucesso!");
+        setLoading(false);
       } else {
-        console.error('Erro ao salvar as alterações');
+        setLoading(false);
+        setMessage("Erro ao salvar alterações.");
+        console.error('Erro ao salvar as alterações:', {
+          imgResponse: imgResponse.status,
+          imgWhoResponse: imgWhoResponse.status,
+          logoResponse: logoResponse.status,
+        });
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
+      setMessage("Erro ao salvar alterações.");
+      setLoading(false);
     }
   };
-
-
+  
   // Função para buscar os dados do backend ao carregar o componente
   useEffect(() => {
     const fetchData = async () => {
@@ -166,9 +247,8 @@ const EditForm = () => {
     fetchData();
   }, []);
 
-
   return (
-    <div className="w-full h-screen flex justify-center text-black bg-[var(--background)] rounded-b-[70px] z-20 relative">
+    <div className="w-full h-auto py-8 flex justify-center text-black bg-[var(--background)] rounded-b-[70px] z-20 relative">
       <Card className="w-[55vw] h-fit">
         <CardHeader>
           <h2 className="text-xl font-semibold">Edit Form</h2>
@@ -182,22 +262,65 @@ const EditForm = () => {
               >
                 Logo
               </label>
-              <div className="flex gap-2">
-                <Input
-                  type="text"
-                  id="logo"
-                  name="logo"
-                  value={formData.logo}
-                  onChange={handleChange}
-                />
-                <Input
-                  type="file"
-                  id="imageInput"
-                  name="logo"
-                  accept="image/*"
-                  onChange={handleChange}
-                />
-              </div>
+              <Input
+                type="file"
+                id="imageInput"
+                name="logo"
+                accept="image/*"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">
+                Imagens do Carousel
+              </label>
+              {formData.carouselImagesFile.map((_, index) => (
+                <div key={index} className="flex items-center space-x-2 mb-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      handleImageFileChange(e, index, 'carouselImagesFile')
+                    }
+                  />
+                  <Button
+                    variant="destructive"
+                    type="button"
+                    onClick={() => handleRemoveCarouselImage(index)}
+                  >
+                    Remover
+                  </Button>
+                </div>
+              ))}
+              <Button type="button" onClick={handleAddCarouselImage}>
+                Adicionar Imagem
+              </Button>
+            </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">
+                Imagens "Quem Sou Eu"
+              </label>
+              {formData.imagesWhoFile.map((_, index) => (
+                <div key={index} className="flex items-center space-x-2 mb-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      handleImageFileChange(e, index, 'imagesWhoFile')
+                    }
+                  />
+                  <Button
+                    variant="destructive"
+                    type="button"
+                    onClick={() => handleRemoveImagesWho(index)}
+                  >
+                    Remover
+                  </Button>
+                </div>
+              ))}
+              <Button type="button" onClick={handleAddImagesWho}>
+                Adicionar Imagem
+              </Button>
             </div>
             <div className="w-full">
               <label htmlFor="navbar" className="block text-sm font-medium text-gray-700">
@@ -356,8 +479,11 @@ const EditForm = () => {
             </div>
           </CardContent>
           <CardFooter className="w-full flex justify-center">
-            <Button type="submit">Salvar alterações</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Salvando..." : "Salvar alterações"}
+            </Button>
           </CardFooter>
+          {message && <p className="text-center my-4">{message}</p>}
         </form>
       </Card>
     </div>

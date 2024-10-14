@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { HoverImages } from "@/components/HoverImages";
-import CarouselHome from "./Carousel";
+import CarouselHome from "./CarouseL";
 
 export default function Mobile() {
   return (

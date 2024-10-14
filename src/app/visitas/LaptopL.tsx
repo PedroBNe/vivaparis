@@ -412,37 +412,19 @@ export default function LaptopL() {
           </div>
         </div>
       </div>
-      <div className="w-full h-[50em] flex flex-col gap-[80px] items-center justify-around p-[80px] bg-[var(--background)] rounded-b-[70px] relative z-20">
+      <div className="w-full h-[44em] flex flex-col gap-[50px] items-center justify-around p-[80px] bg-[var(--background)] rounded-b-[70px] relative z-20">
         <h2 className="flex gap-3 text-4xl text-green-700 font-semibold">
-          <div className="flex">
-            <p data-aos="fade-right" data-aos-duration="400">
-              Pa
-            </p>
-            <p data-aos="fade-right" data-aos-duration="500">
-              la
-            </p>
-            <p data-aos="fade-right" data-aos-duration="600">
-              cio
-            </p>
+          <div className="flex" data-aos="fade-right" data-aos-duration="900">
+            Palacio
           </div>
-          <div className="flex">
-            <p data-aos="fade-up" data-aos-duration="900">
-              de
-            </p>
+          <div className="flex" data-aos="fade-up" data-aos-duration="900">
+            de
           </div>
-          <div className="flex">
-            <p data-aos="fade-up-right" data-aos-duration="900">
-              Ver
-            </p>
-            <p data-aos="fade-up-left" data-aos-duration="900">
-              sa
-            </p>
-            <p data-aos="fade-left" data-aos-duration="900">
-              lhes
-            </p>
+          <div className="flex" data-aos="fade-left" data-aos-duration="900">
+            Versalhes
           </div>
         </h2>
-        <div className="w-[80%] flex flex-col gap-[80px] justify-center items-center">
+        <div className="w-[80%] h-full flex flex-col gap-[80px] justify-center items-center">
           <div
             className="relative w-fit h-fit flex flex-col gap-6"
             data-aos="fade-up"
@@ -462,7 +444,7 @@ export default function LaptopL() {
               height={700}
             />
             <div
-              className="flex flex-col justify-center items-center"
+              className="h-full flex flex-col justify-center items-center"
               data-aos="fade-up"
               data-aos-duration="1000"
             >

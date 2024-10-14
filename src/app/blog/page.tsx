@@ -16,7 +16,7 @@ type Post = {
   category: string;
 };
 
-const BlogPage = () => {
+export default function BlogPage() {
   // Estado para armazenar os posts
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -127,5 +127,3 @@ const BlogPage = () => {
     </div>
   );
 };
-
-export default BlogPage;
