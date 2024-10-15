@@ -80,9 +80,6 @@ export default function Footer() {
               <Link href="/visitas">Visitas</Link>
             </li>
             <li className="hover:opacity-80 hover:underline transition ease-in">
-              <Link href="">Roteiros</Link>
-            </li>
-            <li className="hover:opacity-80 hover:underline transition ease-in">
               <Link href="/aulas">Aulas</Link>
             </li>
             <li className="hover:opacity-80 hover:underline transition ease-in">
