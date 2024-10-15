@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useState, ChangeEvent, FormEvent } from "react";
 
 export default function CreateVisit() {
@@ -55,11 +57,11 @@ export default function CreateVisit() {
   };
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Criar Nova Visita</h1>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
+    <div className="container">
+      <h1 className="text-3xl font-bold">Criar Nova Visita</h1>
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 m-5 p-4 bg-white rounded-xl">
+        <h2 className="font-semibold">New visit</h2>
+        <Input
           type="text"
           name="title"
           placeholder="Título"
@@ -67,10 +69,10 @@ export default function CreateVisit() {
           onChange={handleChange}
           required
         />
-        <input type="file" onChange={handleFileChange} required />
-        <button type="submit" disabled={loading}>
+        <Input type="file" onChange={handleFileChange} required />
+        <Button type="submit" disabled={loading}>
           {loading ? "Enviando..." : "Criar Visita"}
-        </button>
+        </Button>
       </form>
     </div>
   );

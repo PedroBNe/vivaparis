@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
 // Interface para os dados de Info
@@ -107,12 +110,10 @@ export default function EditInfo() {
   return (
     <div className="container mx-auto py-12">
       <h1 className="text-3xl font-bold mb-8">Editar Informações</h1>
-
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label>Logo Atual:</label>
         {info?.logo && <img src={info.logo} alt="Logo Atual" className="w-32 h-32" />}
         <input type="file" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} />
-
         <label>Imagens do Carrossel:</label>
         <div className="flex gap-4">
           {info?.carosel.map((image, index) => (
@@ -120,7 +121,6 @@ export default function EditInfo() {
           ))}
         </div>
         <input type="file" multiple onChange={(e) => handleFileChange(e, setCaroselFiles)} />
-
         <label>Imagens de Quem Sou Eu:</label>
         <div className="flex gap-4">
           {info?.quemsoueu.map((image, index) => (
@@ -138,9 +138,9 @@ export default function EditInfo() {
         <input type="text" name="facebook" placeholder="Facebook" value={form.facebook || ""} onChange={handleChange} />
         <input type="text" name="instagram" placeholder="Instagram" value={form.instagram || ""} onChange={handleChange} />
 
-        <button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading}>
           {loading ? "Salvando..." : "Salvar"}
-        </button>
+        </Button>
       </form>
     </div>
   );

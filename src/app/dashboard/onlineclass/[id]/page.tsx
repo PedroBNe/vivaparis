@@ -2,6 +2,9 @@
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 type OnlineClassForm = {
   title: string;
@@ -57,13 +60,16 @@ export default function EditOnlineClass() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="title" value={form.title} onChange={handleChange} required />
-      <input name="subtitle" value={form.subtitle} onChange={handleChange} required />
-      <input name="date" type="date" value={form.date} onChange={handleChange} required />
-      <input name="imageUrl" value={form.imageUrl} onChange={handleChange} />
-      <textarea name="students" value={form.students} onChange={handleChange} />
-      <button type="submit">Update Online Class</button>
-    </form>
+    <div className='w-full min-h-screen flex flex-col text-black'>
+      <h2 className='font-bold text-3xl'>Editar Aula</h2>
+      <form onSubmit={handleSubmit} className='w-fit h-auto m-5 p-4 flex flex-col gap-2 bg-white rounded-lg'>
+        <Input placeholder='Titulo' name="title" value={form.title} onChange={handleChange} required />
+        <Input placeholder='Subtitulo' name="subtitle" value={form.subtitle} onChange={handleChange} required />
+        <Input name="date" type="date" value={form.date} onChange={handleChange} required />
+        <Input name="imageUrl" value={form.imageUrl} onChange={handleChange} />
+        <Textarea placeholder="Descrição" name="students" value={form.students} onChange={handleChange} />
+        <Button type="submit">Update Online Class</Button>
+      </form>
+    </div>
   );
 }
