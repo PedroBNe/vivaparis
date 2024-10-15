@@ -46,14 +46,14 @@ export default function Tablet() {
           <div>
             <Avatar className="w-60 h-60">
               <AvatarImage
-                src="https://img.freepik.com/fotos-gratis/torre-eiffel-paris-melhores-destinos-na-europa_268835-969.jpg?w=740&t=st=1726510205~exp=1726510805~hmac=0d3a5a3c6b805316b26a892a153370494b3ebf23e5e0a62b36832cae8fcdb190"
+                src={aboutData.imageUrl}
                 alt="@shadcn"
               />
             </Avatar>
           </div>
           <div className="max-w-[500px] flex flex-col gap-7 justify-center items-center">
             <p className="text-black">
-              {aboutData.map((about) => about.title)}
+              {aboutData?.title}
             </p>
             <button className="p-2 rounded-md bg-green-500 hover:bg-green-800 ease-in transition text-white font-semibold">
               Conheça sobre!

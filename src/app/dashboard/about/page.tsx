@@ -1,94 +1,117 @@
-"use client"; // Habilita hooks e interatividade
+"use client";
 
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import Image from "next/image";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
-// Define o tipo do dado de About
-type About = {
+interface About {
   id: string;
   title: string;
   imageUrl: string;
-};
+}
 
 export default function AboutPage() {
   const [about, setAbout] = useState<About | null>(null);
-  // Função para buscar o único registro de About
+  const [form, setForm] = useState({ title: "" });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Função para buscar os dados de About
   const fetchAbout = async () => {
     try {
       const res = await fetch("/api/about");
-      if (!res.ok) throw new Error(`Erro ao buscar About: ${res.status}`);
 
-      const data = await res.json();
-      setAbout(data);
+      if (res.ok) {
+        const data = await res.json();
+        setAbout(data);
+        setForm({ title: data.title });
+      } else {
+        console.log("Nenhum registro de About encontrado.");
+      }
     } catch (err) {
       console.error("Erro ao buscar About:", err);
+      setError("Erro ao carregar About.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Chama a função ao carregar o componente
   useEffect(() => {
     fetchAbout();
   }, []);
 
-  // Manipula a mudança dos campos do formulário
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setAbout((prev) => prev && { ...prev, [name]: value });
-  };
-
-  // Envia as alterações para a API via PUT
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/about", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(about),
-      });
-
-      if (!res.ok) throw new Error("Erro ao atualizar About");
-      const updatedAbout = await res.json();
-      setAbout(updatedAbout);
-      alert("Atualizado com sucesso!");
-    } catch (err) {
-      console.error("Erro ao atualizar About:", err);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
     }
   };
 
-  if (!about) return <p>Nenhuma informação encontrada.</p>;
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!selectedFile) {
+      alert("Por favor, selecione uma imagem.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("file", selectedFile);
+
+      const res = await fetch("/api/about", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Erro ao salvar About.");
+
+      alert("About salvo com sucesso!");
+      fetchAbout(); // Atualiza os dados após salvar
+    } catch (error) {
+      console.error("Erro ao salvar About:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h1>Editar Sobre Nós</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Título:</label>
-          <input
-            type="text"
-            name="title"
-            value={about.title}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <div className="container mx-auto py-12">
+      <h1 className="text-3xl font-bold mb-8">Editar Sobre Nós</h1>
 
-        <div>
-          <label>Imagem URL:</label>
-          <input
-            type="text"
-            name="imageUrl"
-            value={about.imageUrl}
-            onChange={handleChange}
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="text"
+          name="title"
+          placeholder="Título"
+          value={form.title}
+          onChange={handleChange}
+          required
+        />
 
-        <button type="submit">Salvar</button>
+        <input type="file" onChange={handleFileChange} required />
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Enviando..." : "Salvar"}
+        </button>
       </form>
 
-      <div style={{ marginTop: "20px" }}>
-        <h2>Visualização</h2>
-        <h3>{about.title}</h3>
-        {about.imageUrl && <img src={about.imageUrl} alt="Imagem" width={300} />}
-      </div>
+      {about?.imageUrl && (
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold">Imagem Atual:</h2>
+          <Image src={about.imageUrl} alt="Imagem do About" width={300} height={300} />
+        </div>
+      )}
     </div>
   );
 }

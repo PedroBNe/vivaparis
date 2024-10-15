@@ -1,59 +1,106 @@
-'use client';
+"use client";
 
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, ChangeEvent, FormEvent } from "react";
 
-type OnlineClassForm = {
-  title: string;
-  subtitle: string;
-  date: string;
-  imageUrl: string;
-  students: string;
-};
-
-export default function NewOnlineClass() {
-  const [form, setForm] = useState<OnlineClassForm>({
-    title: '',
-    subtitle: '',
-    date: '',
-    imageUrl: '',
-    students: '',
+export default function CreateOnlineClass() {
+  const [form, setForm] = useState({
+    title: "",
+    subtitle: "",
+    date: "",
+    students: "",
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const router = useRouter();
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!selectedFile) {
+      alert("Por favor, selecione uma imagem.");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const res = await fetch('/api/onlineclass', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("subtitle", form.subtitle);
+      formData.append("date", form.date);
+      formData.append("students", form.students);
+      formData.append("file", selectedFile);
+
+      const res = await fetch("/api/onlineclass", {
+        method: "POST",
+        body: formData,
       });
 
-      if (res.ok) {
-        router.push('/onlineclass');
-      } else {
-        console.error('Erro ao criar aula online.');
+      if (!res.ok) {
+        throw new Error("Erro ao criar aula online.");
       }
+
+      alert("Aula criada com sucesso!");
+      setForm({ title: "", subtitle: "", date: "", students: "" });
+      setSelectedFile(null);
     } catch (error) {
-      console.error('Erro ao enviar o formulário:', error);
+      console.error("Erro ao criar aula online:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-      <input name="subtitle" placeholder="Subtitle" value={form.subtitle} onChange={handleChange} required />
-      <input name="date" type="date" value={form.date} onChange={handleChange} required />
-      <input name="imageUrl" placeholder="Image URL" value={form.imageUrl} onChange={handleChange} />
-      <textarea name="students" placeholder="Students" value={form.students} onChange={handleChange} />
-      <button type="submit">Create Online Class</button>
-    </form>
+    <div className="container mx-auto py-12">
+      <h1 className="text-3xl font-bold mb-8">Criar Nova Aula Online</h1>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="text"
+          name="title"
+          placeholder="Título"
+          value={form.title}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="subtitle"
+          placeholder="Subtítulo"
+          value={form.subtitle}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="date"
+          name="date"
+          value={form.date}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="students"
+          placeholder="Número de Alunos"
+          value={form.students}
+          onChange={handleChange}
+          required
+        />
+        <input type="file" onChange={handleFileChange} required />
+        <button type="submit" disabled={loading}>
+          {loading ? "Enviando..." : "Criar Aula"}
+        </button>
+      </form>
+    </div>
   );
 }

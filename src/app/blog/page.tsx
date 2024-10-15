@@ -5,6 +5,7 @@ import formatDate from "@/utils/FormatData";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 type Blog = {
   id: string;
@@ -57,14 +58,14 @@ export default function BlogPage() {
         onMouseLeave={() => setIsHovered(false)}
       >
         <div className="aspect-[4/3] relative">
-          {/* <Image
+          <Image
             src={blog.imageUrl}
             alt={blog.title}
             layout="fill"
             objectFit="cover"
             className="transition-transform duration-300 ease-in-out"
             style={{ transform: isHovered ? "scale(1.05)" : "scale(1)" }}
-          /> */}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">

@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
+import { promises as fs } from "fs";
+import path from "path";
 import prisma from "../../../../lib/prisma";
 
-// GET: Buscar o único registro de About
+// Diretório onde as imagens serão armazenadas
+const UPLOAD_DIR = path.join(process.cwd(), "public/uploads");
+
 export async function GET() {
   try {
-    const about = await prisma.about.findFirst(); // Busca o primeiro registro
+    const about = await prisma.about.findFirst();
     if (!about) {
       return NextResponse.json(
-        { error: "Registro de About não encontrado." },
+        { error: "About não encontrado." },
         { status: 404 }
       );
     }
@@ -21,22 +25,54 @@ export async function GET() {
   }
 }
 
-// PUT: Atualizar o registro de About
-export async function PUT(req: Request) {
+export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const updatedAbout = await prisma.about.update({
-      where: { id: body.id }, // Atualiza o registro pelo ID
-      data: {
-        title: body.title,
-        imageUrl: body.imageUrl,
-      },
-    });
-    return NextResponse.json(updatedAbout, { status: 200 });
+    const formData = await req.formData();
+
+    const title = formData.get("title") as string;
+    const file = formData.get("file") as File;
+
+    // Valida a imagem
+    if (!file) {
+      return NextResponse.json(
+        { error: "Arquivo de imagem é necessário." },
+        { status: 400 }
+      );
+    }
+
+    // Gera um nome fixo para o arquivo
+    const fileName = `about-image-${Date.now()}.jpg`;
+    const filePath = path.join(UPLOAD_DIR, fileName);
+
+    // Garante que o diretório de uploads exista
+    await fs.mkdir(UPLOAD_DIR, { recursive: true });
+
+    // Salva o arquivo no servidor
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    await fs.writeFile(filePath, buffer);
+
+    const imageUrl = `/uploads/${fileName}`;
+
+    // Verifica se o registro já existe e faz update ou create
+    let about = await prisma.about.findFirst();
+
+    if (about) {
+      about = await prisma.about.update({
+        where: { id: about.id },
+        data: { title, imageUrl },
+      });
+    } else {
+      about = await prisma.about.create({
+        data: { title, imageUrl },
+      });
+    }
+
+    return NextResponse.json(about, { status: 200 });
   } catch (error) {
-    console.error("Erro ao atualizar About:", error);
+    console.error("Erro ao salvar About:", error);
     return NextResponse.json(
-      { error: "Erro ao atualizar About." },
+      { error: "Erro ao salvar About." },
       { status: 500 }
     );
   }

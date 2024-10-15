@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -52,7 +53,7 @@ export default function BlogList() {
               <h2>{blog.title}</h2>
               <p>{blog.subtitle}</p>
               <p>{new Date(blog.date).toLocaleDateString()}</p>
-              {/* <img src={blog.imageUrl} alt={blog.title} width={100} /> */}
+              <Image src={blog.imageUrl} alt={blog.title} width={100} height={100} />
             </li>
           ))}
         </ul>
