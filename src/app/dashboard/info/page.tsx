@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
-// Define o tipo do dado de Info
-type Info = {
-  id?: string;
+// Interface para os dados de Info
+interface Info {
+  id: string;
+  logo: string;
+  carosel: string[];
+  quemsoueu: string[];
   email: string;
   phoneNumber: string;
   address: string;
@@ -16,137 +16,170 @@ type Info = {
   whatsapp: string;
   facebook: string;
   instagram: string;
-};
+}
 
 export default function EditInfo() {
-  const [info, setInfo] = useState<Info>({
-    email: '',
-    phoneNumber: '',
-    address: '',
-    politicas: '',
-    cookies: '',
-    whatsapp: '',
-    facebook: '',
-    instagram: '',
-  });
+  const [info, setInfo] = useState<Info | null>(null);
+  const [form, setForm] = useState<Partial<Info>>({});
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [caroselFiles, setCaroselFiles] = useState<File[]>([]);
+  const [quemsoueuFiles, setQuemsoueuFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
-  // Função para buscar o registro de Info
+  // Função para buscar as informações existentes de Info
   const fetchInfo = async () => {
     try {
-      const res = await fetch('/api/info');
-      if (res.ok) {
-        const data = await res.json();
-        setInfo(data);
-      } else {
-        console.log('Nenhuma entrada encontrada. Criando uma nova entrada...');
-        // Se não houver registro, usamos o estado padrão (vazio)
-      }
-    } catch (err) {
-      console.error('Erro ao buscar Info:', err);
-      setError('Erro ao buscar Info.');
+      const res = await fetch("/api/info");
+      if (!res.ok) throw new Error("Erro ao carregar Info.");
+      const data = await res.json();
+      setInfo(data);
+      setForm(data); // Preencher o formulário com os dados existentes
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  // Chama a função ao carregar o componente
+  // Carregar os dados assim que o componente for montado
   useEffect(() => {
     fetchInfo();
   }, []);
 
-  // Manipula a mudança dos campos do formulário
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInfo((prev) => ({ ...prev, [name]: value }));
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    setFiles: (files: File[]) => void
+  ) => {
+    if (e.target.files) {
+      setFiles(Array.from(e.target.files));
+    }
   };
 
-  // Envia as alterações para a API via PUT
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      const res = await fetch('/api/info', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(info),
+      const formData = new FormData();
+      if (logoFile) formData.append("logo", logoFile);
+      caroselFiles.forEach((file) => formData.append("carosel", file));
+      quemsoueuFiles.forEach((file) => formData.append("quemsoueu", file));
+
+      Object.entries(form).forEach(([key, value]) => {
+        if (value) formData.append(key, value as string);
       });
 
-      if (res.ok) {
-        const updatedInfo = await res.json();
-        setInfo(updatedInfo);
-        alert('Atualizado com sucesso!');
-        router.push('/dashboard/info'); // Redireciona após salvar
-      } else {
-        console.error('Erro ao atualizar Info.');
-      }
+      const res = await fetch("/api/info", {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Erro ao atualizar Info.");
+
+      alert("Info atualizado com sucesso!");
+      fetchInfo(); // Recarregar os dados após a atualização
     } catch (error) {
-      console.error('Erro ao enviar o formulário:', error);
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   if (loading) return <p>Carregando...</p>;
-  if (error) return <p>Erro: {error}</p>;
+  if (!info) return <p>Info não encontrada.</p>;
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center text-black">
-      <form
-        onSubmit={handleSubmit}
-        className="w-[30%] p-4 bg-white rounded-xl flex flex-col gap-4"
-      >
-        <Input
+    <div className="container mx-auto py-12">
+      <h1 className="text-3xl font-bold mb-8">Editar Informações</h1>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {/* Pré-visualização da Logo */}
+        <label>Logo Atual:</label>
+        {info.logo && <img src={info.logo} alt="Logo Atual" className="w-32 h-32" />}
+        <input type="file" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} />
+
+        {/* Carrossel */}
+        <label>Imagens do Carrossel:</label>
+        <div className="flex gap-4">
+          {info.carosel.map((image, index) => (
+            <img key={index} src={image} alt={`Carrossel ${index + 1}`} className="w-32 h-32" />
+          ))}
+        </div>
+        <input type="file" multiple onChange={(e) => handleFileChange(e, setCaroselFiles)} />
+
+        {/* Quem Sou Eu */}
+        <label>Imagens de Quem Sou Eu:</label>
+        <div className="flex gap-4">
+          {info.quemsoueu.map((image, index) => (
+            <img key={index} src={image} alt={`Quem Sou Eu ${index + 1}`} className="w-32 h-32" />
+          ))}
+        </div>
+        <input type="file" multiple onChange={(e) => handleFileChange(e, setQuemsoueuFiles)} />
+
+        {/* Campos de Texto */}
+        <input
+          type="text"
           name="email"
           placeholder="Email"
-          value={info.email}
+          value={form.email || ""}
           onChange={handleChange}
-          required
         />
-        <Input
+        <input
+          type="text"
           name="phoneNumber"
           placeholder="Telefone"
-          value={info.phoneNumber}
+          value={form.phoneNumber || ""}
           onChange={handleChange}
         />
-        <Input
+        <input
+          type="text"
           name="address"
           placeholder="Endereço"
-          value={info.address}
+          value={form.address || ""}
           onChange={handleChange}
         />
-        <Input
+        <textarea
           name="politicas"
           placeholder="Políticas"
-          value={info.politicas}
+          value={form.politicas || ""}
           onChange={handleChange}
         />
-        <Input
+        <textarea
           name="cookies"
           placeholder="Cookies"
-          value={info.cookies}
+          value={form.cookies || ""}
           onChange={handleChange}
         />
-        <Input
+        <input
+          type="text"
           name="whatsapp"
           placeholder="WhatsApp"
-          value={info.whatsapp}
+          value={form.whatsapp || ""}
           onChange={handleChange}
         />
-        <Input
+        <input
+          type="text"
           name="facebook"
           placeholder="Facebook"
-          value={info.facebook}
+          value={form.facebook || ""}
           onChange={handleChange}
         />
-        <Input
+        <input
+          type="text"
           name="instagram"
           placeholder="Instagram"
-          value={info.instagram}
+          value={form.instagram || ""}
           onChange={handleChange}
         />
-        <Button variant="meu" type="submit">
-          Salvar
-        </Button>
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Salvando..." : "Salvar"}
+        </button>
       </form>
     </div>
   );
