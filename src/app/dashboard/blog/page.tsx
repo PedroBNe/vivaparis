@@ -1,5 +1,7 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type Blog = {
@@ -36,18 +38,25 @@ export default function BlogList() {
   }, []);
 
   return (
-    <div>
-      <h1>Blog List</h1>
-      <ul>
-        {blogs.map((blog) => (
-          <li key={blog.id}>
-            <h2>{blog.title}</h2>
-            <p>{blog.subtitle}</p>
-            <p>{new Date(blog.date).toLocaleDateString()}</p>
-            {/* <img src={blog.imageUrl} alt={blog.title} width={100} /> */}
-          </li>
-        ))}
-      </ul>
+    <div className='w-full min-h-screen py-4 flex justify-center text-black'>
+      <div className='w-[90%] h-auto'>
+        <div className='w-full flex justify-between'>
+          <h1 className='font-bold text-3xl'>Blog List</h1>
+          <Link href={"/dashboard/blog/new"}>
+            <Button>Criar Post</Button>
+          </Link>
+        </div>
+        <ul className='p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6'>
+          {blogs.map((blog) => (
+            <li key={blog.id} className='w-[250px] h-fit p-4 flex flex-col gap-2 justify-center items-center bg-white rounded-xl'>
+              <h2>{blog.title}</h2>
+              <p>{blog.subtitle}</p>
+              <p>{new Date(blog.date).toLocaleDateString()}</p>
+              {/* <img src={blog.imageUrl} alt={blog.title} width={100} /> */}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

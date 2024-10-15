@@ -2,6 +2,8 @@
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type AboutForm = {
   title: string;
@@ -47,21 +49,23 @@ export default function EditAbout() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="title"
-        placeholder="Title"
-        value={form.title}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="imageUrl"
-        placeholder="Image URL"
-        value={form.imageUrl}
-        onChange={handleChange}
-      />
-      <button type="submit">Update About</button>
-    </form>
+    <div className='w-full min-h-screen flex justify-center text-black'>
+      <form onSubmit={handleSubmit} className='w-[15%] h-fit p-4 bg-white rounded-xl flex flex-col gap-4'>
+        <Input
+          name="title"
+          placeholder="Title"
+          value={form.title}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          name="imageUrl"
+          placeholder="Image URL"
+          value={form.imageUrl}
+          onChange={handleChange}
+        />
+        <Button variant={'meu'} type="submit">Update About</Button>
+      </form>
+    </div>
   );
 }
