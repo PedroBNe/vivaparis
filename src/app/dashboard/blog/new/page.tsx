@@ -4,7 +4,16 @@ import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Button } from '@/components/ui/button';
 
 type BlogForm = {
   title: string;
@@ -57,7 +66,7 @@ export default function NewBlog() {
       });
 
       if (res.ok) {
-        router.push('/blog');
+        router.push('/dashboard/blog');
       } else {
         console.error('Erro ao criar blog.');
       }
@@ -68,7 +77,8 @@ export default function NewBlog() {
 
   return (
     <div className='w-full min-h-screen flex justify-center p-4 text-black'>
-      <form onSubmit={handleSubmit} className='w-[15%] h-fit p-4 bg-white rounded-xl flex flex-col gap-4'>
+      <form onSubmit={handleSubmit} className='w-[15%] h-fit p-4 bg-white rounded-xl flex flex-col justify-center items-center gap-4'>
+        <h2 className='font-semibold'>New Post</h2>
         <Input
           name="title"
           placeholder="Title"
@@ -103,15 +113,22 @@ export default function NewBlog() {
           value={form.imageUrl}
           onChange={handleChange}
         />
-        <Select name="categoryId" value={form.categoryId} onChange={handleChange} required>
-          <option value="">Select Category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
+        <Select name="categoryId" value={form.categoryId} onValueChange={(value) => setForm({ ...form, categoryId: value })} required>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Category</SelectLabel>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
         </Select>
-        <button type="submit">Create Blog</button>
+        <Button variant={"meu"} type="submit">Create Post</Button>
       </form>
     </div>
   );

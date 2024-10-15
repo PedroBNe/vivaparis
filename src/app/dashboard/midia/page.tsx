@@ -1,5 +1,8 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type Midia = {
@@ -24,19 +27,36 @@ export default function MidiaList() {
   }, []);
 
   return (
-    <div>
-      <h1>Midia List</h1>
-      <ul>
-        {midias.map((midia) => (
-          <li key={midia.id}>
-            <h2>{midia.title}</h2>
-            <p>{midia.subtitle}</p>
-            <p>{new Date(midia.date).toLocaleDateString()}</p>
-            <p>{midia.content}</p>
-            {midia.imageUrl && <img src={midia.imageUrl} alt={midia.title} width={100} />}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <div className='w-full min-h-screen py-4 flex justify-center text-black'>
+      <div className='w-[70%] flex flex-col'>
+        <div className='w-full flex justify-between'>
+          <h1 className='font-bold text-3xl'>Midia List</h1>
+          <Link href={"/dashboard/midia/new"}>
+            <Button>Criar midia</Button>
+          </Link>
+        </div>
+        <ul className='p-5 m-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5'>
+          {midias.map((midia, index) => (
+            <Card key={midia.id}>
+              <CardHeader className='w-full'>
+                <CardTitle>{midia.title}</CardTitle>
+                <CardDescription>{midia.subtitle}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p>{new Date(midia.date).toLocaleDateString()}</p>
+                <p>{midia.content}</p>
+                {/* {midia.imageUrl && <img src={midia.imageUrl} alt={midia.title} width={100} />} */}
+              </CardContent>
+              <CardFooter className='w-full flex justify-between'>
+                <Button variant={'destructive'}>Excluir</Button>
+                <Link href={`/dashboard/midia/${index}`}>
+                  <Button>Editar</Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          ))}
+        </ul>
+      </div>
+    </div> 
   );
 }

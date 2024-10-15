@@ -2,6 +2,9 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 type MidiaForm = {
   title: string;
@@ -39,7 +42,7 @@ export default function NewMidia() {
       });
 
       if (res.ok) {
-        router.push('/midia');
+        router.push('/dashboard/midia');
       } else {
         console.error('Erro ao criar mídia.');
       }
@@ -50,13 +53,16 @@ export default function NewMidia() {
 
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-      <input name="subtitle" placeholder="Subtitle" value={form.subtitle} onChange={handleChange} required />
-      <input name="date" type="date" value={form.date} onChange={handleChange} required />
-      <textarea name="content" placeholder="Content" value={form.content} onChange={handleChange} required />
-      <input name="imageUrl" placeholder="Image URL" value={form.imageUrl} onChange={handleChange} />
-      <button type="submit">Create Midia</button>
-    </form>
+    <div className='w-full min-h-screen py-4 flex justify-center text-black'>
+      <form onSubmit={handleSubmit} className='w-[350px] h-fit p-4 flex flex-col gap-2 bg-white rounded-lg'>
+        <h2 className='font-semibold my-2'>New Post Midia</h2>
+        <Input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
+        <Input name="subtitle" placeholder="Subtitle" value={form.subtitle} onChange={handleChange} required />
+        <Input name="date" type="date" value={form.date} onChange={handleChange} required />
+        <Textarea name="content" placeholder="Content" value={form.content} onChange={handleChange} required />
+        <Input name="imageUrl" placeholder="Image URL" value={form.imageUrl} onChange={handleChange} />
+        <Button variant={"meu"} type="submit" className='m-5'>Create Midia</Button>
+      </form>
+    </div>
   );
 }

@@ -2,6 +2,9 @@
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 
 type InfoForm = {
   email: string;
@@ -63,16 +66,18 @@ export default function EditInfo() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" value={form.email} onChange={handleChange} required />
-      <input name="phoneNumber" value={form.phoneNumber} onChange={handleChange} required />
-      <textarea name="address" value={form.address} onChange={handleChange} required />
-      <textarea name="politicas" value={form.politicas} onChange={handleChange} />
-      <textarea name="cookies" value={form.cookies} onChange={handleChange} />
-      <input name="whatsapp" value={form.whatsapp} onChange={handleChange} />
-      <input name="facebook" value={form.facebook} onChange={handleChange} />
-      <input name="instagram" value={form.instagram} onChange={handleChange} />
-      <button type="submit">Update Info</button>
-    </form>
+    <div className='w-full min-h-screen flex justify-center text-black'>
+      <form onSubmit={handleSubmit} className='w-[350px] h-fit p-4 flex flex-col gap-2 bg-white rounded-lg'>
+        <Input placeholder="Email" name="email" value={form.email} onChange={handleChange} required />
+        <Input placeholder="Telefone" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} required />
+        <Textarea placeholder="Endereço" name="address" value={form.address} onChange={handleChange} required />
+        <Textarea placeholder="Politicas" name="politicas" value={form.politicas} onChange={handleChange} />
+        <Textarea placeholder="Cookies" name="cookies" value={form.cookies} onChange={handleChange} />
+        <Input placeholder="Whatsapp" name="whatsapp" value={form.whatsapp} onChange={handleChange} />
+        <Input placeholder="Facebook" name="facebook" value={form.facebook} onChange={handleChange} />
+        <Input placeholder="Instagram" name="instagram" value={form.instagram} onChange={handleChange} />
+        <Button variant='meu' type="submit" className='m-5'>Update Info</Button>
+      </form>
+    </div>
   );
 }

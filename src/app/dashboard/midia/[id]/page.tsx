@@ -2,6 +2,9 @@
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type MidiaForm = {
   title: string;
@@ -57,13 +60,15 @@ export default function EditMidia() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="title" value={form.title} onChange={handleChange} required />
-      <input name="subtitle" value={form.subtitle} onChange={handleChange} required />
-      <input name="date" type="date" value={form.date} onChange={handleChange} required />
-      <textarea name="content" value={form.content} onChange={handleChange} required />
-      <input name="imageUrl" value={form.imageUrl} onChange={handleChange} />
-      <button type="submit">Update Midia</button>
-    </form>
-  );
+    <div className='w-full min-h-screen flex justify-center text-black'>
+      <form onSubmit={handleSubmit} className='w-[350px] h-fit p-4 flex flex-col gap-2 bg-white rounded-lg'>
+        <Input name="title" value={form.title} onChange={handleChange} required />
+        <Input name="subtitle" value={form.subtitle} onChange={handleChange} required />
+        <Input name="date" type="date" value={form.date} onChange={handleChange} required />
+        <Textarea name="content" value={form.content} onChange={handleChange} required />
+        <Input name="imageUrl" value={form.imageUrl} onChange={handleChange} />
+        <Button type="submit">Update Midia</Button>
+      </form>
+    </div>
+  )
 }

@@ -2,6 +2,9 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 type InfoForm = {
   email: string;
@@ -53,16 +56,19 @@ export default function NewInfo() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-      <input name="phoneNumber" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
-      <textarea name="address" placeholder="Address" value={form.address} onChange={handleChange} required />
-      <textarea name="politicas" placeholder="Políticas" value={form.politicas} onChange={handleChange} />
-      <textarea name="cookies" placeholder="Cookies" value={form.cookies} onChange={handleChange} />
-      <input name="whatsapp" placeholder="WhatsApp" value={form.whatsapp} onChange={handleChange} />
-      <input name="facebook" placeholder="Facebook" value={form.facebook} onChange={handleChange} />
-      <input name="instagram" placeholder="Instagram" value={form.instagram} onChange={handleChange} />
-      <button type="submit">Create Info</button>
-    </form>
+    <div className='w-full min-h-screen flex justify-center text-black'>
+      <form onSubmit={handleSubmit} className='w-[350px] h-fit p-4 flex flex-col gap-2 bg-white rounded-lg'>
+        <h2 className='font-semibold my-2'>New Info Form</h2>
+        <Input name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+        <Input name="phoneNumber" placeholder="Phone Number" value={form.phoneNumber} onChange={handleChange} required />
+        <Textarea name="address" placeholder="Address" value={form.address} onChange={handleChange} required />
+        <Textarea name="politicas" placeholder="Políticas" value={form.politicas} onChange={handleChange} />
+        <Textarea name="cookies" placeholder="Cookies" value={form.cookies} onChange={handleChange} />
+        <Input name="whatsapp" placeholder="WhatsApp" value={form.whatsapp} onChange={handleChange} />
+        <Input name="facebook" placeholder="Facebook" value={form.facebook} onChange={handleChange} />
+        <Input name="instagram" placeholder="Instagram" value={form.instagram} onChange={handleChange} />
+        <Button variant={"meu"} type="submit" className='m-5'>Create Info</Button>
+      </form>
+    </div>
   );
 }
