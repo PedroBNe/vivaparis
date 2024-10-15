@@ -16,8 +16,32 @@ const gradientVariants = {
   gradient6: { background: "linear-gradient(to right, #ddc1b6, #055647)" },
 };
 
+type About = {
+  id: string;
+  title: string;
+  imageUrl: string;
+};
+
 export default function Footer() {
   const [currentGradient, setCurrentGradient] = useState("gradient1");
+  const [aboutData, setAboutData] = useState<About[]>([]);
+
+  const fetchAboutData = async () => {
+    try {
+      const res = await fetch("/api/about", { method: "GET" });
+      if (!res.ok) throw new Error(`Erro ao buscar informações: ${res.status}`);
+
+      const data = await res.json();
+      setAboutData(data);
+    } catch (err) {
+      console.error("Erro ao buscar informações de About:", err);
+    }
+  };
+
+  // Chamada da função ao carregar o componente
+  useEffect(() => {
+    fetchAboutData();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {

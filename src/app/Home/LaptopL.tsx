@@ -1,8 +1,38 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { HoverImages } from "@/components/HoverImages";
 import CarouselHome from "./CarouseL";
+import { useEffect, useState } from "react";
+
+type About = {
+  id: string;
+  title: string;
+  imageUrl: string;
+};
 
 export default function LaptopL() {
+
+  const [aboutData, setAboutData] = useState<About[]>([]);
+
+  const fetchAboutData = async () => {
+    try {
+      const res = await fetch('/api/about', { method: 'GET' });
+
+      if (!res.ok) {
+        throw new Error(`Erro: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setAboutData(data);
+    } catch (err) {
+      console.error('Erro ao buscar informações de About:', err);
+    }
+  };
+
+  // Executar a busca ao montar o componente
+  useEffect(() => {
+    fetchAboutData();
+  }, []);
+
   return (
     <div className="w-[100% - 80px] mx-auto h-auto flex justify-center flex-col items-center overflow-hidden relative z-20">
       <div className="w-full">
@@ -20,7 +50,7 @@ export default function LaptopL() {
           </div>
           <div className="max-w-[700px] flex flex-col gap-10 items-center">
             <p className="text-black text-lg">
-              Viva Paris de uma maneira leve e divertida.
+              {aboutData.map((about) => about.title)}
             </p>
             <button className="p-2 rounded-md bg-green-500 hover:bg-green-800 ease-in transition text-white font-semibold">
               Conheça sobre!

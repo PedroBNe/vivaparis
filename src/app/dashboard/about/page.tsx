@@ -1,51 +1,93 @@
-'use client';
+"use client"; // Habilita hooks e interatividade
 
-import { Button } from '@/components/ui/button';
-// import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 
+// Define o tipo do dado de About
 type About = {
   id: string;
   title: string;
   imageUrl: string;
 };
 
-export default function AboutList() {
-  const [abouts, setAbouts] = useState<About[]>([]);
+export default function AboutPage() {
+  const [about, setAbout] = useState<About | null>(null);
+  // Função para buscar o único registro de About
+  const fetchAbout = async () => {
+    try {
+      const res = await fetch("/api/about");
+      if (!res.ok) throw new Error(`Erro ao buscar About: ${res.status}`);
 
-  useEffect(() => {
-    const fetchAbouts = async () => {
-      const res = await fetch('/api/about');
       const data = await res.json();
-      setAbouts(data);
-    };
-    fetchAbouts();
+      setAbout(data);
+    } catch (err) {
+      console.error("Erro ao buscar About:", err);
+    }
+  };
+
+  // Chama a função ao carregar o componente
+  useEffect(() => {
+    fetchAbout();
   }, []);
 
+  // Manipula a mudança dos campos do formulário
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setAbout((prev) => prev && { ...prev, [name]: value });
+  };
+
+  // Envia as alterações para a API via PUT
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/about", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(about),
+      });
+
+      if (!res.ok) throw new Error("Erro ao atualizar About");
+      const updatedAbout = await res.json();
+      setAbout(updatedAbout);
+      alert("Atualizado com sucesso!");
+    } catch (err) {
+      console.error("Erro ao atualizar About:", err);
+    }
+  };
+
+  if (!about) return <p>Nenhuma informação encontrada.</p>;
+
   return (
-    <div className='w-full min-h-screen flex justify-center text-black'>
-      <div className='w-[90%] h-auto py-4'>
-        <div className='w-full flex justify-between'>
-          <h1 className='font-bold text-3xl'>About List</h1>
-          <Link href={"/dashboard/about/new"}>
-            <Button>Criar Novo About</Button>
-          </Link>
+    <div>
+      <h1>Editar Sobre Nós</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Título:</label>
+          <input
+            type="text"
+            name="title"
+            value={about.title}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <ul className='p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6'>
-          {abouts.map((about, index) => (
-            <li key={about.id} className='w-[250px] h-fit p-4 flex flex-col gap-2 justify-center items-center bg-white rounded-xl'>
-              <h2>{about.title}</h2>
-              {/* {about.imageUrl && <Image src={about.imageUrl} alt={about.title} width={100} height={100} />} */}
-              <div className='w-full flex justify-between'>
-                <Button variant={'destructive'}>Deletar</Button>
-                <Link href={`/dashboard/about/${index}`}>
-                  <Button variant={'default'}>Editar</Button>
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
+
+        <div>
+          <label>Imagem URL:</label>
+          <input
+            type="text"
+            name="imageUrl"
+            value={about.imageUrl}
+            onChange={handleChange}
+          />
+        </div>
+
+        <button type="submit">Salvar</button>
+      </form>
+
+      <div style={{ marginTop: "20px" }}>
+        <h2>Visualização</h2>
+        <h3>{about.title}</h3>
+        {about.imageUrl && <img src={about.imageUrl} alt="Imagem" width={300} />}
       </div>
     </div>
   );
