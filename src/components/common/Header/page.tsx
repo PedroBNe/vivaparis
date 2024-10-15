@@ -31,9 +31,6 @@ export default function Header() {
               <Link href="/Home">Home</Link>
             </li>
             <li className="border-b-[2.5px] border-transparent hover:opacity-80 hover:border-green-700 ease-in transition cursor-pointer px-2 ">
-              <Link href={"/sobre"}>Sobre</Link>
-            </li>
-            <li className="border-b-[2.5px] border-transparent hover:opacity-80 hover:border-green-700 ease-in transition cursor-pointer px-2 ">
               <Link href="/visitas">Visitas</Link>
             </li>
             <li className="border-b-[2.5px] border-transparent hover:opacity-80 hover:border-green-700 ease-in transition cursor-pointer px-2 ">
