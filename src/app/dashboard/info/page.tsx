@@ -1,12 +1,13 @@
 'use client';
 
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { CardContent, Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { Input } from '@/components/ui/input';
 
+// Define o tipo do dado de Info
 type Info = {
-  id: string;
+  id?: string;
   email: string;
   phoneNumber: string;
   address: string;
@@ -17,54 +18,136 @@ type Info = {
   instagram: string;
 };
 
-export default function InfoList() {
-  const [infos, setInfos] = useState<Info[]>([]);
+export default function EditInfo() {
+  const [info, setInfo] = useState<Info>({
+    email: '',
+    phoneNumber: '',
+    address: '',
+    politicas: '',
+    cookies: '',
+    whatsapp: '',
+    facebook: '',
+    instagram: '',
+  });
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  useEffect(() => {
-    const fetchInfos = async () => {
+  // Função para buscar o registro de Info
+  const fetchInfo = async () => {
+    try {
       const res = await fetch('/api/info');
-      const data = await res.json();
-      setInfos(data);
-    };
-    fetchInfos();
+      if (res.ok) {
+        const data = await res.json();
+        setInfo(data);
+      } else {
+        console.log('Nenhuma entrada encontrada. Criando uma nova entrada...');
+        // Se não houver registro, usamos o estado padrão (vazio)
+      }
+    } catch (err) {
+      console.error('Erro ao buscar Info:', err);
+      setError('Erro ao buscar Info.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Chama a função ao carregar o componente
+  useEffect(() => {
+    fetchInfo();
   }, []);
 
+  // Manipula a mudança dos campos do formulário
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Envia as alterações para a API via PUT
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/info', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(info),
+      });
+
+      if (res.ok) {
+        const updatedInfo = await res.json();
+        setInfo(updatedInfo);
+        alert('Atualizado com sucesso!');
+        router.push('/dashboard/info'); // Redireciona após salvar
+      } else {
+        console.error('Erro ao atualizar Info.');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar o formulário:', error);
+    }
+  };
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>Erro: {error}</p>;
+
   return (
-    <div className='w-full min-h-screen py-4 flex justify-center text-black'>
-      <div className='w-[70%] flex flex-col'>
-        <div className='w-full flex justify-between'>
-          <h1 className='font-bold text-3xl'>Info List</h1>
-          <Link href={"/dashboard/info/new"}>
-            <Button>Criar Info</Button>
-          </Link>
-        </div>
-        <ul className='p-5 m-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
-          {infos.map((info, index) => (
-            <Card key={info.id} className='w-[300px] h-auto flex flex-col gap-1 justify-center items-center bg-white rounded-xl'>
-              <CardHeader className='w-full'>
-                <CardTitle>Info</CardTitle>
-                <CardDescription></CardDescription>
-              </CardHeader>
-              <CardContent className='w-full flex flex-col gap-2 text-sm'>
-                <p>Email: {info.email}</p>
-                <p>Phone: {info.phoneNumber}</p>
-                <p>Address: {info.address}</p>
-                <p>Políticas: {info.politicas}</p>
-                <p>Cookies: {info.cookies}</p>
-                <p>WhatsApp: {info.whatsapp}</p>
-                <p>Facebook: {info.facebook}</p>
-                <p>Instagram: {info.instagram}</p>  
-              </CardContent>
-              <CardFooter className='w-full flex justify-between'>
-                <Button variant={'destructive'}>Excluir</Button>
-                <Link href={`/dashboard/info/${index}`}>
-                  <Button>Editar</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </ul>
-      </div>
+    <div className="w-full min-h-screen flex justify-center items-center text-black">
+      <form
+        onSubmit={handleSubmit}
+        className="w-[30%] p-4 bg-white rounded-xl flex flex-col gap-4"
+      >
+        <Input
+          name="email"
+          placeholder="Email"
+          value={info.email}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          name="phoneNumber"
+          placeholder="Telefone"
+          value={info.phoneNumber}
+          onChange={handleChange}
+        />
+        <Input
+          name="address"
+          placeholder="Endereço"
+          value={info.address}
+          onChange={handleChange}
+        />
+        <Input
+          name="politicas"
+          placeholder="Políticas"
+          value={info.politicas}
+          onChange={handleChange}
+        />
+        <Input
+          name="cookies"
+          placeholder="Cookies"
+          value={info.cookies}
+          onChange={handleChange}
+        />
+        <Input
+          name="whatsapp"
+          placeholder="WhatsApp"
+          value={info.whatsapp}
+          onChange={handleChange}
+        />
+        <Input
+          name="facebook"
+          placeholder="Facebook"
+          value={info.facebook}
+          onChange={handleChange}
+        />
+        <Input
+          name="instagram"
+          placeholder="Instagram"
+          value={info.instagram}
+          onChange={handleChange}
+        />
+        <Button variant="meu" type="submit">
+          Salvar
+        </Button>
+      </form>
     </div>
   );
 }

@@ -16,8 +16,37 @@ const gradientVariants = {
   gradient6: { background: "linear-gradient(to right, #ddc1b6, #055647)" },
 };
 
+type Info = {
+  email: string;
+  phoneNumber: string;
+  address: string;
+  politicas: string;
+  cookies: string;
+  whatsapp: string;
+  facebook: string;
+  instagram: string;
+};
+
 export default function Footer() {
   const [currentGradient, setCurrentGradient] = useState("gradient1");
+  const [info, setInfo] = useState<Info | null>(null);
+
+  const fetchInfo = async () => {
+    try {
+      const res = await fetch('/api/info');
+      if (!res.ok) throw new Error(`Erro ao buscar Info: ${res.status}`);
+
+      const data = await res.json();
+      setInfo(data);
+    } catch (err) {
+      console.error('Erro ao buscar Info:', err);
+    }
+  };
+
+  // Chama a função ao carregar o componente
+  useEffect(() => {
+    fetchInfo();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -67,9 +96,9 @@ export default function Footer() {
             </li>
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg">
-            <li>email@gmail.com</li>
-            <li>(48) 99999-9999</li>
-            <li>Rua De Exemplo, Criciúma/SC</li>
+            <li>{info?.email}</li>
+            <li>{info?.phoneNumber}</li>
+            <li>{info?.address}</li>
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg font-semibold">
             <li className="hover:opacity-80 hover:underline transition ease-in">
@@ -78,17 +107,17 @@ export default function Footer() {
           </ul>
           <ul className="w-fit h-full flex lg:flex-col justify-center lg:justify-start items-center lg:items-start gap-5">
             <li className="border-[2px] border-white hover:bg-green-500 p-1 rounded-lg transition ease-in delay-50">
-              <a href={`https://`} target="__blanc">
+              <a href={info?.whatsapp} target="__blanc">
                 <WhatsApp width={28} height={28} color={"#ffffff"} />
               </a>
             </li>
             <li className="border-[2px] border-white hover:bg-[#F20267] p-1 rounded-lg transition ease-in delay-50">
-              <a href={`https://`} target="__blanc">
+              <a href={info?.facebook} target="__blanc">
                 <Instagram width={28} height={28} color={"#ffffff"} />
               </a>
             </li>
             <li className="border-[2px] border-white hover:bg-blue-500 p-1 rounded-lg transition ease-in delay-50">
-              <a href={`https://`} target="__blanc">
+              <a href={info?.instagram} target="__blanc">
                 <Facebook width={28} height={28} color={"#ffffff"} />
               </a>
             </li>

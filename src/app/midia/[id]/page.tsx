@@ -1,59 +1,73 @@
-"use server";
+"use client";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import DOMPurify from "dompurify";
+import Image from "next/image";
 
-interface Post {
+// Define o tipo para Mídia
+interface Midia {
   id: string;
   title: string;
   subtitle: string;
   content: string;
   date: string;
+  imageUrl: string;
 }
 
-export default function PostPage() {
-  const { id } = useParams(); // Pega o ID da URL
-  const [post, setPost] = useState<Post | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export default function MidiaDetailPage() {
+  const { id } = useParams(); // Captura o ID da URL
+  const [midia, setMidia] = useState<Midia | null>(null);
 
-  useEffect(() => {
-    console.log("ID from URL:", id); // Verifique se o ID está correto
+  // Função para buscar os detalhes da mídia
+  const fetchMidia = async () => {
+    try {
+      const res = await fetch(`/api/midia/${id}`);
 
-    async function fetchPost() {
-      try {
-        const res = await fetch(`/api/posts/${id}`);
-        if (!res.ok) {
-          throw new Error("Post not found");
-        }
-        const data = await res.json();
-        setPost(data);
-      } catch (error) {
-        console.error("Error fetching post:", error);
-        setPost(null); // Define como null caso não encontre o post
-      } finally {
-        setLoading(false);
+      if (!res.ok) {
+        throw new Error(`Erro ao buscar mídia: ${res.status}`);
       }
-    }
 
-    if (id) {
-      fetchPost(); // Faz a requisição apenas se o ID estiver presente
+      const data = await res.json();
+      setMidia(data);
+    } catch (err) {
+      console.error("Erro ao buscar mídia:", err);
     }
+  };
+
+  // Chama a função ao montar o componente
+  useEffect(() => {
+    if (id) fetchMidia();
   }, [id]);
 
-  if (loading) {
-    return <p>Carregando post...</p>;
-  }
-
-  if (!post) {
-    return <p>Postagem não encontrada.</p>;
+  if (!midia) {
+    return (
+      <p className="h-screen text-black flex justify-center items-top mt-4 text-lg">
+        Mídia não encontrada.
+      </p>
+    );
   }
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <h2>{post.subtitle}</h2>
-      <p>Data: {new Date(post.date).toLocaleDateString()}</p>
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+    <div className="w-full min-h-screen container mx-auto py-8 text-black">
+      <h1 className="text-4xl font-bold mb-4">{midia.title}</h1>
+      <h2 className="text-2xl text-gray-500 mb-6">{midia.subtitle}</h2>
+      <p className="text-sm text-gray-400 mb-4">
+        Data: {new Date(midia.date).toLocaleDateString()}
+      </p>
+      <div className="relative w-full h-96 mb-8">
+        {/* <Image
+          src={midia.imageUrl}
+          alt={midia.title}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-lg"
+        /> */}
+      </div>
+      <div
+        className="prose"
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(midia.content) }}
+      />
     </div>
   );
 }

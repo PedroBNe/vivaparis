@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import {
@@ -56,21 +57,12 @@ export default function BlogList() {
         </div>
         <ul className='p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6'>
           {blogs.map((blog) => (
-            <Card key={blog.id} className='w-[250px] h-auto flex flex-col gap-1 justify-center items-center bg-white rounded-xl'>
-              <CardHeader className='w-full'>
-                <CardTitle>{blog.title}</CardTitle>
-                <CardDescription>{blog.subtitle}</CardDescription>
-                <CardDescription className='text-sm'>{new Date(blog.date).toLocaleDateString()}</CardDescription>
-              </CardHeader>
-              <CardContent className='w-full flex flex-col gap-1'>
-                <p>{blog.content}</p>
-                {/* <img src={blog.imageUrl} alt={blog.title} width={100} /> */}
-              </CardContent>
-              <CardFooter className='w-full flex justify-between'>
-                <Button variant={'destructive'}>Excluir</Button>
-                <Button>Editar</Button>
-              </CardFooter>
-            </Card>
+            <li key={blog.id} className='w-[250px] h-fit p-4 flex flex-col gap-2 justify-center items-center bg-white rounded-xl'>
+              <h2>{blog.title}</h2>
+              <p>{blog.subtitle}</p>
+              <p>{new Date(blog.date).toLocaleDateString()}</p>
+              <Image src={blog.imageUrl} alt={blog.title} width={100} height={100} />
+            </li>
           ))}
         </ul>
       </div>

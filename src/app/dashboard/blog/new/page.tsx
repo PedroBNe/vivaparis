@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
@@ -15,54 +15,71 @@ import {
 } from "@/components/ui/select"
 import { Button } from '@/components/ui/button';
 
-type BlogForm = {
-  title: string;
-  subtitle: string;
-  date: string;
-  content: string;
-  imageUrl: string;
-  categoryId: string;
-};
-
-type Category = {
+interface Category {
   id: string;
   name: string;
-};
+}
 
-export default function NewBlog() {
-  const [form, setForm] = useState<BlogForm>({
-    title: '',
-    subtitle: '',
-    date: '',
-    content: '',
-    imageUrl: '',
-    categoryId: '',
+export default function CreateBlogPost() {
+  const [form, setForm] = useState({
+    title: "",
+    subtitle: "",
+    content: "",
+    date: "",
+    categoryId: "",
   });
-
   const [categories, setCategories] = useState<Category[]>([]);
-  const router = useRouter();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const res = await fetch('/api/category');
+  // Função para buscar as categorias da API
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("/api/category");
       const data = await res.json();
       setCategories(data);
-    };
-    fetchCategories();
+    } catch (err) {
+      console.error("Erro ao buscar categorias:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories(); // Busca as categorias ao montar o componente
   }, []);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!selectedFile) {
+      alert("Por favor, selecione uma imagem.");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const res = await fetch('/api/blog', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("subtitle", form.subtitle);
+      formData.append("content", form.content);
+      formData.append("date", form.date);
+      formData.append("categoryId", form.categoryId); // Categoria selecionada
+      formData.append("file", selectedFile);
+
+      const res = await fetch("/api/blog", {
+        method: "POST",
+        body: formData,
       });
 
       if (res.ok) {
@@ -71,7 +88,9 @@ export default function NewBlog() {
         console.error('Erro ao criar blog.');
       }
     } catch (error) {
-      console.error('Erro ao enviar o formulário:', error);
+      console.error("Erro ao criar postagem:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,29 +100,39 @@ export default function NewBlog() {
         <h2 className='font-semibold'>New Post</h2>
         <Input
           name="title"
-          placeholder="Title"
+          placeholder="Título"
           value={form.title}
           onChange={handleChange}
           required
         />
-        <Input
+        <input
+          type="text"
           name="subtitle"
-          placeholder="Subtitle"
+          placeholder="Subtítulo"
           value={form.subtitle}
           onChange={handleChange}
           required
         />
-        <Input
-          name="date"
+        <textarea
+          name="content"
+          placeholder="Conteúdo"
+          value={form.content}
+          onChange={handleChange}
+          rows={5}
+          required
+        />
+        <input
           type="date"
+          name="date"
           value={form.date}
           onChange={handleChange}
           required
         />
-        <Textarea
-          name="content"
-          placeholder="Content"
-          value={form.content}
+
+        {/* Dropdown de Categorias */}
+        <select
+          name="categoryId"
+          value={form.categoryId}
           onChange={handleChange}
           required
         />

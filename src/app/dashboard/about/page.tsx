@@ -1,52 +1,117 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-// import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import Image from "next/image";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
-type About = {
+interface About {
   id: string;
   title: string;
   imageUrl: string;
-};
+}
 
-export default function AboutList() {
-  const [abouts, setAbouts] = useState<About[]>([]);
+export default function AboutPage() {
+  const [about, setAbout] = useState<About | null>(null);
+  const [form, setForm] = useState({ title: "" });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Função para buscar os dados de About
+  const fetchAbout = async () => {
+    try {
+      const res = await fetch("/api/about");
+
+      if (res.ok) {
+        const data = await res.json();
+        setAbout(data);
+        setForm({ title: data.title });
+      } else {
+        console.log("Nenhum registro de About encontrado.");
+      }
+    } catch (err) {
+      console.error("Erro ao buscar About:", err);
+      setError("Erro ao carregar About.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchAbouts = async () => {
-      const res = await fetch('/api/about');
-      const data = await res.json();
-      setAbouts(data);
-    };
-    fetchAbouts();
+    fetchAbout();
   }, []);
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!selectedFile) {
+      alert("Por favor, selecione uma imagem.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("file", selectedFile);
+
+      const res = await fetch("/api/about", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Erro ao salvar About.");
+
+      alert("About salvo com sucesso!");
+      fetchAbout(); // Atualiza os dados após salvar
+    } catch (error) {
+      console.error("Erro ao salvar About:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
-    <div className='w-full min-h-screen flex justify-center text-black'>
-      <div className='w-[90%] h-auto py-4'>
-        <div className='w-full flex justify-between'>
-          <h1 className='font-bold text-3xl'>About List</h1>
-          <Link href={"/dashboard/about/new"}>
-            <Button>Criar Novo About</Button>
-          </Link>
+    <div className="container mx-auto py-12">
+      <h1 className="text-3xl font-bold mb-8">Editar Sobre Nós</h1>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="text"
+          name="title"
+          placeholder="Título"
+          value={form.title}
+          onChange={handleChange}
+          required
+        />
+
+        <input type="file" onChange={handleFileChange} required />
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Enviando..." : "Salvar"}
+        </button>
+      </form>
+
+      {about?.imageUrl && (
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold">Imagem Atual:</h2>
+          <Image src={about.imageUrl} alt="Imagem do About" width={300} height={300} />
         </div>
-        <ul className='p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6'>
-          {abouts.map((about, index) => (
-            <li key={about.id} className='w-[250px] h-fit p-4 flex flex-col gap-2 justify-center items-center bg-white rounded-xl'>
-              <h2>{about.title}</h2>
-              {/* {about.imageUrl && <Image src={about.imageUrl} alt={about.title} width={100} height={100} />} */}
-              <div className='w-full flex justify-between'>
-                <Button variant={'destructive'}>Deletar</Button>
-                <Link href={`/dashboard/about/${index}`}>
-                  <Button variant={'default'}>Editar</Button>
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      )}
     </div>
   );
 }
