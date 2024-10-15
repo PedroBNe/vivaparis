@@ -4,21 +4,51 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import Baguette from "../assets/Baguette";
-import TorreVermelha from "@/assets/TorreVermelho.png";
 
 // Registra o plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
+// Interface para definir os dados do carrossel
+type CarouselImage = {
+  id: number;
+  url: string;
+  alt: string;
+};
+
 export const HoverImages = () => {
-  const containerRef = useRef(null); // Referência ao contêiner principal
-  const [imagesLoaded, setImagesLoaded] = useState(false); // Estado para verificar se as imagens foram carregadas
+  const containerRef = useRef<HTMLDivElement>(null); // Referência ao contêiner principal
+  const [images, setImages] = useState<CarouselImage[]>([]); // Estado para as imagens do carrossel
+  const [imagesLoaded, setImagesLoaded] = useState(false); // Verifica se as imagens foram carregadas
 
   // Função para verificar se todas as imagens foram carregadas
   const handleImageLoad = () => {
-    // Aqui podemos verificar se todas as imagens estão carregadas
     setImagesLoaded(true); // Atualiza o estado para indicar que as imagens foram carregadas
   };
+
+  // Função para buscar as imagens do carrossel da API
+  const fetchCarouselImages = async () => {
+    try {
+      const res = await fetch("/api/info"); // Chamada para a API de Info
+      if (!res.ok) throw new Error("Erro ao carregar as imagens do carrossel.");
+
+      const data = await res.json();
+      if (data.carosel) {
+        const loadedImages = data.carosel.map((url: string, index: number) => ({
+          id: index,
+          url,
+          alt: `Carrossel ${index + 1}`,
+        }));
+        setImages(loadedImages); // Armazena as imagens no estado
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Carregar as imagens assim que o componente for montado
+  useEffect(() => {
+    fetchCarouselImages();
+  }, []);
 
   useEffect(() => {
     if (imagesLoaded) {
@@ -27,7 +57,7 @@ export const HoverImages = () => {
 
       gsap.to(sections, {
         yPercent: -100 * (sections.length - 1), // Move as imagens verticalmente
-        ease: "none", // Sem easing para transição suave
+        ease: "none", // Transição suave
         scrollTrigger: {
           trigger: containerRef.current, // O contêiner será o gatilho da rolagem
           pin: true, // Fixa o contêiner na tela
@@ -37,67 +67,31 @@ export const HoverImages = () => {
         },
       });
 
-      // Recalcular animações em resize da tela
+      // Recalcula animações no redimensionamento da tela
       ScrollTrigger.refresh();
     }
   }, [imagesLoaded]); // Executa o efeito apenas quando as imagens forem carregadas
 
   return (
     <div className="relative flex justify-center items-center w-full h-screen">
-      {/* <div className="absolute left-1 top-16 overflow-hidden">
-        <Baguette height={400} width={400} color={""} />
-      </div>
-      <Image src={TorreVermelha} alt="torre-vermelha" width={360} height={360} className="absolute right-1 bottom-0 overflow-hidden rotate-[30deg]" /> */}
-      {/* Contêiner fixo com bordas arredondadas */}
       <div
         ref={containerRef}
         className="relative w-[calc(100%-160px)] max-w-[1400px] h-[calc(100vh-80px)] rounded-[40px] mt-[80px] overflow-hidden shadow-lg"
       >
         <div className="absolute inset-0 w-full h-[calc(100vh-80px)]">
-          {/* Seções de imagens que rolam */}
-          <section className="image-section w-full h-[calc(100vh-80px)]">
-            <Image
-              className="w-full h-[calc(100vh-160px)] object-cover"
-              src="https://img.freepik.com/fotos-gratis/vista-da-cidade-de-paris-sob-o-sol-e-um-ceu-azul-em-fra_181624-50289.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
-              alt="Imagem 1"
-              layout="fill"
-              objectFit="cover"
-              onLoadingComplete={handleImageLoad} // Verifica se a imagem foi carregada
-            />
-          </section>
-
-          <section className="image-section w-full h-[calc(100vh-80px)]">
-            <Image
-              className="w-full h-[calc(100vh-160px)] object-cover"
-              src="https://img.freepik.com/fotos-gratis/torre-eiffel-de-paris-com-ponte_1101-916.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
-              alt="Imagem 2"
-              layout="fill"
-              objectFit="cover"
-              onLoadingComplete={handleImageLoad}
-            />
-          </section>
-
-          <section className="image-section w-full h-[calc(100vh-80px)]">
-            <Image
-              className="w-full h-[calc(100vh-160px)] object-cover"
-              src="https://img.freepik.com/fotos-gratis/mulher-muculmana-viajando-em-paris_23-2149364085.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
-              alt="Imagem 3"
-              layout="fill"
-              objectFit="cover"
-              onLoadingComplete={handleImageLoad}
-            />
-          </section>
-
-          <section className="image-section w-full h-[calc(100vh-80px)]">
-            <Image
-              className="w-full h-[calc(100vh-160px)] object-cover"
-              src="https://img.freepik.com/fotos-gratis/vista-horizontal-do-famoso-arco-do-triunfo-paris-franca_268835-819.jpg?size=626&ext=jpg&ga=GA1.1.117719557.1725584679&semt=ais_hybrid"
-              alt="Imagem 4"
-              layout="fill"
-              objectFit="cover"
-              onLoadingComplete={handleImageLoad}
-            />
-          </section>
+          {/* Renderização das imagens dinamicamente */}
+          {images.map((image) => (
+            <section key={image.id} className="image-section w-full h-[calc(100vh-80px)]">
+              <Image
+                className="w-full h-[calc(100vh-160px)] object-cover"
+                src={image.url}
+                alt={image.alt}
+                layout="fill"
+                objectFit="cover"
+                onLoadingComplete={handleImageLoad} // Verifica se a imagem foi carregada
+              />
+            </section>
+          ))}
         </div>
       </div>
     </div>

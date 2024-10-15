@@ -1,20 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useWindowSize from "@/utils/SizeWindow";
 import Link from "next/link";
 import Menu from "@/assets/Menu";
 import Image from "next/image";
 import Logo from "../../../../public/logo.png";
 
+type Info = {
+  logo: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  politicas: string;
+  cookies: string;
+  whatsapp: string;
+  facebook: string;
+  instagram: string;
+};
+
 export default function Header() {
   const [isHidden, setIsHidden] = React.useState(true);
   const window = useWindowSize();
+  const [info, setInfo] = useState<Info | null>(null);
 
   const handleScroll = () => (document.body.style.position = "sticky"); // Can scroll down
 
   const handleNoScroll = () => (document.body.style.position = "fixed"); // Can not scroll down
+
+  const fetchInfo = async () => {
+    try {
+      const res = await fetch('/api/info');
+      if (!res.ok) throw new Error(`Erro ao buscar Info: ${res.status}`);
+
+      const data = await res.json();
+      setInfo(data);
+    } catch (err) {
+      console.error('Erro ao buscar Info:', err);
+    }
+  };
+
+  // Chama a função ao carregar o componente
+  useEffect(() => {
+    fetchInfo();
+  }, []);
 
   return (
     <header
@@ -22,7 +52,7 @@ export default function Header() {
       className="w-full h-[7em] flex justify-center items-center px-4 bg-transparent border-b-[1px] border-gray-600 z-20 mb-3 relative"
     >
       <div className="h-full w-fit flex justify-center items-center absolute left-[15px]">
-        <Image src={Logo} alt="logo" width={140} height={140} />
+        <Image src={info?.logo || Logo} alt="logo" width={140} height={140} />
       </div>
       {window.width > 1024 && (
         <nav className="w-[75%] h-full flex justify-center items-center text-black absolute right-[35px]">
