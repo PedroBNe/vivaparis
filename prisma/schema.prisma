@@ -1,0 +1,74 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Category {
+  id        String  @default(cuid()) @id
+  name      String
+  blogs     Blog[]
+}
+
+model Blog {
+  id        String  @default(cuid()) @id
+  title     String
+  subtitle  String
+  date      DateTime
+  content   String
+  imageUrl  String
+
+  category  Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
+
+model Navbar {
+  id        String  @default(cuid())  @id
+  name      String
+  url       String
+}
+
+model About {
+  id        String  @default(cuid())  @id
+  title     String
+  imageUrl  String
+}
+
+model Info {
+  id          String  @default(cuid())  @id
+  email       String
+  phoneNumber String
+  address     String
+  politicas   String
+  cookies     String
+  whatsapp    String
+  facebook    String
+  instagram   String
+}
+
+model Midia {
+  id          String  @default(cuid())  @id
+  title       String
+  subtitle    String
+  date        DateTime
+  content     String
+  imageUrl    String
+}
+
+model OnlineClass {
+  id          String  @default(cuid())  @id
+  title       String
+  subtitle    String
+  imageUrl    String
+  date        DateTime
+  students    String
+}
+
+model Visit {
+  id          String  @default(cuid())  @id
+  title       String
+  imageUrl    String
+}

@@ -67,9 +67,9 @@ export default function Footer() {
             </li>
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg">
-            <li>adasd</li>
-            <li>adasd</li>
-            <li>adasd</li>
+            <li>email@gmail.com</li>
+            <li>(48) 99999-9999</li>
+            <li>Rua De Exemplo, Criciúma/SC</li>
           </ul>
           <ul className="w-fit h-full flex flex-col justify-center lg:justify-start items-center lg:items-start gap-5 text-lg font-semibold">
             <li className="hover:opacity-80 hover:underline transition ease-in">

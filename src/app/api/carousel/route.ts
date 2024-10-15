@@ -23,26 +23,11 @@ export async function POST(request: Request) {
     }
 
     // Simula um envio dos dados restantes para outra API (se necessário)
-    const response = await fetch("http://localhost:8080/home/1", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      return NextResponse.json({ message: "Imagens do Carousel salvas com sucesso!" });
-    } else {
-      return NextResponse.json(
-        { error: "Erro ao enviar dados ao backend externo" },
-        { status: 500 }
-      );
-    }
+    console.log(formData);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+    console.error("Erro ao criar carousel:", error);
     return NextResponse.json(
-      { error: `Erro na requisição: ${errorMessage}` },
+      { error: "Erro ao criar carousel." },
       { status: 500 }
     );
   }

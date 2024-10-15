@@ -11,28 +11,10 @@ export async function POST(request: Request) {
       await fs.writeFile("public/logo.png", buffer); // Salva a imagem na pasta 'public'
     }
 
-    const response = await fetch("http://localhost:8080/home/1", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      return NextResponse.json({ message: "Alterações salvas com sucesso!" });
-    } else {
-      return NextResponse.json(
-        { error: "Erro ao salvar as alterações" },
-        { status: 500 }
-      );
-    }
+    // Simula um envio dos dados restantes para outra API (se necessário)
+    console.log(formData);
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Erro desconhecido";
-    return NextResponse.json(
-      { error: `Erro na requisição: ${errorMessage}` },
-      { status: 500 }
-    );
+    console.error("Erro ao criar logo:", error);
+    return NextResponse.json({ error: "Erro ao criar logo." }, { status: 500 });
   }
 }

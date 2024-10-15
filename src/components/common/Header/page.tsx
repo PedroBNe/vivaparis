@@ -6,6 +6,7 @@ import useWindowSize from "@/utils/SizeWindow";
 import Link from "next/link";
 import Menu from "@/assets/Menu";
 import Image from "next/image";
+import Logo from "../../../../public/logo.png";
 
 export default function Header() {
   const [isHidden, setIsHidden] = React.useState(true);
@@ -21,7 +22,7 @@ export default function Header() {
       className="w-full h-[7em] flex justify-center items-center px-4 bg-transparent border-b-[1px] border-gray-600 z-20 mb-3 relative"
     >
       <div className="h-full w-fit flex justify-center items-center absolute left-[15px]">
-        <Image src={``} alt="logo" width={140} height={140} />
+        <Image src={Logo} alt="logo" width={140} height={140} />
       </div>
       {window.width > 1024 && (
         <nav className="w-[75%] h-full flex justify-center items-center text-black absolute right-[35px]">

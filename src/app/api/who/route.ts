@@ -31,29 +31,11 @@ export async function POST(request: Request) {
     }
 
     // Tenta enviar os dados para a API externa
-    const response = await fetch("http://localhost:8080/home/1", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      return NextResponse.json({ message: "Imagens do Carousel salvas com sucesso!" });
-    } else {
-      const errorText = await response.text(); // Captura a mensagem de erro da API externa
-      console.error("Erro ao enviar dados para API externa:", errorText);
-      return NextResponse.json(
-        { error: "Erro ao enviar dados ao backend externo" },
-        { status: 500 }
-      );
-    }
+    console.log("Enviando dados para a API externa:", formData);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
-    console.error("Erro na requisição:", errorMessage);
+    console.error("Erro ao criar quem somos:", error);
     return NextResponse.json(
-      { error: `Erro na requisição: ${errorMessage}` },
+      { error: "Erro ao criar quem somos." },
       { status: 500 }
     );
   }
