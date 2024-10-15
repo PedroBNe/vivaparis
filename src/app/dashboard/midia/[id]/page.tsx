@@ -60,13 +60,15 @@ export default function EditMidia() {
   };
 
   return (
-    <div className='w-full min-h-screen flex justify-center text-black'>
-      <form onSubmit={handleSubmit} className='w-[350px] h-fit p-4 flex flex-col gap-2 bg-white rounded-lg'>
-        <Input name="title" value={form.title} onChange={handleChange} required />
-        <Input name="subtitle" value={form.subtitle} onChange={handleChange} required />
+    <div className='w-full min-h-screen flex flex-col text-black'>
+      <h2 className='font-bold text-3xl'>Editar Post Midia</h2>
+      <form onSubmit={handleSubmit} className='w-fit h-auto m-5 p-4 flex flex-col gap-2 bg-white rounded-lg'>
+        <h2 className='font-semibold'>Post</h2>
+        <Input placeholder='Titulo' name="title" value={form.title} onChange={handleChange} required />
+        <Input placeholder='Subtitulo' name="subtitle" value={form.subtitle} onChange={handleChange} required />
         <Input name="date" type="date" value={form.date} onChange={handleChange} required />
-        <Textarea name="content" value={form.content} onChange={handleChange} required />
-        <Input name="imageUrl" value={form.imageUrl} onChange={handleChange} />
+        <Textarea placeholder='Descrição' name="content" value={form.content} onChange={handleChange} required />
+        <Input type='file' name="imageUrl" value={form.imageUrl} onChange={handleChange} />
         <Button type="submit">Update Midia</Button>
       </form>
     </div>

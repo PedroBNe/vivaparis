@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
 // Interface para os dados de Info
@@ -96,14 +99,10 @@ export default function EditInfo() {
   return (
     <div className="container mx-auto py-12">
       <h1 className="text-3xl font-bold mb-8">Editar Informações</h1>
-
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* Pré-visualização da Logo */}
         <label>Logo Atual:</label>
         {info.logo && <img src={info.logo} alt="Logo Atual" className="w-32 h-32" />}
         <input type="file" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} />
-
-        {/* Carrossel */}
         <label>Imagens do Carrossel:</label>
         <div className="flex gap-4">
           {info.carosel.map((image, index) => (
@@ -111,65 +110,61 @@ export default function EditInfo() {
           ))}
         </div>
         <input type="file" multiple onChange={(e) => handleFileChange(e, setCaroselFiles)} />
-
-        {/* Quem Sou Eu */}
         <label>Imagens de Quem Sou Eu:</label>
         <div className="flex gap-4">
           {info.quemsoueu.map((image, index) => (
             <img key={index} src={image} alt={`Quem Sou Eu ${index + 1}`} className="w-32 h-32" />
           ))}
         </div>
-        <input type="file" multiple onChange={(e) => handleFileChange(e, setQuemsoueuFiles)} />
-
-        {/* Campos de Texto */}
-        <input
+        <Input type="file" multiple onChange={(e) => handleFileChange(e, setQuemsoueuFiles)} />
+        <Input
           type="text"
           name="email"
           placeholder="Email"
           value={form.email || ""}
           onChange={handleChange}
         />
-        <input
+        <Input
           type="text"
           name="phoneNumber"
           placeholder="Telefone"
           value={form.phoneNumber || ""}
           onChange={handleChange}
         />
-        <input
+        <Input
           type="text"
           name="address"
           placeholder="Endereço"
           value={form.address || ""}
           onChange={handleChange}
         />
-        <textarea
+        <Textarea
           name="politicas"
           placeholder="Políticas"
           value={form.politicas || ""}
           onChange={handleChange}
         />
-        <textarea
+        <Textarea
           name="cookies"
           placeholder="Cookies"
           value={form.cookies || ""}
           onChange={handleChange}
         />
-        <input
+        <Input
           type="text"
           name="whatsapp"
           placeholder="WhatsApp"
           value={form.whatsapp || ""}
           onChange={handleChange}
         />
-        <input
+        <Input
           type="text"
           name="facebook"
           placeholder="Facebook"
           value={form.facebook || ""}
           onChange={handleChange}
         />
-        <input
+        <Input
           type="text"
           name="instagram"
           placeholder="Instagram"
@@ -177,9 +172,9 @@ export default function EditInfo() {
           onChange={handleChange}
         />
 
-        <button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading}>
           {loading ? "Salvando..." : "Salvar"}
-        </button>
+        </Button>
       </form>
     </div>
   );

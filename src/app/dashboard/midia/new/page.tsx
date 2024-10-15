@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState, ChangeEvent, FormEvent } from "react";
 
 export default function CreateMidiaPost() {
@@ -61,11 +64,10 @@ export default function CreateMidiaPost() {
   };
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Criar Nova Mídia</h1>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
+    <div className="container">
+      <h1 className="text-3xl font-bold">Criar Nova Mídia</h1>
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 p-4 m-5 bg-white rounded-xl">
+        <Input
           type="text"
           name="title"
           placeholder="Título"
@@ -73,7 +75,7 @@ export default function CreateMidiaPost() {
           onChange={handleChange}
           required
         />
-        <input
+        <Input
           type="text"
           name="subtitle"
           placeholder="Subtítulo"
@@ -81,7 +83,7 @@ export default function CreateMidiaPost() {
           onChange={handleChange}
           required
         />
-        <textarea
+        <Textarea
           name="content"
           placeholder="Conteúdo"
           value={form.content}
@@ -89,17 +91,17 @@ export default function CreateMidiaPost() {
           rows={5}
           required
         />
-        <input
+        <Input
           type="date"
           name="date"
           value={form.date}
           onChange={handleChange}
           required
         />
-        <input type="file" onChange={handleFileChange} required />
-        <button type="submit" disabled={loading}>
+        <Input type="file" onChange={handleFileChange} required />
+        <Button type="submit" disabled={loading}>
           {loading ? "Enviando..." : "Criar Mídia"}
-        </button>
+        </Button>
       </form>
     </div>
   );

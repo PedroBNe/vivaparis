@@ -59,7 +59,7 @@ export default function DashboardLayout({
           </Link>
         </div>
       </nav>
-      <main className="p-6">{children}</main>
+      <main className="w-full p-6">{children}</main>
     </div>
   );
 }

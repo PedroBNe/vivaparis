@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function CreateOnlineClass() {
   const [form, setForm] = useState({
@@ -61,11 +63,10 @@ export default function CreateOnlineClass() {
   };
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Criar Nova Aula Online</h1>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
+    <div className="container">
+      <h1 className="text-3xl font-bold">Criar Nova Aula Online</h1>
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 m-5 p-4 bg-white rounded-xl">
+        <Input
           type="text"
           name="title"
           placeholder="Título"
@@ -73,7 +74,7 @@ export default function CreateOnlineClass() {
           onChange={handleChange}
           required
         />
-        <input
+        <Input
           type="text"
           name="subtitle"
           placeholder="Subtítulo"
@@ -81,14 +82,14 @@ export default function CreateOnlineClass() {
           onChange={handleChange}
           required
         />
-        <input
+        <Input
           type="date"
           name="date"
           value={form.date}
           onChange={handleChange}
           required
         />
-        <input
+        <Input
           type="text"
           name="students"
           placeholder="Número de Alunos"
@@ -96,10 +97,10 @@ export default function CreateOnlineClass() {
           onChange={handleChange}
           required
         />
-        <input type="file" onChange={handleFileChange} required />
-        <button type="submit" disabled={loading}>
+        <Input type="file" onChange={handleFileChange} required />
+        <Button type="submit" disabled={loading}>
           {loading ? "Enviando..." : "Criar Aula"}
-        </button>
+        </Button>
       </form>
     </div>
   );

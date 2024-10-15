@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
 interface Category {
@@ -82,11 +85,10 @@ export default function CreateBlogPost() {
   };
 
   return (
-    <div className="container mx-auto py-12">
+    <div className="container">
       <h1 className="text-3xl font-bold mb-8">Criar Nova Postagem</h1>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 bg-white rounded-lg p-4 m-5">
+        <Input
           type="text"
           name="title"
           placeholder="Título"
@@ -94,7 +96,7 @@ export default function CreateBlogPost() {
           onChange={handleChange}
           required
         />
-        <input
+        <Input
           type="text"
           name="subtitle"
           placeholder="Subtítulo"
@@ -102,7 +104,7 @@ export default function CreateBlogPost() {
           onChange={handleChange}
           required
         />
-        <textarea
+        <Textarea
           name="content"
           placeholder="Conteúdo"
           value={form.content}
@@ -110,16 +112,15 @@ export default function CreateBlogPost() {
           rows={5}
           required
         />
-        <input
+        <Input
           type="date"
           name="date"
           value={form.date}
           onChange={handleChange}
           required
         />
-
-        {/* Dropdown de Categorias */}
         <select
+          className="border-[1px] p-2 rounded-lg"
           name="categoryId"
           value={form.categoryId}
           onChange={handleChange}
@@ -132,11 +133,10 @@ export default function CreateBlogPost() {
             </option>
           ))}
         </select>
-
-        <input type="file" onChange={handleFileChange} required />
-        <button type="submit" disabled={loading}>
+        <Input type="file" onChange={handleFileChange} required />
+        <Button type="submit" disabled={loading}>
           {loading ? "Enviando..." : "Criar Postagem"}
-        </button>
+        </Button>
       </form>
     </div>
   );

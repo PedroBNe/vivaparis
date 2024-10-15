@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
@@ -86,11 +88,10 @@ export default function AboutPage() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Editar Sobre Nós</h1>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
+    <div className="container">
+      <h1 className="text-3xl font-bold mb-4">Editar Sobre Nós</h1>
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col items-center gap-4 bg-white rounded-xl p-4 m-5">
+        <Input
           type="text"
           name="title"
           placeholder="Título"
@@ -98,14 +99,11 @@ export default function AboutPage() {
           onChange={handleChange}
           required
         />
-
-        <input type="file" onChange={handleFileChange} required />
-
-        <button type="submit" disabled={loading}>
+        <Input type="file" onChange={handleFileChange} required />
+        <Button type="submit" disabled={loading} className="w-fit p-4 px-5">
           {loading ? "Enviando..." : "Salvar"}
-        </button>
+        </Button>
       </form>
-
       {about?.imageUrl && (
         <div className="mt-8">
           <h2 className="text-2xl font-semibold">Imagem Atual:</h2>

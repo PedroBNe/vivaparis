@@ -2,6 +2,8 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function NewCategory() {
   const [name, setName] = useState('');
@@ -21,7 +23,7 @@ export default function NewCategory() {
       });
 
       if (res.ok) {
-        router.push('/category');
+        router.push('/dashboard/category');
       } else {
         console.error('Erro ao criar categoria.');
       }
@@ -31,15 +33,16 @@ export default function NewCategory() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <form onSubmit={handleSubmit} className='w-fit flex flex-col gap-3 bg-white rounded-xl p-4'>
+      <h2 className='font-semibold '>New Category</h2>
+      <Input
         name="name"
         placeholder="Category Name"
         value={name}
         onChange={handleChange}
         required
       />
-      <button type="submit">Create Category</button>
+      <Button type="submit">Create Category</Button>
     </form>
   );
 }
