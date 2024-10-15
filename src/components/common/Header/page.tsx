@@ -6,7 +6,6 @@ import useWindowSize from "@/utils/SizeWindow";
 import Link from "next/link";
 import Menu from "@/assets/Menu";
 import Image from "next/image";
-import Logo from "../../../../public/logo.png";
 
 type Info = {
   logo: string;
@@ -49,10 +48,12 @@ export default function Header() {
   return (
     <header
       id="header"
-      className="w-full h-[7em] flex justify-center items-center px-4 bg-transparent border-b-[1px] border-gray-600 z-20 mb-3 relative"
+      className="w-full h-[7.5em] flex justify-center items-center px-4 bg-transparent border-b-[1px] border-gray-600 z-20 mb-3 relative"
     >
-      <div className="h-full w-fit flex justify-center items-center absolute left-[15px]">
-        <Image src={info?.logo || Logo} alt="logo" width={140} height={140} />
+      <div className="w-fit flex justify-center items-center absolute left-[15px] h-40">
+        {info && (
+          <Image src={info.logo} alt="logo" width={120} height={120} />
+        )}
       </div>
       {window.width > 1024 && (
         <nav className="w-[75%] h-full flex justify-center items-center text-black absolute right-[35px]">
