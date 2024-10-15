@@ -29,6 +29,8 @@ export default function NewMidia() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    console.log('Submitting form data:', form);
+
     try {
       const res = await fetch('/api/midia', {
         method: 'POST',
@@ -45,6 +47,7 @@ export default function NewMidia() {
       console.error('Erro ao enviar o formulário:', error);
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
