@@ -129,12 +129,12 @@ export default function OnlineClassPage() {
   };
 
   return (
-    <div className="h-auto container mx-auto py-12 px-4 text-black">
+    <div className="w-full h-auto container mx-auto py-12 px-4 text-black bg-[var(--background)] z-20 relative">
       <div>
         <h1 className="text-4xl font-bold mb-8 text-center">
           Nossas Aulas Online
         </h1>
-        <div className="w-full flex flex-col md:justify-center md:items-center lg:grid lg:grid-flow gap-12 bg-[var(--background)] z-20 relative">
+        <div className="w-full flex flex-col md:justify-center md:items-center lg:grid lg:grid-flow gap-12">
           {classes.map((lesson, index) => (
             <LessonCard key={lesson.id} lesson={lesson} isFirst={index === 0} />
           ))}
