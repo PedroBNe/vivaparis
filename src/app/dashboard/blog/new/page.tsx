@@ -1,6 +1,19 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Button } from '@/components/ui/button';
 
 interface Category {
   id: string;
@@ -69,11 +82,11 @@ export default function CreateBlogPost() {
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Erro ao criar postagem.");
-
-      alert("Postagem criada com sucesso!");
-      setForm({ title: "", subtitle: "", content: "", date: "", categoryId: "" });
-      setSelectedFile(null);
+      if (res.ok) {
+        router.push('/dashboard/blog');
+      } else {
+        console.error('Erro ao criar blog.');
+      }
     } catch (error) {
       console.error("Erro ao criar postagem:", error);
     } finally {
@@ -82,12 +95,10 @@ export default function CreateBlogPost() {
   };
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Criar Nova Postagem</h1>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="text"
+    <div className='w-full min-h-screen flex justify-center p-4 text-black'>
+      <form onSubmit={handleSubmit} className='w-[15%] h-fit p-4 bg-white rounded-xl flex flex-col justify-center items-center gap-4'>
+        <h2 className='font-semibold'>New Post</h2>
+        <Input
           name="title"
           placeholder="Título"
           value={form.title}
@@ -124,19 +135,29 @@ export default function CreateBlogPost() {
           value={form.categoryId}
           onChange={handleChange}
           required
-        >
-          <option value="">Selecione uma Categoria</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-
-        <input type="file" onChange={handleFileChange} required />
-        <button type="submit" disabled={loading}>
-          {loading ? "Enviando..." : "Criar Postagem"}
-        </button>
+        />
+        <Input
+          name="imageUrl"
+          placeholder="Image URL"
+          value={form.imageUrl}
+          onChange={handleChange}
+        />
+        <Select name="categoryId" value={form.categoryId} onValueChange={(value) => setForm({ ...form, categoryId: value })} required>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Category</SelectLabel>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button variant={"meu"} type="submit">Create Post</Button>
       </form>
     </div>
   );

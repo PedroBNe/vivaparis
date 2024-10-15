@@ -2,6 +2,8 @@
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type NavbarItem = {
   name: string;
@@ -47,22 +49,24 @@ export default function EditNavbarItem() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="name"
-        placeholder="Name"
-        value={form.name}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="url"
-        placeholder="URL"
-        value={form.url}
-        onChange={handleChange}
-        required
-      />
-      <button type="submit">Update Navbar Item</button>
-    </form>
+    <div className='w-full min-h-screen flex justify-center text-black'>
+      <form onSubmit={handleSubmit} className='w-[350px] h-fit p-4 flex flex-col gap-2 bg-white rounded-lg'>
+        <Input
+          name="name"
+          placeholder={form.name}
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          name="url"
+          placeholder={form.url}
+          value={form.url}
+          onChange={handleChange}
+          required
+        />
+        <Button type="submit">Update Navbar Item</Button>
+      </form>
+    </div>
   );
 }

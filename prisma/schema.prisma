@@ -39,6 +39,9 @@ model About {
 
 model Info {
   id          String  @default(cuid())  @id
+  logo        String
+  carosel     String[]
+  quemsoueu   String[]
   email       String
   phoneNumber String
   address     String

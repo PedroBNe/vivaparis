@@ -40,6 +40,9 @@ CREATE TABLE "About" (
 -- CreateTable
 CREATE TABLE "Info" (
     "id" TEXT NOT NULL,
+    "logo" TEXT NOT NULL,
+    "carosel" TEXT[],
+    "quemsoueu" TEXT[],
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
     "address" TEXT NOT NULL,
