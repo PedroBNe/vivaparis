@@ -40,12 +40,6 @@ export default function DashboardLayout({
             Na Midia
           </Link>
           <Link
-            href={`/dashboard/navbar`}
-            className="w-full h-fit border-2 border-slate-600 p-3 rounded-lg hover:bg-slate-600 transition delay-75"
-          >
-            Barra de navegação
-          </Link>
-          <Link
             href={`/dashboard/onlineclass`}
             className="w-full h-fit border-2 border-slate-600 p-3 rounded-lg hover:bg-slate-600 transition delay-75"
           >

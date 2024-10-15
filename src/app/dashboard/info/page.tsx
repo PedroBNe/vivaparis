@@ -108,35 +108,35 @@ export default function EditInfo() {
   if (loading) return <p>Carregando...</p>;
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Editar Informações</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <label>Logo Atual:</label>
+    <div className="container">
+      <h1 className="text-3xl font-bold">Editar Informações</h1>
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 bg-white rounded-xl p-4 m-5">
+        <label className="font-semibold">Logo Atual:</label>
         {info?.logo && <img src={info.logo} alt="Logo Atual" className="w-32 h-32" />}
-        <input type="file" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} />
-        <label>Imagens do Carrossel:</label>
+        <Input type="file" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} />
+        <label className="font-semibold">Imagens do Carrossel:</label>
         <div className="flex gap-4">
           {info?.carosel.map((image, index) => (
             <img key={index} src={image} alt={`Carrossel ${index + 1}`} className="w-32 h-32" />
           ))}
         </div>
-        <input type="file" multiple onChange={(e) => handleFileChange(e, setCaroselFiles)} />
-        <label>Imagens de Quem Sou Eu:</label>
+        <Input type="file" multiple onChange={(e) => handleFileChange(e, setCaroselFiles)} />
+        <label className="font-semibold">Imagens de "Quem Sou Eu":</label>
         <div className="flex gap-4">
           {info?.quemsoueu.map((image, index) => (
             <img key={index} src={image} alt={`Quem Sou Eu ${index + 1}`} className="w-32 h-32" />
           ))}
         </div>
-        <input type="file" multiple onChange={(e) => handleFileChange(e, setQuemsoueuFiles)} />
+        <Input type="file" multiple onChange={(e) => handleFileChange(e, setQuemsoueuFiles)} />
 
-        <input type="text" name="email" placeholder="Email" value={form.email || ""} onChange={handleChange} />
-        <input type="text" name="phoneNumber" placeholder="Telefone" value={form.phoneNumber || ""} onChange={handleChange} />
-        <input type="text" name="address" placeholder="Endereço" value={form.address || ""} onChange={handleChange} />
-        <textarea name="politicas" placeholder="Políticas" value={form.politicas || ""} onChange={handleChange} />
-        <textarea name="cookies" placeholder="Cookies" value={form.cookies || ""} onChange={handleChange} />
-        <input type="text" name="whatsapp" placeholder="WhatsApp" value={form.whatsapp || ""} onChange={handleChange} />
-        <input type="text" name="facebook" placeholder="Facebook" value={form.facebook || ""} onChange={handleChange} />
-        <input type="text" name="instagram" placeholder="Instagram" value={form.instagram || ""} onChange={handleChange} />
+        <Input type="text" name="email" placeholder="Email" value={form.email || ""} onChange={handleChange} />
+        <Input type="text" name="phoneNumber" placeholder="Telefone" value={form.phoneNumber || ""} onChange={handleChange} />
+        <Input type="text" name="address" placeholder="Endereço" value={form.address || ""} onChange={handleChange} />
+        <Textarea name="politicas" placeholder="Políticas" value={form.politicas || ""} onChange={handleChange} />
+        <Textarea name="cookies" placeholder="Cookies" value={form.cookies || ""} onChange={handleChange} />
+        <Input type="text" name="whatsapp" placeholder="WhatsApp" value={form.whatsapp || ""} onChange={handleChange} />
+        <Input type="text" name="facebook" placeholder="Facebook" value={form.facebook || ""} onChange={handleChange} />
+        <Input type="text" name="instagram" placeholder="Instagram" value={form.instagram || ""} onChange={handleChange} />
 
         <Button type="submit" disabled={loading}>
           {loading ? "Salvando..." : "Salvar"}
