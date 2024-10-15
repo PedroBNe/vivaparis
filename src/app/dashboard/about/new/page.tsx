@@ -2,6 +2,8 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
 
 export default function NewAbout() {
   const [form, setForm] = useState({ title: '', imageUrl: '' });
@@ -22,7 +24,7 @@ export default function NewAbout() {
       });
 
       if (res.ok) {
-        router.push('/about');
+        router.push('/dashboard/about');
       } else {
         console.error('Erro ao criar entrada do About.');
       }
@@ -32,21 +34,23 @@ export default function NewAbout() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="title"
-        placeholder="Title"
-        value={form.title}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="imageUrl"
-        placeholder="Image URL"
-        value={form.imageUrl}
-        onChange={handleChange}
-      />
-      <button type="submit">Create About</button>
-    </form>
+    <div className='w-full min-h-screen flex justify-center text-black'>
+      <form onSubmit={handleSubmit} className='w-[15%] h-fit p-4 bg-white rounded-xl flex flex-col gap-4'>
+        <Input
+          name="title"
+          placeholder="Title"
+          value={form.title}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          name="imageUrl"
+          placeholder="Image URL"
+          value={form.imageUrl}
+          onChange={handleChange}
+        />
+        <Button variant={'meu'} type="submit">Create About</Button>
+      </form>
+    </div>
   );
 }
