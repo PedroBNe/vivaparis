@@ -1,7 +1,6 @@
-import FOTO from "@/assets/TorreRoxo.png";
-import FOTO2 from "@/assets/TorreVermelho.png";
-import FOTO3 from "@/assets/TorreBege.png";
-import FOTO4 from "@/assets/TorreRosa.png";
+"use client";
+
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -11,60 +10,62 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import * as React from "react";
 import useWindowSize from "@/utils/SizeWindow";
 
-type PostProps = {
+// Definição do tipo para as imagens do campo "Quem Sou Eu"
+type ImageProps = {
   id: number;
-  image: any;
+  url: string;
   alt: string;
 };
 
-const posts: PostProps[] = [
-  {
-    id: 0,
-    alt: "Imagem 1",
-    image: FOTO,
-  },
-  {
-    id: 1,
-    alt: "Imagem 2",
-    image: FOTO2,
-  },
-  {
-    id: 2,
-    alt: "Imagem 3",
-    image: FOTO3,
-  },
-  {
-    id: 3,
-    alt: "Imagem 4",
-    image: FOTO4,
-  },
-];
-
-export default function CarouselHome({
+export default function CarouselQuemSouEu({
   width,
   height,
 }: {
   width: number;
   height: number;
 }) {
-  const window = useWindowSize();
+  const [images, setImages] = useState<ImageProps[]>([]); // Armazena as imagens carregadas
+  const window = useWindowSize(); // Detecta o tamanho da tela
+
+  // Função para buscar as imagens do campo "Quem Sou Eu" da API
+  const fetchQuemSouEuImages = async () => {
+    try {
+      const res = await fetch("/api/info"); // Chamada para a API de Info
+      if (!res.ok) throw new Error("Erro ao carregar as imagens de Quem Sou Eu.");
+
+      const data = await res.json();
+      if (data.quemsoueu) {
+        // Mapeia as imagens do campo "Quem Sou Eu"
+        const loadedImages = data.quemsoueu.map((url: string, index: number) => ({
+          id: index,
+          url,
+          alt: `Quem Sou Eu ${index + 1}`, // Descrição dinâmica
+        }));
+        setImages(loadedImages); // Define o estado das imagens
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Carrega as imagens assim que o componente for montado
+  useEffect(() => {
+    fetchQuemSouEuImages();
+  }, []);
 
   return (
     <Carousel className="w-full h-[32em] sm:h-[40em] flex px-2 relative">
       <CarouselContent className="w-[20em] h-[28em] sm:w-[28em] sm:h-[40em]">
-        {posts.map((post) => (
-          <CarouselItem key={post.id} className="w-full h-full">
+        {images.map((image) => (
+          <CarouselItem key={image.id} className="w-full h-full">
             <div className="w-full h-full p-1">
               <Card className="w-full h-full shadow-none">
-                <CardContent
-                  className={`w-full h-full flex items-center justify-center p-6`}
-                >
+                <CardContent className="w-full h-full flex items-center justify-center p-6">
                   <Image
-                    src={post.image}
-                    alt={post.alt}
+                    src={image.url}
+                    alt={image.alt}
                     width={width}
                     height={height}
                     className="w-full h-full rounded-xl"
@@ -75,6 +76,7 @@ export default function CarouselHome({
           </CarouselItem>
         ))}
       </CarouselContent>
+
       {window.width > 425 && (
         <>
           <CarouselPrevious />
