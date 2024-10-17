@@ -87,7 +87,7 @@ export default function CreateBlogPost() {
   return (
     <div className="container">
       <h1 className="text-3xl font-bold mb-8">Criar Nova Postagem</h1>
-      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 bg-white rounded-lg p-4 m-5">
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 bg-[#111827] text-white rounded-lg p-4 m-5">
         <Input
           type="text"
           name="title"
@@ -120,7 +120,7 @@ export default function CreateBlogPost() {
           required
         />
         <select
-          className="border-[1px] p-2 rounded-lg"
+          className="border-[1px] p-2 rounded-lg text-black"
           name="categoryId"
           value={form.categoryId}
           onChange={handleChange}
@@ -134,7 +134,7 @@ export default function CreateBlogPost() {
           ))}
         </select>
         <Input type="file" onChange={handleFileChange} required />
-        <Button type="submit" disabled={loading}>
+        <Button variant={"secondary"} type="submit" disabled={loading}>
           {loading ? "Enviando..." : "Criar Postagem"}
         </Button>
       </form>

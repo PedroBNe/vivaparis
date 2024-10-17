@@ -48,7 +48,7 @@ export default function Header() {
   return (
     <header
       id="header"
-      className="w-full h-[7.5em] flex justify-center items-center px-4 bg-transparent border-b-[1px] border-gray-600 z-20 mb-3 relative"
+      className="w-full h-[7.5em] flex justify-center items-center px-4 bg-transparent border-b-[1px] border-gray-600 z-20 relative"
     >
       <div className="w-fit flex justify-center items-center absolute left-[15px] h-40">
         {info && (

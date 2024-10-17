@@ -66,7 +66,7 @@ export default function FaleConosco() {
   }, [tel]); // Phone
 
   return (
-    <div className="w-full h-[63em] text-black flex flex-col gap-8 items-center overflow-hidden">
+    <div className="w-full h-[63em] text-black flex flex-col gap-8 items-center overflow-hidden bg-[var(--background)] rounded-b-[70px] relative z-20">
       <h1 className="text-3xl font-bold mt-5">Entre em contato!</h1>
       <div className="w-[25em] h-[48em] bg-white rounded-lg flex flex-col items-center py-6">
         <form

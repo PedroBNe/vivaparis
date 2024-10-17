@@ -49,7 +49,7 @@ export default function OnlineClassPage() {
 
   if (classes.length === 0) {
     return (
-      <p className="h-screen text-black flex justify-center items-top mt-4 text-lg">
+      <p className="h-screen text-black flex justify-center items-top mt-4 text-lg bg-[var(--background)] rounded-b-[70px] relative z-20">
         Nenhuma aula encontrada.
       </p>
     );

@@ -92,13 +92,15 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="w-full min-h-screen container mx-auto py-8 flex flex-col gap-8 text-black">
-      <h1 className="text-3xl font-bold mb-8">Blog</h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mx-2">
-        {blogs.map((post) => (
-          <PostCardBlog key={post.id} blog={post} />
-        ))}
-      </div>
+    <div className="w-full min-h-screen bg-[var(--background)] rounded-b-[70px] relative z-20">
+      <div className="w-full min-h-screen container mx-auto py-8 flex flex-col gap-8 text-black">
+        <h1 className="text-3xl font-bold mb-8">Blog</h1>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mx-2">
+          {blogs.map((post) => (
+            <PostCardBlog key={post.id} blog={post} />
+          ))}
+        </div>
+      </div>`
     </div>
   );
 };

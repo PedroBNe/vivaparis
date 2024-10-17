@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
 // Interface para os dados de Info
@@ -110,25 +111,24 @@ export default function EditInfo() {
   return (
     <div className="container">
       <h1 className="text-3xl font-bold">Editar Informações</h1>
-      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 bg-white rounded-xl p-4 m-5">
+      <form onSubmit={handleSubmit} className="w-fit flex flex-col gap-4 bg-[#111827] text-white rounded-xl p-4 m-5">
         <label className="font-semibold">Logo Atual:</label>
-        {info?.logo && <img src={info.logo} alt="Logo Atual" className="w-32 h-32" />}
+        {info?.logo && <Image src={info.logo} alt="Logo Atual" width={50} height={50} />}
         <Input type="file" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} />
         <label className="font-semibold">Imagens do Carrossel:</label>
         <div className="flex gap-4">
           {info?.carosel.map((image, index) => (
-            <img key={index} src={image} alt={`Carrossel ${index + 1}`} className="w-32 h-32" />
+            <Image key={index} src={image} alt={`Carrossel ${index + 1}`} width={50} height={50} />
           ))}
         </div>
         <Input type="file" multiple onChange={(e) => handleFileChange(e, setCaroselFiles)} />
-        <label className="font-semibold">Imagens de "Quem Sou Eu":</label>
+        <label className="font-semibold">Imagens de &quot;Quem Sou Eu&quot;:</label>
         <div className="flex gap-4">
           {info?.quemsoueu.map((image, index) => (
-            <img key={index} src={image} alt={`Quem Sou Eu ${index + 1}`} className="w-32 h-32" />
+            <Image key={index} src={image} alt={`Quem Sou Eu ${index + 1}`} width={50} height={50} />
           ))}
         </div>
         <Input type="file" multiple onChange={(e) => handleFileChange(e, setQuemsoueuFiles)} />
-
         <Input type="text" name="email" placeholder="Email" value={form.email || ""} onChange={handleChange} />
         <Input type="text" name="phoneNumber" placeholder="Telefone" value={form.phoneNumber || ""} onChange={handleChange} />
         <Input type="text" name="address" placeholder="Endereço" value={form.address || ""} onChange={handleChange} />
@@ -137,8 +137,7 @@ export default function EditInfo() {
         <Input type="text" name="whatsapp" placeholder="WhatsApp" value={form.whatsapp || ""} onChange={handleChange} />
         <Input type="text" name="facebook" placeholder="Facebook" value={form.facebook || ""} onChange={handleChange} />
         <Input type="text" name="instagram" placeholder="Instagram" value={form.instagram || ""} onChange={handleChange} />
-
-        <Button type="submit" disabled={loading}>
+        <Button variant={"secondary"} type="submit" disabled={loading}>
           {loading ? "Salvando..." : "Salvar"}
         </Button>
       </form>
