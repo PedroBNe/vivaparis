@@ -10,7 +10,7 @@ import French from "@/assets/French";
 
 export default function Laptop() {
   return (
-    <div className="w-[100% - 80px] mx-auto min-h-[550em] flex justify-center flex-col items-center overflow-hidden">
+    <div className="w-[100% - 80px] mx-auto min-h-[550em] flex justify-center flex-col items-center overflow-hidden bg-[var(--background)] rounded-b-[70px] relative z-20">
       <div className="w-full h-[195em] flex flex-col gap-[80px] items-center justify-around p-[80px] text-xl">
         <h2 className="flex text-green-700 text-2xl font-semibold">
           <p data-aos="fade-right" data-aos-duration="900">
@@ -413,7 +413,7 @@ export default function Laptop() {
           </div>
         </div>
       </div>
-      <div className="w-full h-[38em] flex flex-col gap-[80px] items-center justify-around p-[80px] text-xl bg-[var(--background)] rounded-b-[70px] relative z-20">
+      <div className="w-full h-[38em] flex flex-col gap-[80px] items-center justify-around p-[80px] text-xl">
         <h2 className="flex gap-3 text-green-700 text-2xl font-semibold">
           <div className="flex">
             <p data-aos="fade-right" data-aos-duration="400">

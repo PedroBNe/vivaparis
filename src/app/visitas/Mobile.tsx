@@ -10,7 +10,7 @@ import French from "@/assets/French";
 
 export default function Mobile() {
   return (
-    <div className="w-[100% - 80px] mx-auto h-auto flex justify-center flex-col items-center overflow-hidden">
+    <div className="w-[100% - 80px] mx-auto h-auto flex justify-center flex-col items-center overflow-hidden bg-[var(--background)] rounded-b-[70px] relative z-20">
       <div className="relative rounded-b-[80px] w-full h-[180em] mt-8 flex flex-col items-center justify-between p-[80px] z-10 text-xl">
         <h2 className="absolute top-0 flex text-green-700 text-2xl font-semibold">
           <p data-aos="fade-right" data-aos-duration="900">
@@ -413,7 +413,7 @@ export default function Mobile() {
           </div>
         </div>
       </div>
-      <div className="w-full h-[28em] flex flex-col gap-[80px] items-center justify-center p-[80px] text-xl bg-[var(--background)] rounded-b-[70px] relative z-20">
+      <div className="w-full h-[28em] flex flex-col gap-[80px] items-center justify-center p-[80px] text-xl">
         <h2 className="flex text-green-700 text-2xl font-semibold">
           <p data-aos="fade-right" data-aos-duration="400">
             Pa

@@ -4,14 +4,6 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 
 type Blog = {
   id: string;
@@ -50,22 +42,22 @@ export default function BlogList() {
     <div className='w-full min-h-screen py-4 flex justify-center text-black'>
       <div className='w-full flex flex-col h-auto'>
         <div className='w-full flex justify-between'>
-          <h1 className='font-bold text-3xl'>Blog List</h1>
+          <h1 className='font-bold text-3xl'>Lista de Posts</h1>
           <Link href={"/dashboard/blog/new"}>
             <Button>Criar Post</Button>
           </Link>
         </div>
         <ul className='p-5 gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5'>
           {blogs.map((blog) => (
-            <li key={blog.id} className='w-auto max-h-[350px] p-4 flex flex-col justify-between items-center bg-white rounded-xl'>
-              <h2 className='w-full font-semibold text-lg'>{blog.title}</h2>
+            <li key={blog.id} className='w-auto max-h-[350px] p-4 flex flex-col justify-between items-center bg-[#111827] text-white rounded-xl'>
+              <h2 className='w-full font-bold text-lg'>{blog.title}</h2>
               <div className='w-full'>
                 <p>Sobre: {blog.subtitle}</p>
                 <p>Data: {new Date(blog.date).toLocaleDateString()}</p>
               </div>
               <Image src={blog.imageUrl} alt={blog.title} width={200} height={200} className='my-4'/>
               <div className='w-full flex justify-between'>
-                <Button>Editar</Button>
+                <Button variant={'secondary'}>Editar</Button>
                 <Button variant={'destructive'}>Excluir</Button>
               </div>
             </li>

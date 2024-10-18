@@ -39,7 +39,7 @@ export default function MidiaPage() {
 
   if (midias.length === 0) {
     return (
-      <p className="h-screen text-black flex justify-center items-top mt-4 text-lg">
+      <p className="h-screen text-black flex justify-center items-top mt-4 text-lg bg-[var(--background)] rounded-b-[70px] relative z-20">
         Nenhuma mídia encontrada.
       </p>
     );
@@ -107,13 +107,15 @@ export default function MidiaPage() {
   };
 
   return (
-    <div className="w-full min-h-screen container mx-auto py-8 flex flex-col gap-8 text-black">
-      <h1 className="text-3xl font-bold mb-8">Mídias</h1>
-      <ul className="flex flex-col gap-12">
-        {midias.map((midia) => (
-          <MidiaCard key={midia.id} midia={midia} />
-        ))}
-      </ul>
+    <div className="w-full min-h-screen bg-[var(--background)] rounded-b-[70px] relative z-20">
+      <div className="w-full h-auto container mx-auto py-8 flex flex-col gap-8 text-black">
+        <h1 className="text-3xl font-bold mb-8">Mídias</h1>
+        <ul className="flex flex-col gap-12">
+          {midias.map((midia) => (
+            <MidiaCard key={midia.id} midia={midia} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

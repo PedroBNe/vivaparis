@@ -2,6 +2,7 @@
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 type VisitForm = {
   title: string;
@@ -51,10 +52,14 @@ export default function EditVisit() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className='w-full min-h-screen flex flex-col text-black'>
+    <h2 className='font-bold text-3xl'>Editar visita</h2>
+    <form onSubmit={handleSubmit} className='bg-[#111827] text-white'>
       <input name="title" value={form.title} onChange={handleChange} required />
       <input name="imageUrl" value={form.imageUrl} onChange={handleChange} />
-      <button type="submit">Update Visit</button>
+      <Button variant={'secondary'} type="submit">Atualizar</Button>
     </form>
+  </div>
+
   );
 }

@@ -10,7 +10,7 @@ import French from "@/assets/French";
 
 export default function LaptopL() {
   return (
-    <div className="w-[100% - 80px] mx-auto min-h-[480em] flex justify-center flex-col items-center overflow-hidden">
+    <div className="w-[100% - 80px] mx-auto min-h-[480em] flex justify-center flex-col items-center overflow-hidden bg-[var(--background)] rounded-b-[70px] relative z-20">
       <div className="w-full h-[195em] flex flex-col gap-[80px] items-center justify-between p-[80px]">
         <h2 className="flex text-4xl text-green-700 font-semibold">
           <p data-aos="fade-right" data-aos-duration="900">
@@ -412,7 +412,7 @@ export default function LaptopL() {
           </div>
         </div>
       </div>
-      <div className="w-full h-[44em] flex flex-col gap-[50px] items-center justify-around p-[80px] bg-[var(--background)] rounded-b-[70px] relative z-20">
+      <div className="w-full h-[44em] flex flex-col gap-[50px] items-center justify-around p-[80px]">
         <h2 className="flex gap-3 text-4xl text-green-700 font-semibold">
           <div className="flex" data-aos="fade-right" data-aos-duration="900">
             Palacio
