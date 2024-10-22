@@ -30,14 +30,14 @@ export default function MidiaList() {
     <div className='w-full min-h-screen py-4 flex justify-center text-black'>
       <div className='w-full flex flex-col'>
         <div className='w-full flex justify-between'>
-          <h1 className='font-bold text-3xl'>Lista Na Midia</h1>
+          <h1 className='font-bold text-3xl'>Midia List</h1>
           <Link href={"/dashboard/midia/new"}>
             <Button>Criar midia</Button>
           </Link>
         </div>
         <ul className='p-5 gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5'>
           {midias.map((midia, index) => (
-            <Card key={midia.id} className='bg-[#111827] text-white'>
+            <Card key={midia.id}>
               <CardHeader className='w-full'>
                 <CardTitle>{midia.title}</CardTitle>
                 <CardDescription>{midia.subtitle}</CardDescription>
@@ -50,13 +50,13 @@ export default function MidiaList() {
               <CardFooter className='w-full flex justify-between'>
                 <Button variant={'destructive'}>Excluir</Button>
                 <Link href={`/dashboard/midia/${index}`}>
-                  <Button variant={'secondary'}>Editar</Button>
+                  <Button>Editar</Button>
                 </Link>
               </CardFooter>
             </Card>
           ))}
         </ul>
       </div>
-    </div> 
+    </div>
   );
 }

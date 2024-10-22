@@ -52,14 +52,10 @@ export default function EditVisit() {
   };
 
   return (
-    <div className='w-full min-h-screen flex flex-col text-black'>
-    <h2 className='font-bold text-3xl'>Editar visita</h2>
-    <form onSubmit={handleSubmit} className='bg-[#111827] text-white'>
+    <form onSubmit={handleSubmit} className='bg-white'>
       <input name="title" value={form.title} onChange={handleChange} required />
       <input name="imageUrl" value={form.imageUrl} onChange={handleChange} />
-      <Button variant={'secondary'} type="submit">Atualizar</Button>
+      <Button type="submit">Update Visit</Button>
     </form>
-  </div>
-
   );
 }
