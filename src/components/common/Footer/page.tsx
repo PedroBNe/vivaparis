@@ -5,6 +5,7 @@ import Instagram from "@/assets/Insta";
 import WhatsApp from "@/assets/Whats";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 50;
 const gradientVariants = {
@@ -30,25 +31,25 @@ type Info = {
 export default function Footer() {
   const [currentGradient, setCurrentGradient] = useState("gradient1");
   const [info, setInfo] = useState<Info | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const pathname = usePathname();
 
-  const fetchInfo = async () => {
-    try {
-      const res = await fetch('/api/info');
-      if (!res.ok) throw new Error(`Erro ao buscar Info: ${res.status}`);
-
-      const data = await res.json();
-      setInfo(data);
-    } catch (err) {
-      console.error('Erro ao buscar Info:', err);
-    }
-  };
-
-  // Chama a função ao carregar o componente
   useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const res = await fetch('/api/info');
+        if (!res.ok) throw new Error(`Erro ao buscar Info: ${res.status}`);
+  
+        const data = await res.json();
+        setInfo(data);
+      } catch (err) {
+        console.error('Erro ao buscar Info:', err);
+      }
+    };
     fetchInfo();
-  }, []);
 
-  useEffect(() => {
+    setIsVisible(!pathname.startsWith('/dashboard'));
+
     const interval = setInterval(() => {
       setCurrentGradient((prev) => {
         const gradientKeys = Object.keys(gradientVariants);
@@ -58,7 +59,9 @@ export default function Footer() {
     }, 3000); // Altere o gradiente a cada 3 segundos
 
     return () => clearInterval(interval); // Limpa o intervalo ao desmontar o componente
-  }, []);
+  }, [pathname]);
+
+  if (!isVisible) return null;
 
   return (
     <footer className="mt-[-80px] h-[1000px] lg:h-[600px] w-full flex items-center justify-center text-white">

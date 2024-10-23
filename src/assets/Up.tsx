@@ -1,4 +1,8 @@
+'use client'
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function Up({
   width = 40,
@@ -7,6 +11,15 @@ export default function Up({
   width: number;
   height: number;
 }) {
+  const [isVisible, setIsVisible] = useState(true);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setIsVisible(!pathname.startsWith('/dashboard'));
+  }, [pathname]);
+
+  if (!isVisible) return null;
+  
   return (
     <button>
       <Link href={"#header"}>

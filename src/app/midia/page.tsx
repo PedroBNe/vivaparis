@@ -84,10 +84,6 @@ export default function MidiaPage() {
                 width={500}
                 height={500}
                 className="rounded-lg"
-                style={{
-                  transform: isHovered ? "scale(1.05)" : "scale(1)",
-                  transition: "transform 0.3s ease-in-out",
-                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             </div>

@@ -6,6 +6,7 @@ import useWindowSize from "@/utils/SizeWindow";
 import Link from "next/link";
 import Menu from "@/assets/Menu";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 type Info = {
   logo: string;
@@ -28,22 +29,27 @@ export default function Header() {
 
   const handleNoScroll = () => (document.body.style.position = "fixed"); // Can not scroll down
 
-  const fetchInfo = async () => {
-    try {
-      const res = await fetch('/api/info');
-      if (!res.ok) throw new Error(`Erro ao buscar Info: ${res.status}`);
+  const [isVisible, setIsVisible] = useState(true);
+  const pathname = usePathname();
 
-      const data = await res.json();
-      setInfo(data);
-    } catch (err) {
-      console.error('Erro ao buscar Info:', err);
-    }
-  };
-
-  // Chama a função ao carregar o componente
   useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const res = await fetch('/api/info');
+        if (!res.ok) throw new Error(`Erro ao buscar Info: ${res.status}`);
+  
+        const data = await res.json();
+        setInfo(data);
+      } catch (err) {
+        console.error('Erro ao buscar Info:', err);
+      }
+    };
     fetchInfo();
-  }, []);
+
+    setIsVisible(!pathname.startsWith('/dashboard'));
+  }, [pathname]);
+
+  if (!isVisible) return null;
 
   return (
     <header
@@ -56,8 +62,8 @@ export default function Header() {
         )}
       </div>
       {window.width > 1024 && (
-        <nav className="w-[75%] h-full flex justify-center items-center text-black absolute right-[35px]">
-          <ul className="w-full flex justify-between delay-50 text-lg font-semibold">
+        <nav className="w-[68%] h-full flex justify-center items-center text-black absolute right-0">
+          <ul className="w-full flex gap-10 justify-start delay-50 text-lg font-semibold">
             <li className="border-b-[2.5px] border-transparent hover:opacity-80 hover:border-green-700 ease-in transition delay-50 cursor-pointer px-2 ">
               <Link href="/Home">Home</Link>
             </li>

@@ -35,17 +35,17 @@ export default function VisitList() {
         </div>
         <ul className='p-5 gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5'>
           {visits.map((visit, index) => (
-            <Card key={visit.id} className='max-h-[350px] flex flex-col justify-between bg-[#111827] text-white'>
+            <Card key={visit.id} className='max-h-[350px] flex flex-col justify-between bg-white'>
               <CardHeader>
                 <CardTitle>{visit.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                {visit.imageUrl && <Image src={visit.imageUrl} alt={visit.title} width={200} height={200} className='max-h-[90px]' />}  
+                {visit.imageUrl && <Image src={visit.imageUrl} alt={visit.title} width={200} height={200} className='max-h-[90px]' />}
               </CardContent>
               <CardFooter className='w-full flex justify-between'>
                 <Button variant={'destructive'}>Excluir</Button>
                 <Link href={`/dashboard/onlineclass/${index}`}>
-                  <Button variant={'secondary'}>Editar</Button>
+                  <Button>Editar</Button>
                 </Link>
               </CardFooter>
             </Card>
