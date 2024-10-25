@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { HoverImages } from "@/components/HoverImages";
-import CarouselHome from "./CarouseL";
+import CarouselHome from "./Carousel";
 import { useEffect, useState } from "react";
 
 type About = {
