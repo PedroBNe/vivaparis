@@ -1,9 +1,11 @@
 'use client'
 
 import Link from "next/link";
-// import Image from "next/image";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import Menu from '@/assets/menu.png';
+import useWindowSize from "@/utils/SizeWindow";
 
 type Info = {
   logo: string;
@@ -22,6 +24,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [ hidden, setHidden ] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [info, setInfo] = useState<Info | null>(null);
@@ -43,23 +46,30 @@ export default function DashboardLayout({
   }, []);
 
   return (
-    <div className="w-full bg-slate-100 min-h-screen  top-0 z-50">
-      <nav className="w-full h-[8vh] flex justify-between items-center p-8 bg-white">
+    <div className="w-full bg-slate-100 min-h-screen top-0">
+      <nav className="w-full h-[8vh] flex justify-between items-center p-4 bg-white">
         <div className="w-fit flex justify-center items-center text-3xl font-bold text-black">
           {/* {info && (
             <Image src={info.logo} alt="logo" width={100} height={100} />
           )} */}
-          Dashboard
+          {useWindowSize().width < 1024 && (
+            <button onClick={() => setHidden(!hidden)}>
+              <Image src={Menu} alt="menu" width={20} />
+            </button>
+          )}
+          {useWindowSize().width >= 1024 && (
+            <h1>Dashboard</h1>
+          )}
         </div>
-        <div className="flex gap-8">
+        <div className="flex gap-4">
           <Button>Administração</Button>
           <Link href={'/Home'}>
             <Button variant={'destructive'}>Sair</Button>
           </Link>
         </div>
       </nav>
-      <div className="w-full h-auto flex text-black">
-        <nav className="w-[350px] flex justify-center bg-gray-900 text-white">
+      <div className={`w-full h-auto flex gap-5 text-black relative`}>
+        <nav className={`w-full lg:w-[350px] flex justify-center bg-gray-900 text-white ${hidden ? 'hidden' : 'flex'} ${useWindowSize().width <= 1024 ? 'p-5 absolute z-20' : ''}`}>
           <div className="w-full flex flex-col items-center text-start font-bold">
             <Link
               href={`/dashboard/analytics`}
@@ -183,7 +193,7 @@ export default function DashboardLayout({
             </Link>
           </div>
         </nav>
-        <main className="w-full p-6">{children}</main>
+        <main className="w-full p-5 relative z-10">{children}</main>
       </div>
     </div>
   );
