@@ -67,7 +67,7 @@ export default function Analytic() {
     <div className="w-full h-full flex flex-col gap-4">
       <h2 className="text-3xl font-semibold">Analytics</h2>
       <div className="w-full h-auto flex flex-col pb-10 items-center bg-white">
-        <div className="w-full border-b p-4 flex gap-5 items-center">
+        <div className="w-full border-b p-4 flex gap-5 mb-5 items-center">
           <Select onValueChange={(value) => setSelectedYear(Number(value))}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Selecione o ano" />
@@ -86,8 +86,8 @@ export default function Analytic() {
             Remover Filtros
           </Button>
         </div>
-        <div className="max-h-[600px] max-w-[1000px] w-full">
-          <ChartContainer config={chartConfig} className="w-full h-full border p-3 m-5">
+        <div className="max-h-[600px] max-w-[1000px] w-[90%] lg:w-full">
+          <ChartContainer config={chartConfig} className="w-full h-full border p-3">
             <BarChart data={filteredData} width={800} height={400}>
               <CartesianGrid vertical={false} />
               <XAxis

@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import useWindowSize from '@/utils/SizeWindow';
 
 interface Cliente {
   name: string;
@@ -48,6 +49,7 @@ const filtros: Filtro[] = [
 export default function Client() {
   const [clientes, setClientes] = useState<Cliente[]>(clientesData);
   const [filtroSelecionado, setFiltroSelecionado] = useState<string>('');
+  const window = useWindowSize();
 
   const aplicarFiltro = () => {
     const clientesFiltrados = [...clientesData];
@@ -71,6 +73,8 @@ export default function Client() {
 
     setClientes(clientesFiltrados);
   };
+
+  const Label = ({text}: { text: string}) => <p className='opacity-45'>{text}:</p>
 
   return (
     <div className="w-full h-full flex flex-col gap-4 relative z-30">
@@ -100,26 +104,56 @@ export default function Client() {
             </Button>
           </div>
         </div>
-        <div className="w-[1200px] p-5 mb-4 border-1">
+        <div className="w-[80%] p-5 mb-4 border-1">
           <Table className="max-w-[1200px]">
             <TableCaption>Lista de Clientes Cadastrados</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[300px]">Nome</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Data</TableHead>
-                <TableHead className="text-right">Email</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {clientes.map((info, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{info.name}</TableCell>
-                  <TableCell>{info.status}</TableCell>
-                  <TableCell>{info.data}</TableCell>
-                  <TableCell className="text-right">{info.email}</TableCell>
+            {window.width > 1024 && (
+              <TableHeader>
+                <TableRow >
+                  <TableHead className="lg:w-[300px]">Nome</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead className="text-right">Email</TableHead>
                 </TableRow>
-              ))}
+              </TableHeader>
+            )}
+            <TableBody>
+              {window.width < 1024 && (
+                <>
+                  {clientes.map((info, index) => (
+                    <TableRow key={index} className='w-full flex flex-col lg:flex-row'>
+                      <TableCell className="font-medium flex gap-2">
+                        {window.width < 1024 && (<Label text='Nome'/>)}
+                        {info.name}
+                      </TableCell>
+                      <TableCell className='flex gap-2'>
+                        {window.width < 1024 && (<Label text='Status'/>)}
+                        {info.status}
+                      </TableCell>
+                      <TableCell className='flex gap-2'>
+                        {window.width < 1024 && (<Label text='Data'/>)}
+                        {info.data}
+                      </TableCell>
+                      <TableCell className="lg:text-right flex gap-2">
+                        {window.width < 1024 && (<Label text='Email'/>)}
+                        {info.email}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              )}
+              {window.width >= 1024 && (
+                <>
+                  {clientes.map((info, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{info.name}</TableCell>
+                      <TableCell>{info.status}</TableCell>
+                      <TableCell>{info.data}</TableCell>
+                      <TableCell className="text-right">{info.email}</TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              )}
             </TableBody>
           </Table>
         </div>
